@@ -16,7 +16,11 @@ module.exports = (sequelize, DataTypes) => {
     body: {
       type: DataTypes.STRING(1000),
       allowNull: false
-    }
+    },
+    rating: {
+      allowNull: false,
+      type: DataTypes.INTEGER
+    },
   }, {});
   Post.associate = function (models) {
     Post.belongsTo(models.User, { foreignKey: 'userId' });

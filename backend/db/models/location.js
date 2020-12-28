@@ -19,7 +19,17 @@ module.exports = (sequelize, DataTypes) => {
     petCategory: {
       type: DataTypes.STRING(100)
     },
-    coordinates: DataTypes.JSON
+    coordinates: DataTypes.JSON,
+    reviewNumber: {
+      type: DataTypes.INTEGER,
+      default: 0,
+      allowNull: false
+    },
+    averageRating: {
+      type: DataTypes.FLOAT,
+      default: 0,
+      allowNull: false
+    },
   }, {});
   Location.associate = function(models) {
     // associations can be defined here
