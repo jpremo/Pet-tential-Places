@@ -1,3 +1,45 @@
+#profile-box {
+  position: relative;
+  display: inline;
+}
+
 .profile-dropdown {
   position: absolute;
+  list-style-type: none;
+  border: 1px solid black;
+  width: auto;
+  min-width: 100px;
+  right: 0px;
+  padding: 5px;
+  margin: 0px;
+  margin-top: 3px;
+}
+
+.profile-dropdown li {
+  width: auto;
+  padding: 5px;
+  white-space: nowrap;
+}
+
+#user-name {
+  font-weight: bold;
+  font-size: 20px;
+}
+
+#profile-link {
+  text-decoration: none;
+  color: black;
+}
+
+#profile-link:visited {
+  color: black;
+}
+
+#profile-link:hover {
+  text-decoration: underline;
+  color: black;
+}
+
+.no-bullet-list {
+  list-style-type: none;
 }

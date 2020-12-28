@@ -23,9 +23,11 @@ function Navigation({ isLoaded }){
   }
 
   return (
-    <ul>
+    <ul className='no-bullet-list'>
       <li>
         <NavLink exact to="/">Home</NavLink>
+        <input placeholder='business'/>
+        <input placeholder='location'/>
         {isLoaded && sessionLinks}
       </li>
     </ul>
