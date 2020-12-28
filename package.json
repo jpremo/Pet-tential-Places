@@ -1,5 +1,5 @@
 {
-  "name": "authenticate-me",
+  "name": "solution",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
@@ -12,15 +12,7 @@
     "sequelize-cli": "npm run --prefix backend sequelize-cli",
     "start": "npm start --prefix backend"
   },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/jpremo/authenticate-me.git"
-  },
   "keywords": [],
   "author": "",
-  "license": "ISC",
-  "bugs": {
-    "url": "https://github.com/jpremo/authenticate-me/issues"
-  },
-  "homepage": "https://github.com/jpremo/authenticate-me#readme"
+  "license": "ISC"
 }

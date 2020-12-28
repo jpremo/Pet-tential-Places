@@ -6,7 +6,7 @@ module.exports = {
         allowNull: false,
         autoIncrement: true,
         primaryKey: true,
-        type: Sequelize.INTEGER
+        type: Sequelize.INTEGER,
       },
       username: {
         type: Sequelize.STRING(30),
@@ -14,7 +14,7 @@ module.exports = {
         unique: true,
       },
       email: {
-        type: Sequelize.STRING(256),
+        type: Sequelize.STRING,
         allowNull: false,
         unique: true,
       },
@@ -31,10 +31,10 @@ module.exports = {
         allowNull: false,
         type: Sequelize.DATE,
         defaultValue: Sequelize.fn('now'),
-      }
+      },
     });
   },
   down: (queryInterface, Sequelize) => {
     return queryInterface.dropTable('Users');
-  }
+  },
 };
