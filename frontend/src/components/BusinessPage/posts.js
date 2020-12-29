@@ -1,8 +1,7 @@
 import { useSelector } from 'react-redux'
 
 function Posts() {
-    const info = useSelector(state => state.business.posts)
-    console.log('post info', info)
+    const posts = useSelector(state => state.business.posts)
     return (
         <h1>Posts</h1>
     )

@@ -8,7 +8,6 @@ const setBusiness = (business) => ({
   });
 
 export const getBusinessInfo = (id) => async (dispatch) => {
-    debugger
     const res = await fetch(`/api/business/${id}`);
     dispatch(setBusiness(res.data))
   };
