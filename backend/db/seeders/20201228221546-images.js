@@ -33,6 +33,24 @@ module.exports = {
         title: 'Little floofer',
         url: 'https://images.dog.ceo/breeds/shihtzu/n02086240_6131.jpg'
       },
+      {
+        userId: 2,
+        locationId: 2,
+        title: 'Little flooball',
+        url: 'https://images.dog.ceo/breeds/shihtzu/n02086240_6131.jpg'
+      },
+      {
+        userId: 2,
+        locationId: 2,
+        title: 'Little fluff',
+        url: 'https://images.dog.ceo/breeds/shihtzu/n02086240_6131.jpg'
+      },
+      {
+        userId: 2,
+        locationId: 2,
+        title: 'Little fluffer',
+        url: 'https://images.dog.ceo/breeds/shihtzu/n02086240_6131.jpg'
+      },
     ], {});
   },
 

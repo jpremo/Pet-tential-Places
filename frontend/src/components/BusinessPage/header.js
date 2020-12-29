@@ -71,14 +71,55 @@ function Header() {
             }
         })
         allImages = [...arr1, ...arr2]
-        console.log('info', businessInfo, allImages)
 
+        let stars = Math.round(businessInfo.averageRating * 2)
+        const starsArr = []
+        for (let i = 0; i < 5; i++) {
+            if (stars <= 0) {
+                starsArr.push('')
+            } else if (stars === 1) {
+                starsArr.push('star-half-filled')
+            } else {
+                starsArr.push('star-filled')
+            }
+            stars -= 2;
+        }
+        console.log('info', businessInfo, allImages)
+        const reviewTotal = (businessInfo.reviewNumber === 1) ? `1 Review` : `${businessInfo.reviewNumber} Reviews`
+        const pictureTotal = (allImages.length === 1) ? `View 1 Picture` : `View ${allImages.length} Pictures`
         return (
             <>
-                <h1>{businessInfo.name}</h1>
-                <h3>{businessInfo.address}</h3>
-                <p>{businessInfo.description}</p>
-                <div id='map' className='map'>map</div>
+                <div id='banner'>
+                    <div id='info'>
+                        <h1 id='name'>{businessInfo.name}</h1>
+                        <h3 id='address'>{businessInfo.address}</h3>
+                        <div id='star-container'>
+                            {starsArr.map((el, ind) => {
+                                return (
+                                    <div className={`star ${el}`} key={ind}>
+                                        <i className="fas fa-star" style={{ color: 'white', paddingBottom: '1px', opacity: '1' }}></i>
+                                    </div>)
+                            })}
+                            <div id='review-number'>{reviewTotal}</div>
+                        </div>
+                    </div>
+                    <button id='picture-button'>
+                        {pictureTotal}
+                    </button>
+                    <div id='picture-box'>
+                        {allImages.slice(0, 5).map((el, ind) => {
+                            return (
+                                <img src={el.url} className='picture-box-content' key={ind} />
+                            )
+                        })}
+                    </div>
+                </div>
+                <div id='information'>
+                    <h2 className='information-header'>About Us</h2>
+                    <h2 className='information-header'>Where to Find Us</h2>
+                    <p id='description'>{businessInfo.description}</p>
+                    <div id='map' className='map'>map</div>
+                </div>
             </>
         )
     } else {
