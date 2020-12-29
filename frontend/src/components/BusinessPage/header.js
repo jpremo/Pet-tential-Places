@@ -1,4 +1,4 @@
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 import { useSelector } from 'react-redux'
 
 function Header() {
@@ -11,6 +11,7 @@ function Header() {
     })
 
     //history is the history object that allows linking
+    let mapId
     const makeMap = (center, useLinks = true, history = null, ...points) => {
         let map = tt.map({
             key: 'g0ZS3ih3olA15iG2cSglfY1YrEJO8DKR',
@@ -52,14 +53,39 @@ function Header() {
 
     const setMap = () => {
         const point = { position: { lng: businessInfo.coordinates.lng, lat: businessInfo.coordinates.lat }, zoom: businessInfo.coordinates.zoom, name: businessInfo.name, address: businessInfo.address }
-        makeMap(point, false, null, point)
+        mapId = makeMap(point, false, null, point)
     }
 
+    const [popup, setPopup] = useState(false);
+    const [mapFilled, setMapFilled] = useState(false);
+
     useEffect(() => {
-        if (businessInfo) {
+        if (businessInfo && !mapFilled) {
             setMap()
+            setMapFilled(true)
         }
     })
+
+    useEffect(() => {
+        if (mapFilled) {
+
+
+            const body = document.querySelector('body')
+            const control = document.querySelector('.mapboxgl-ctrl-top-right')
+            if (popup) {
+                control.className = "mapboxgl-ctrl-top-right hidden"
+                body.className = 'load'
+            } else {
+                body.className = ''
+                control.className = "mapboxgl-ctrl-top-right"
+            }
+        }
+    }, [popup])
+
+    const pictureClick = () => {
+        setPopup(!popup)
+    }
+
     if (businessInfo) {
         let arr1 = []
         let arr2 = []
@@ -103,7 +129,7 @@ function Header() {
                             <div id='review-number'>{reviewTotal}</div>
                         </div>
                     </div>
-                    <button id='picture-button'>
+                    <button id='picture-button' onClick={pictureClick}>
                         {pictureTotal}
                     </button>
                     <div id='picture-box'>

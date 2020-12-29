@@ -8,16 +8,16 @@
 }
 
 .information-header {
-    margin-top: 25px;
-    font-size: 28px;
+  margin-top: 25px;
+  font-size: 28px;
 }
 
 #description {
-    align-self: start;
-    padding: 0 10px 10px 15px;
-    margin: 5px 0 0 0;
-    font-size: 24px;
-    line-height: 1.6;
+  align-self: start;
+  padding: 0 10px 10px 15px;
+  margin: 5px 0 0 0;
+  font-size: 24px;
+  line-height: 1.6;
 }
 
 .map {
@@ -41,21 +41,21 @@
 }
 
 #picture-button {
-    position: absolute;
-    bottom: 20px;
-    right: 100px;
-    background-color: rgba(128, 128, 128, 0.527);
-    border-radius: 10px;
-    height: 40px;
-    width: 140px;
-    border: 1px solid black;
-    font-size: 16px;
+  position: absolute;
+  bottom: 20px;
+  right: 100px;
+  background-color: rgba(128, 128, 128, 0.527);
+  border-radius: 10px;
+  height: 40px;
+  width: 140px;
+  border: 1px solid black;
+  font-size: 16px;
+  pointer-events: all;
 }
 
 #picture-button:hover {
-    /* background-color: rgba(128, 128, 128, .8); */
-    border: 1px solid white;
-    box-shadow: 2px 2px black;
+  border: 1px solid white;
+  box-shadow: 2px 2px black;
 }
 
 .picture-box-content {
@@ -73,7 +73,7 @@
   position: absolute;
   left: 100px;
   /* top: 130px; */
-  bottom: 20px
+  bottom: 20px;
 }
 
 #name {
@@ -92,6 +92,10 @@
   font-size: 36px;
   text-shadow: 2px 2px 2px black;
   margin: 0 0 5px 20px;
+}
+
+.hidden {
+    display: none;
 }
 
 .star {
