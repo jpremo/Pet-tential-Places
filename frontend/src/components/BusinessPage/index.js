@@ -1,20 +1,24 @@
 import './BusinessPage.css'
 import { useParams } from 'react-router-dom'
 import { useDispatch } from 'react-redux'
-import { fetch } from '../../store/csrf'
-
+// import { fetch } from '../../store/csrf'
+import { useEffect } from 'react'
+import { getBusinessInfo } from '../../store/business'
+import Posts from './posts'
+import Header from './header'
 function BusinessPage() {
     let { id } = useParams()
-    const fetchData = async () => {
-        console.log('id', id)
-        const res = await fetch(`/api/business/${id}`)
-        const data = res.data
-        console.log(data)
-    }
 
+    const dispatch = useDispatch()
+    useEffect(() => {
+        dispatch(getBusinessInfo(id))
+    }, [dispatch])
     return (
-        <h1 onClick={fetchData}>Business</h1>
-    );
+        <>
+            <Header></Header>
+            <Posts></Posts>
+        </>
+    )
 }
 
 export default BusinessPage
