@@ -7,7 +7,7 @@ const { Op } = require('sequelize')
 router.get('/:id', asyncHandler(async (req, res) => {
     const id = Number(req.params.id)
     const business = await Location.findByPk(id, {
-        include: [Image, { model: Post, include: { model: User, include: { model: Image, where: { [Op.or]: [{locationId: id}, {profileImage: true}]} } } }]
+        include: [Image, { model: Post, include: { model: User, include: { model: Image, where: {locationId: id} } } }]
     });
     res.json({ id, business })
 }))

@@ -26,11 +26,6 @@ module.exports = {
         allowNull: false,
         type: Sequelize.STRING(1000)
       },
-      profileImage: {
-        allowNull: false,
-        default: false,
-        type: Sequelize.BOOLEAN
-      },
       createdAt: {
         allowNull: false,
         type: Sequelize.DATE,

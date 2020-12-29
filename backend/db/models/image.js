@@ -7,7 +7,7 @@ module.exports = (sequelize, DataTypes) => {
     },
     locationId: {
       type: DataTypes.INTEGER,
-      allowNull: true
+      allowNull: false
     },
     title: {
       type: DataTypes.STRING(100),
@@ -17,11 +17,6 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.STRING(1000),
       allowNull: false
     },
-    profileImage: {
-      type: DataTypes.BOOLEAN,
-      default: false,
-      allowNull: false
-    }
   }, {});
   Image.associate = function (models) {
     Image.belongsTo(models.User, { foreignKey: 'userId' });
