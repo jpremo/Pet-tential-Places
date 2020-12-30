@@ -8,7 +8,7 @@ const { formatDistance } = require('date-fns')
 router.get('/:id', asyncHandler(async (req, res) => {
     const id = Number(req.params.id)
     const business = await Location.findByPk(id, {
-        include: [{ model: Image, include: User }, { model: Post, include: { model: User, include: { model: Image, where: { locationId: id } } } }]
+        include: [{ model: Image, include: User }, { model: Post, include: { model: User} }]
     });
     const businessInfo = {
         businessInfo: { ...business.toJSON() },
@@ -19,24 +19,22 @@ router.get('/:id', asyncHandler(async (req, res) => {
             delete el.User
             return el
         }),
-        posts: business.Posts
+        posts: business.toJSON().Posts
     }
-    businessInfo.posts = businessInfo.posts.map(async post => {
-        post = post.toJSON()
-        if (!post.User) {
-            res = await User.findByPk(post.userId, { include: { model: Image, where: { locationId: id } } })
-            post.User = res.toJSON()
-        }
-        post.images = post.User.Images;
-        delete post.User.Images;
+    // console.log('business posts', business.Posts)
+    for(let i = 0; i < businessInfo.posts.length; i++) {
+        let post = businessInfo.posts[i]
+        const images = await Image.findAll( { where: {userId: post.userId, locationId:id}})
+        post.images = images;
         post.user = post.User
+        post.timeStamp = formatDistance(post.updatedAt, new Date()) + ' ago'
         delete post.User
-        return post
-    })
+        businessInfo.posts[i] = post
+    }
 
     delete businessInfo.businessInfo.Images
     delete businessInfo.businessInfo.Posts
-
+    console.log(businessInfo)
     res.json(businessInfo)
 }))
 

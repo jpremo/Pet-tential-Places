@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react'
 import { useSelector } from 'react-redux'
+import Posts from './posts'
 
 function Header() {
     const tt = window.tt
@@ -131,6 +132,15 @@ function Header() {
         setPhotoSelected(!photoSelected)
     }
 
+    function openPhoto(event) {
+        const id = event.target.id.split('-')[1];
+        const im = allImages.find((el, ind) => el.id == id)
+        const ind = allImages.indexOf(im)
+        setSelectedPhoto(Number(ind))
+        setPhotoSelected(true)
+        setPopup(true)
+    }
+
     const incrementIndex = () => {
         if(selectedPhoto < allImages.length-1) setSelectedPhoto(selectedPhoto+1)
     }
@@ -178,6 +188,7 @@ function Header() {
                 if(iIndex > allImages.length) iIndex = 0;
                 topImages.push(allImages[iIndex].url)
             }
+            iIndex++
         }
         return (
             <>
@@ -245,6 +256,7 @@ function Header() {
                         </div>
                     </div>
                 </div>
+                <Posts openPhoto={openPhoto}></Posts>
             </>
         )
     } else {

@@ -16,7 +16,7 @@ function BusinessPage() {
     return (
         <>
             <Header></Header>
-            <Posts></Posts>
+            {/* <Posts></Posts> */}
         </>
     )
 }
