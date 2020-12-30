@@ -11,7 +11,6 @@ function Header() {
     })
 
     //history is the history object that allows linking
-    let mapId
     const makeMap = (center, useLinks = true, history = null, ...points) => {
         let map = tt.map({
             key: 'g0ZS3ih3olA15iG2cSglfY1YrEJO8DKR',
@@ -42,7 +41,7 @@ function Header() {
             } else {
                 popup = new tt.Popup({ offset: popupOffsets }).setHTML(`<b>${point.name}</b><br/>${point.address}`);
             }
-            const el = document.getElementById(`point-${ind}`)
+            // const el = document.getElementById(`point-${ind}`)
             popup._onMouseUp(() => console.log('test'))
             marker.setPopup(popup)
             // marker.togglePopup()
@@ -53,7 +52,7 @@ function Header() {
 
     const setMap = () => {
         const point = { position: { lng: businessInfo.coordinates.lng, lat: businessInfo.coordinates.lat }, zoom: businessInfo.coordinates.zoom, name: businessInfo.name, address: businessInfo.address }
-        mapId = makeMap(point, false, null, point)
+        makeMap(point, false, null, point)
     }
 
     const [popup, setPopup] = useState(false);
@@ -66,7 +65,7 @@ function Header() {
             setMap()
             setMapFilled(true)
         }
-    })
+    }, [businessInfo, mapFilled])
 
     useEffect(() => {
         if (mapFilled) {
@@ -169,7 +168,17 @@ function Header() {
         const reviewTotal = (businessInfo.reviewNumber === 1) ? `1 Review` : `${businessInfo.reviewNumber} Reviews`
         const pictureTotal = (allImages.length === 1) ? `View 1 Picture` : `View ${allImages.length} Pictures`
         const imageSelected = (allImages.length >= 1) ? allImages[selectedPhoto] : {}
+        const topImages = []
+        let iIndex = 0;
+        for(let i = 0; i<5; i++) {
 
+            if(!allImages || allImages.length === 0) {
+                topImages.push('https://images.dog.ceo/breeds/spaniel-welsh/n02102177_453.jpg')
+            } else {
+                if(iIndex > allImages.length) iIndex = 0;
+                topImages.push(allImages[iIndex].url)
+            }
+        }
         return (
             <>
                 <div id='banner'>
@@ -190,9 +199,9 @@ function Header() {
                         {pictureTotal}
                     </button>
                     <div id='picture-box'>
-                        {allImages.slice(0, 5).map((el, ind) => {
+                        {topImages.slice(0, 5).map((url, ind) => {
                             return (
-                                <img src={el.url} className='picture-box-content' key={ind} />
+                                <img src={url} alt='header image' className='picture-box-content' key={ind} />
                             )
                         })}
                     </div>
@@ -205,31 +214,31 @@ function Header() {
                 </div>
                 <div id='picture-popup-container' className='hidden'>
                     <div id='x-wrapper'>
-                        <i class="fas fa-times-circle fa-2x x-button" style={{ color: 'white' }} onClick={pictureClick}></i>
+                        <i className="fas fa-times-circle fa-2x x-button" style={{ color: 'white' }} onClick={pictureClick}></i>
                         <div id='picture-popup'>
                             <h1>Pictures from {businessInfo.name}</h1>
                             <div id='photo-list' >
                                 {allImages.map((el, ind) => {
                                     return (
-                                        <div className='photo-list-container'>
-                                            <img src={el.url} alt={el.title} key={el.id} className='photo-list-pic' id={`photo-${ind}`} onClick={selectPhoto} />
+                                        <div key={el.id} className='photo-list-container'>
+                                            <img src={el.url} alt={el.title}  className='photo-list-pic' id={`photo-${ind}`} onClick={selectPhoto} />
                                         </div>
                                     )
                                 })}
                             </div>
                             <div id="selected-photo-wrapper" className='hidden'>
-                                <i class="fas fa-times-circle fa-2x x-button-2" style={{ color: 'white' }} onClick={toggleSelectedPhoto}></i>
+                                <i className="fas fa-times-circle fa-2x x-button-2" style={{ color: 'white' }} onClick={toggleSelectedPhoto}></i>
                                 <div id='arrow-container'>
-                                    <div class='arrow-div'>
-                                        <i class="fas fa-arrow-left fa-4x left-arrow" id='left-arrow' style={{ color: 'white' }} onClick={decrementIndex}></i>
+                                    <div className='arrow-div'>
+                                        <i className="fas fa-arrow-left fa-4x left-arrow" id='left-arrow' style={{ color: 'white' }} onClick={decrementIndex}></i>
                                     </div>
                                     <div id="selected-photo-container">
-                                        <img src={imageSelected.url} id='selected-photo' />
+                                        <img src={imageSelected.url} alt={imageSelected.title} id='selected-photo' />
                                         <div id='selected-photo-title'>{imageSelected.title} </div>
                                         <div id='selected-photo-username'>- Posted by {imageSelected.username} {imageSelected.timeStamp}</div>
                                     </div>
-                                    <div class='arrow-div'>
-                                        <i class="fas fa-arrow-right fa-4x right-arrow" id='right-arrow' style={{ color: 'white' }} onClick={incrementIndex}></i>
+                                    <div className='arrow-div'>
+                                        <i className="fas fa-arrow-right fa-4x right-arrow" id='right-arrow' style={{ color: 'white' }} onClick={incrementIndex}></i>
                                     </div>
                                 </div>
                             </div>
