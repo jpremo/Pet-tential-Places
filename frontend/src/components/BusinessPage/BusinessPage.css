@@ -1,6 +1,7 @@
 #information {
   display: grid;
-  grid-template: 80px 440px / 1fr 1fr;
+  grid-template: 15fr 85fr / 1fr 1fr;
+  height:auto;
   align-items: center;
   justify-items: center;
   border-bottom: 2px solid black;
@@ -61,6 +62,7 @@
 #picture-button:hover {
   border: 1px solid white;
   box-shadow: 2px 2px black;
+  cursor: pointer;
 }
 
 .picture-box-content {
@@ -122,7 +124,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  margin-right: 5px;
+  margin-right: 3px;
 }
 
 .star-filled {
@@ -219,6 +221,7 @@
 .photo-list-pic:hover {
   border: 1px solid white;
   box-shadow: 5px 5px black;
+  cursor: pointer;
 }
 
 .photo-list-container {
@@ -300,11 +303,21 @@
   grid-row: 1 / 3;
 }
 
+#review-wrapper{
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  height: auto;
+  align-items: center;
+}
+
 .review-container{
   display: flex;
   flex-direction: column;
   /* grid-template: 2fr 1fr 5fr/1fr 3fr; */
-  width: 30%;
+  width: 70%;
+  margin: 10px 0;
+  border-top: 1px solid black;
 }
 
 .review-header{
@@ -328,11 +341,15 @@
 .review-body{
   margin: 0;
   font-size: 24px;
+  margin-bottom: 10px;
 }
 
 .review-image-container{
-  display: flex;
-  width: 100%;
+  display: inline-flex;
+  max-height: 200px;
+  min-height: 100px;
+  width:min-content;
+  height: 17%;
   background-color: rgba(128, 128, 128, 1);
   border: 1px solid black;
   border-radius: 10px;
@@ -340,10 +357,12 @@
 
 .review-image{
   flex-shrink: 1;
-  width: 100%;
-  min-width: 0px;
+  max-width: 20%;
+  min-width: 100px;
+  width:auto;
   margin: 5px;
-  height:auto;
+  max-height:90%;
+
   border: 1px solid black;
   box-shadow: 2px 2px black;
   border-radius: 10px;
@@ -351,6 +370,38 @@
 
 .review-image:hover{
   border: 1px solid white;
+  cursor: pointer;
+}
+
+#review-page-bar{
+  display: flex;
+}
+
+.review-page-link{
+  margin:5px;
+  font-size: 18px;
+  background-color: rgb(180, 180, 180);
+  border: 1px solid black;
+  border-radius: 5px;
+  color: black;
+  padding: 5px
+}
+
+.review-page-link:hover{
+  box-shadow: 2px 2px black;
+  color: white;
+  cursor: pointer;
+  /* border: 1px solid white; */
+}
+
+.review-page-link--current{
+  color: white;
+}
+
+.review-page-link--current:hover{
+  box-shadow: none;
+  color: white;
+  cursor: default;
 }
 /* <div id="selected-photo-wrapper" className='hidden'>
                                 <div id="selected-photo-container">

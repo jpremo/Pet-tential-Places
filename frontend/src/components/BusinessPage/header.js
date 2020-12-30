@@ -225,7 +225,7 @@ function Header() {
                 </div>
                 <div id='picture-popup-container' className='hidden'>
                     <div id='x-wrapper'>
-                        <i className="fas fa-times-circle fa-2x x-button" style={{ color: 'white' }} onClick={pictureClick}></i>
+                        <i className="fas fa-times-circle fa-2x x-button" style={{ color: 'white', background: 'black', borderRadius:'200px' }} onClick={pictureClick}></i>
                         <div id='picture-popup'>
                             <h1>Pictures from {businessInfo.name}</h1>
                             <div id='photo-list' >
@@ -238,7 +238,7 @@ function Header() {
                                 })}
                             </div>
                             <div id="selected-photo-wrapper" className='hidden'>
-                                <i className="fas fa-times-circle fa-2x x-button-2" style={{ color: 'white' }} onClick={toggleSelectedPhoto}></i>
+                                <i className="fas fa-times-circle fa-2x x-button-2" style={{ color: 'white', background: 'black', borderRadius:'200px' }} onClick={toggleSelectedPhoto}></i>
                                 <div id='arrow-container'>
                                     <div className='arrow-div'>
                                         <i className="fas fa-arrow-left fa-4x left-arrow" id='left-arrow' style={{ color: 'white' }} onClick={decrementIndex}></i>
@@ -256,7 +256,7 @@ function Header() {
                         </div>
                     </div>
                 </div>
-                <Posts openPhoto={openPhoto}></Posts>
+                <Posts openPhoto={openPhoto} name={businessInfo.name}></Posts>
             </>
         )
     } else {
