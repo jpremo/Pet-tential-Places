@@ -141,12 +141,16 @@
 }
 
 #picture-popup {
-  background-color: rgba(128, 128, 128, 0.781);
+  background-color: rgba(128, 128, 128, 0.959);
+  border: 1px solid black;
+  border-radius: 30px;
   width: 100%;
   height: 100%;
-  display: flex;
+  display: grid;
+  grid-template: 1fr 6fr / 1fr;
+  flex-direction: column;
   align-items: center;
-  justify-content: center;
+  justify-items: center;
   overflow-y: auto;
 }
 
@@ -169,8 +173,8 @@
 
 .x-button {
   position: absolute;
-  top: -18px;
-  right: -18px;
+  top: -16px;
+  right: -16px;
 }
 
 #photo-list {
@@ -212,37 +216,60 @@
 }
 
 #selected-photo-wrapper {
-    display: relative;
-    width: 40%;
-    height: 80%;
+  position: relative;
+  width: 60%;
+  height: auto;
 }
 
 #selected-photo-container {
-    border: 1px solid black;
-    border-radius: 20px;
-    width: 100%;
-    height: 100%;
-    background:rgb(211, 211, 211)
+  border: 1px solid black;
+  border-radius: 20px;
+  width: 100%;
+  height: 100%;
+  background: rgb(211, 211, 211);
 }
 
 #selected-photo {
-    width: 100%;
-    height: 80%;
-    border-top-right-radius: 20px;
-    border-top-left-radius: 20px;
-    border-bottom: 1px solid black;
+  width: 100%;
+  height: 80%;
+  border-top-right-radius: 20px;
+  border-top-left-radius: 20px;
+  border-bottom: 1px solid black;
 }
 
 #selected-photo-title {
-    font-size: 24px;
-    padding: 5px 5px 5px 20px;
+  font-size: 24px;
+  padding: 5px 5px 5px 20px;
 }
 
 #selected-photo-username {
-    font-size: 18px;
-    padding: 0px 5px 0px 30px;
+  font-size: 18px;
+  padding: 0px 5px 5px 30px;
 }
 
+/* .left-arrow{
+    position: absolute;
+    left: -120px;
+    top: 60px;
+} */
+
+#arrow-container {
+  display: flex;
+  flex-wrap: nowrap;
+}
+
+.arrow-div {
+  display: flex;
+  padding: 10px;
+  align-items: center;
+  min-width: 83px;
+}
+
+.x-button-2 {
+  position: absolute;
+  top: -18px;
+  right: 85px;
+}
 /* <div id="selected-photo-wrapper" className='hidden'>
                                 <div id="selected-photo-container">
                                     <img src={imageSelected.url} id='selected-photo'/>

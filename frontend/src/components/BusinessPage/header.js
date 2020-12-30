@@ -99,6 +99,24 @@ function Header() {
         }
     }, [photoSelected])
 
+    useEffect(() => {
+        if (mapFilled) {
+            const leftArrow = document.querySelector('#left-arrow')
+            const rightArrow = document.querySelector('#right-arrow')
+            if (selectedPhoto === 0) {
+                leftArrow.classList.add('hidden')
+            } else {
+                leftArrow.classList.remove('hidden')
+            }
+
+            if (selectedPhoto === allImages.length-1) {
+                rightArrow.classList.add('hidden')
+            } else {
+                rightArrow.classList.remove('hidden')
+            }
+        }
+    }, [selectedPhoto])
+
     const pictureClick = () => {
         setPopup(!popup)
         setPhotoSelected(false)
@@ -106,8 +124,20 @@ function Header() {
 
     const selectPhoto = (event) => {
         const index = event.target.id.split('-')[1];
-        setSelectedPhoto(index)
+        setSelectedPhoto(Number(index))
         setPhotoSelected(!photoSelected)
+    }
+
+    const toggleSelectedPhoto = () => {
+        setPhotoSelected(!photoSelected)
+    }
+
+    const incrementIndex = () => {
+        if(selectedPhoto < allImages.length-1) setSelectedPhoto(selectedPhoto+1)
+    }
+
+    const decrementIndex = () => {
+        if(selectedPhoto>0) setSelectedPhoto(selectedPhoto-1)
     }
 
     if (businessInfo) {
@@ -115,7 +145,7 @@ function Header() {
         let arr2 = []
         allImages.forEach((el) => {
             if (el.userId === businessInfo.userId) {
-                el.username= 'Owner'
+                el.username = 'Owner'
                 arr1.push(el)
             } else {
                 arr2.push(el)
@@ -175,8 +205,9 @@ function Header() {
                 </div>
                 <div id='picture-popup-container' className='hidden'>
                     <div id='x-wrapper'>
-                        <i class="fas fa-times-circle fa-2x x-button" style={{}} onClick={pictureClick}></i>
+                        <i class="fas fa-times-circle fa-2x x-button" style={{ color: 'white' }} onClick={pictureClick}></i>
                         <div id='picture-popup'>
+                            <h1>Pictures from {businessInfo.name}</h1>
                             <div id='photo-list' >
                                 {allImages.map((el, ind) => {
                                     return (
@@ -187,10 +218,19 @@ function Header() {
                                 })}
                             </div>
                             <div id="selected-photo-wrapper" className='hidden'>
-                                <div id="selected-photo-container">
-                                    <img src={imageSelected.url} id='selected-photo'/>
-                                    <div id='selected-photo-title'>{imageSelected.title} </div>
-                                    <div id='selected-photo-username'>- Posted by {imageSelected.username} {imageSelected.timeStamp}</div>
+                                <i class="fas fa-times-circle fa-2x x-button-2" style={{ color: 'white' }} onClick={toggleSelectedPhoto}></i>
+                                <div id='arrow-container'>
+                                    <div class='arrow-div'>
+                                        <i class="fas fa-arrow-left fa-4x left-arrow" id='left-arrow' style={{ color: 'white' }} onClick={decrementIndex}></i>
+                                    </div>
+                                    <div id="selected-photo-container">
+                                        <img src={imageSelected.url} id='selected-photo' />
+                                        <div id='selected-photo-title'>{imageSelected.title} </div>
+                                        <div id='selected-photo-username'>- Posted by {imageSelected.username} {imageSelected.timeStamp}</div>
+                                    </div>
+                                    <div class='arrow-div'>
+                                        <i class="fas fa-arrow-right fa-4x right-arrow" id='right-arrow' style={{ color: 'white' }} onClick={incrementIndex}></i>
+                                    </div>
                                 </div>
                             </div>
                         </div>
