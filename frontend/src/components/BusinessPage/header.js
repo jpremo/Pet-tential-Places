@@ -68,16 +68,17 @@ function Header() {
 
     useEffect(() => {
         if (mapFilled) {
-
-
             const body = document.querySelector('body')
             const control = document.querySelector('.mapboxgl-ctrl-top-right')
+            const picturePopup = document.querySelector('#picture-popup-container')
             if (popup) {
                 control.className = "mapboxgl-ctrl-top-right hidden"
                 body.className = 'load'
+                picturePopup.className = ''
             } else {
                 body.className = ''
                 control.className = "mapboxgl-ctrl-top-right"
+                picturePopup.className = 'hidden'
             }
         }
     }, [popup])
@@ -145,6 +146,11 @@ function Header() {
                     <h2 className='information-header'>Where to Find Us</h2>
                     <p id='description'>{businessInfo.description}</p>
                     <div id='map' className='map'>map</div>
+                </div>
+                <div id='picture-popup-container' className='hidden'>
+                    <div id='picture-popup'>
+                    <i class="fas fa-times-circle fa-2x x-button" style={{}} onClick={pictureClick}></i>
+                    </div>
                 </div>
             </>
         )

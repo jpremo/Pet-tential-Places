@@ -31,7 +31,7 @@
 #picture-box {
   display: flex;
   width: 100%;
-  width: 100vw;
+  width: 100%;
   height: 300px;
   margin: 0px;
   padding: 0px;
@@ -50,8 +50,13 @@
   width: 140px;
   border: 1px solid black;
   font-size: 16px;
-  pointer-events: all;
+  /* pointer-events: all; */
 }
+
+#picture-button:focus {
+    outline: none;
+}
+
 
 #picture-button:hover {
   border: 1px solid white;
@@ -134,4 +139,35 @@
   font-size: 24px;
   text-shadow: 2px 2px 2px black;
   align-self: center;
+}
+
+#picture-popup {
+    background-color: rgba(128, 128, 128, 0.781);
+    width: 70%;
+    padding: 80px;
+    height: 70%;
+    position: relative;
+}
+
+#picture-popup-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: fixed;
+    top: 0px;
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    height: 100vh;
+    pointer-events: all;
+}
+
+#picture-popup-container.hidden {
+    display: none;
+}
+
+.x-button {
+    position: absolute;
+    top: -18px;
+    right: -18px;
 }
