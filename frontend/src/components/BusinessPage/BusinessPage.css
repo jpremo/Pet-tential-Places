@@ -54,9 +54,8 @@
 }
 
 #picture-button:focus {
-    outline: none;
+  outline: none;
 }
-
 
 #picture-button:hover {
   border: 1px solid white;
@@ -100,7 +99,7 @@
 }
 
 .hidden {
-    display: none;
+  display: none;
 }
 
 .star {
@@ -142,32 +141,110 @@
 }
 
 #picture-popup {
-    background-color: rgba(128, 128, 128, 0.781);
-    width: 70%;
-    padding: 80px;
-    height: 70%;
-    position: relative;
+  background-color: rgba(128, 128, 128, 0.781);
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow-y: auto;
 }
 
 #picture-popup-container {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    position: fixed;
-    top: 0px;
-    margin: 0;
-    padding: 0;
-    width: 100%;
-    height: 100vh;
-    pointer-events: all;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: fixed;
+  top: 0px;
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  height: 100vh;
+  pointer-events: all;
 }
 
 #picture-popup-container.hidden {
-    display: none;
+  display: none;
 }
 
 .x-button {
-    position: absolute;
-    top: -18px;
-    right: -18px;
+  position: absolute;
+  top: -18px;
+  right: -18px;
 }
+
+#photo-list {
+  display: flex;
+  flex-wrap: wrap;
+  width: 100%;
+  height: 100%;
+  justify-content: space-around;
+  margin: 0px;
+}
+
+.photo-list-pic {
+  width: 150px;
+  height: 150px;
+  margin: 20px 10px;
+  border: 1px solid black;
+  border-radius: 10px;
+  box-shadow: 5px 5px black;
+}
+
+.photo-list-pic:hover {
+  border: 1px solid white;
+  box-shadow: 5px 5px black;
+}
+
+.photo-list-container {
+  width: auto;
+  height: auto;
+}
+
+#photo-list.hidden {
+  display: none;
+}
+
+#x-wrapper {
+  position: relative;
+  width: 70%;
+  height: 70%;
+}
+
+#selected-photo-wrapper {
+    display: relative;
+    width: 40%;
+    height: 80%;
+}
+
+#selected-photo-container {
+    border: 1px solid black;
+    border-radius: 20px;
+    width: 100%;
+    height: 100%;
+    background:rgb(211, 211, 211)
+}
+
+#selected-photo {
+    width: 100%;
+    height: 80%;
+    border-top-right-radius: 20px;
+    border-top-left-radius: 20px;
+    border-bottom: 1px solid black;
+}
+
+#selected-photo-title {
+    font-size: 24px;
+    padding: 5px 5px 5px 20px;
+}
+
+#selected-photo-username {
+    font-size: 18px;
+    padding: 0px 5px 0px 30px;
+}
+
+/* <div id="selected-photo-wrapper" className='hidden'>
+                                <div id="selected-photo-container">
+                                    <img src={imageSelected.url} id='selected-photo'/>
+                                    <div id='selected-photo-title'>{imageSelected.title} </div>
+                                    <div id='selected-photo-username'>Posted by {imageSelected.username}</div> */

@@ -58,6 +58,8 @@ function Header() {
 
     const [popup, setPopup] = useState(false);
     const [mapFilled, setMapFilled] = useState(false);
+    const [photoSelected, setPhotoSelected] = useState(false);
+    const [selectedPhoto, setSelectedPhoto] = useState(0);
 
     useEffect(() => {
         if (businessInfo && !mapFilled) {
@@ -83,8 +85,29 @@ function Header() {
         }
     }, [popup])
 
+    useEffect(() => {
+        if (mapFilled) {
+            const photoSet = document.querySelector('#photo-list')
+            const photoWrap = document.querySelector('#selected-photo-wrapper')
+            if (!photoSelected) {
+                photoSet.className = ''
+                photoWrap.className = 'hidden'
+            } else {
+                photoSet.className = 'hidden'
+                photoWrap.className = ''
+            }
+        }
+    }, [photoSelected])
+
     const pictureClick = () => {
         setPopup(!popup)
+        setPhotoSelected(false)
+    }
+
+    const selectPhoto = (event) => {
+        const index = event.target.id.split('-')[1];
+        setSelectedPhoto(index)
+        setPhotoSelected(!photoSelected)
     }
 
     if (businessInfo) {
@@ -92,6 +115,7 @@ function Header() {
         let arr2 = []
         allImages.forEach((el) => {
             if (el.userId === businessInfo.userId) {
+                el.username= 'Owner'
                 arr1.push(el)
             } else {
                 arr2.push(el)
@@ -114,6 +138,8 @@ function Header() {
         console.log('info', businessInfo, allImages)
         const reviewTotal = (businessInfo.reviewNumber === 1) ? `1 Review` : `${businessInfo.reviewNumber} Reviews`
         const pictureTotal = (allImages.length === 1) ? `View 1 Picture` : `View ${allImages.length} Pictures`
+        const imageSelected = (allImages.length >= 1) ? allImages[selectedPhoto] : {}
+
         return (
             <>
                 <div id='banner'>
@@ -148,8 +174,26 @@ function Header() {
                     <div id='map' className='map'>map</div>
                 </div>
                 <div id='picture-popup-container' className='hidden'>
-                    <div id='picture-popup'>
-                    <i class="fas fa-times-circle fa-2x x-button" style={{}} onClick={pictureClick}></i>
+                    <div id='x-wrapper'>
+                        <i class="fas fa-times-circle fa-2x x-button" style={{}} onClick={pictureClick}></i>
+                        <div id='picture-popup'>
+                            <div id='photo-list' >
+                                {allImages.map((el, ind) => {
+                                    return (
+                                        <div className='photo-list-container'>
+                                            <img src={el.url} alt={el.title} key={el.id} className='photo-list-pic' id={`photo-${ind}`} onClick={selectPhoto} />
+                                        </div>
+                                    )
+                                })}
+                            </div>
+                            <div id="selected-photo-wrapper" className='hidden'>
+                                <div id="selected-photo-container">
+                                    <img src={imageSelected.url} id='selected-photo'/>
+                                    <div id='selected-photo-title'>{imageSelected.title} </div>
+                                    <div id='selected-photo-username'>- Posted by {imageSelected.username} {imageSelected.timeStamp}</div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </>

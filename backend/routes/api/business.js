@@ -3,6 +3,7 @@ const router = express.Router();
 const asyncHandler = require('express-async-handler');
 const { Location, Image, Post, User } = require('../../db/models');
 const { Op } = require('sequelize')
+const {formatDistance} = require('date-fns')
 
 router.get('/:id', asyncHandler(async (req, res) => {
     const id = Number(req.params.id)
@@ -13,6 +14,7 @@ router.get('/:id', asyncHandler(async (req, res) => {
         businessInfo: { ...business.toJSON() },
         allImages: business.Images.map((el) => {
             el = el.toJSON()
+            el.timeStamp = formatDistance(el.updatedAt, new Date()) + ' ago'
             el.username = el.User.username
             delete el.User
             return el
