@@ -20,6 +20,9 @@ function Posts({ setShowModal, showModal, name, openPhoto }) {
     const imageError = (event) => {
         event.target.src = "http://simpleicon.com/wp-content/uploads/user1.png";
     }
+    const imageBoxError = (event) => {
+        event.target.src = "https://image.freepik.com/free-vector/404-error-web-template-with-mad-cat_23-2147763345.jpg";
+    }
     const imageBox = (post) => {
         if (post.images.length === 0) return
         return (
@@ -27,7 +30,7 @@ function Posts({ setShowModal, showModal, name, openPhoto }) {
                 {post.images.map((el, ind) => {
                     // if (ind >= 1) return (<></>)
                     return (
-                        <img className='review-image' src={el.url} alt={el.title} key={el.id} id={`reviewPhoto-${el.id}`} onClick={openPhoto} />
+                        <img className='review-image' onError={imageBoxError} src={el.url} alt={el.title} key={el.id} id={`reviewPhoto-${el.id}`} onClick={openPhoto} />
                     )
                 })}
             </div>
@@ -208,7 +211,7 @@ function Posts({ setShowModal, showModal, name, openPhoto }) {
         )
     }
 
-    const postForm = (type='POST') => {
+    const postForm = (type = 'POST') => {
         const data = {
             title: title,
             body: body,
@@ -217,7 +220,7 @@ function Posts({ setShowModal, showModal, name, openPhoto }) {
             locationId: businessInfo.businessInfo.id,
             userId: userInfo.id
         }
-        if(type = 'PUT') {
+        if (type = 'PUT') {
             let targetPost = posts.find((el) => el.user.id === userInfo.id)
             data.postId = targetPost.id;
         }
@@ -237,38 +240,61 @@ function Posts({ setShowModal, showModal, name, openPhoto }) {
 
     const createReview = () => {
         let reviewPosted = false;
-        if(userInfo) {
-            if(posts.find((el) => el.user.id === userInfo.id) || businessInfo.businessInfo.userId === userInfo.id) {
+        if (userInfo) {
+            if(userInfo.id === businessInfo.businessInfo.userId) return
+            const post = posts.find((el) => el.user.id === userInfo.id)
+            if (post || businessInfo.businessInfo.userId === userInfo.id) {
                 reviewPosted = true
             }
         }
-            let text = (reviewPosted) ? 'Edit Review' : 'Write a Review';
-
+        let text = (reviewPosted) ? 'Edit Review' : 'Write a Review';
         let clickEvent
-        let submitForm = () => {}
+        let submitForm = () => { }
         if (userInfo) {
             clickEvent = () => {
                 return (
                     setShowReview(true)
                 )
             }
-            if(reviewPosted) {
-                 submitForm = () => {postForm('PUT')}
+            if (reviewPosted) {
+                submitForm = () => { postForm('PUT') }
             } else {
-                 submitForm = () => {postForm()}
+                submitForm = () => { postForm() }
             }
         } else {
             clickEvent = () => {
                 setShowModal(true)
             }
         }
-
         if (showReview) {
+            reviewPosted = false;
+            if (userInfo) {
+                const post = posts.find((el) => el.user.id === userInfo.id)
+                if (post || businessInfo.businessInfo.userId === userInfo.id) {
+                    reviewPosted = true
+                    if (body === '') setBody(post.body)
+                    if (title === '') {
+                        setTitle(post.title)
+                        setRating(post.rating)
+                        setShowRating(post.rating)
+                    }
+                    if (uploadedImages.length === 0 && !showReview) {
+                        const newImgs = post.images.map((img) => [img.url, img.title])
+                        console.log(newImgs)
+                        setUploadedImages(newImgs)
+                    }
+                }
+            }
+
+
+
+
+
             return (
                 <form id="new-review-form">
                     <ul id='error-list'>
                         {errors.map((el, ind) => {
-                            return(
+                            return (
                                 <li key={ind}>{el}</li>
                             )
                         })}
@@ -281,8 +307,6 @@ function Posts({ setShowModal, showModal, name, openPhoto }) {
                         <label for='body'>Review</label>
                         <textarea className='textbox' name='body' placeholder='Write your review here...' value={body} onChange={(e) => setBody(e.target.value.slice(0, 1000))}> </textarea>
                     </div>
-
-                    {/* {imageBox2()} */}
                     <div id='body-counter'>{body.length}/1000</div>
                     <ImageUpload uploadedImages={uploadedImages} maxSize={5} setUploadedImages={setUploadedImages} />
                     <div className='label-box-2'>

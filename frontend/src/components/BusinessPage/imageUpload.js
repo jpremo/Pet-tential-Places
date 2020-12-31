@@ -13,6 +13,8 @@ const ImageUpload = ({ uploadedImages, maxSize, setUploadedImages }) => {
         }
     }
 
+    console.log('image upload', uploadedImages)
+
     const submitUrl = (e) => {
         if (uploadedImages.length < maxSize) {
             const uploadCopy = [...uploadedImages]

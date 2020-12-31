@@ -10,6 +10,10 @@ function Header({ setShowModal, showModal }) {
             allImages: state.business.allImages
         })
     })
+
+    const imageBoxError = (event) => {
+        event.target.src = "https://image.freepik.com/free-vector/404-error-web-template-with-mad-cat_23-2147763345.jpg";
+    }
     //history is the history object that allows linking
     const makeMap = (center, useLinks = true, history = null, ...points) => {
         let map = tt.map({
@@ -215,7 +219,7 @@ function Header({ setShowModal, showModal }) {
                     <div id='picture-box'>
                         {topImages.slice(0, 5).map((url, ind) => {
                             return (
-                                <img src={url} alt='header image' className='picture-box-content' key={ind} />
+                                <img src={url} alt='header image' onError={imageBoxError} className='picture-box-content' key={ind} />
                             )
                         })}
                     </div>
@@ -235,7 +239,7 @@ function Header({ setShowModal, showModal }) {
                                 {allImages.map((el, ind) => {
                                     return (
                                         <div key={el.id} className='photo-list-container'>
-                                            <img src={el.url} alt={el.title} className='photo-list-pic' id={`photo-${ind}`} onClick={selectPhoto} />
+                                            <img src={el.url} alt={el.title} className='photo-list-pic' onError={imageBoxError} id={`photo-${ind}`} onClick={selectPhoto} />
                                         </div>
                                     )
                                 })}
@@ -247,7 +251,7 @@ function Header({ setShowModal, showModal }) {
                                         <i className="fas fa-arrow-left fa-4x left-arrow" id='left-arrow' style={{ color: 'white' }} onClick={decrementIndex}></i>
                                     </div>
                                     <div id="selected-photo-container">
-                                        <img src={imageSelected.url} alt={imageSelected.title} id='selected-photo' />
+                                        <img src={imageSelected.url} alt={imageSelected.title} id='selected-photo' onError={imageBoxError} />
                                         <div id='selected-photo-title'>{imageSelected.title} </div>
                                         <div id='selected-photo-username'>- Posted by {imageSelected.username} {imageSelected.timeStamp}</div>
                                     </div>

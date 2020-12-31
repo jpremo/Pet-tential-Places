@@ -52,7 +52,6 @@ function reducer(state = initialState, action) {
       newState = { ...state };
       const ind = newState.posts.findIndex((post) => post.id === action.payload.id)
       newState.posts[ind] = action.payload;
-      debugger
       newState.allImages = newState.allImages.filter((el) => el.userId !== action.payload.user.id)
       newState.allImages.push(...action.payload.images)
       return newState;
