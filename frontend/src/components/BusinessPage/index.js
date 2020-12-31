@@ -6,7 +6,7 @@ import { useEffect } from 'react'
 import { getBusinessInfo } from '../../store/business'
 import Posts from './posts'
 import Header from './header'
-function BusinessPage() {
+function BusinessPage({setShowModal, showModal}) {
     let { id } = useParams()
 
     const dispatch = useDispatch()
@@ -15,7 +15,7 @@ function BusinessPage() {
     }, [dispatch])
     return (
         <>
-            <Header></Header>
+            <Header setShowModal={setShowModal} showModal={showModal}></Header>
             {/* <Posts></Posts> */}
         </>
     )

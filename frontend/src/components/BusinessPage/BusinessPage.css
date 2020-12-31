@@ -127,6 +127,17 @@
   margin-right: 3px;
 }
 
+.star-small-new-review {
+  background-color: rgba(128, 128, 128, 0.911);
+  width: 25px;
+  height: 25px;
+  border-radius: 25px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-right: 0px;
+}
+
 .star-filled {
   background-color: rgba(246, 150, 25, 0.911);
 }
@@ -145,7 +156,12 @@
   margin: 0 0 0 20px;
 }
 
-
+.new-review-star-container{
+  display: flex;
+  width: auto;
+  padding: 10px 0px;
+  margin: 0;
+}
 
 .review-star-container{
   display: flex;
@@ -384,7 +400,8 @@
   border: 1px solid black;
   border-radius: 5px;
   color: black;
-  padding: 5px
+  padding: 5px;
+  user-select: none;
 }
 
 .review-page-link:hover{
@@ -403,6 +420,70 @@
   color: white;
   cursor: default;
 }
+
+.submit-form{
+  width: 30px;
+}
+
+#new-review-form{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.label-box{
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.label-box-2{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.label-box label{
+  margin: 10px 10px 0px 0;
+  font-size: 22px;
+  text-decoration: underline;
+
+}
+
+.label-box-2 label{
+  margin: 0 10px 0 0;
+}
+
+.textbox{
+  width:500px;
+  height:168px;
+}
+.titlebox{
+  width:500px;
+}
+
+#image-controls{
+  display:flex;
+  flex-direction: row;
+}
+
+#urlInput{
+  display: flex;
+}
+
+#urlInput.hidden{
+  display: none;
+}
+
+#urlInput input{
+  width: 300px;
+  margin: 0 5px;
+}
+
+/* #body-counter{
+  align-self:flex-end;
+} */
 /* <div id="selected-photo-wrapper" className='hidden'>
                                 <div id="selected-photo-container">
                                     <img src={imageSelected.url} id='selected-photo'/>

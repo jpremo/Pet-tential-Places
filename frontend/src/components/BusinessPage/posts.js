@@ -1,8 +1,17 @@
 import { useSelector } from 'react-redux'
-import { useState } from 'react'
-function Posts(props) {
+import { useEffect, useState } from 'react'
+import { set } from 'js-cookie'
+function Posts({ setShowModal, showModal, name, openPhoto }) {
     const posts = useSelector(state => state.business.posts)
+    const userInfo = useSelector(state => state.session.user)
     const [page, setPage] = useState(1)
+    const [showReview, setShowReview] = useState(false)
+    const [rating, setRating] = useState(1)
+    const [showRating, setShowRating] = useState(1)
+    const [body, setBody] = useState('')
+    const [title, setTitle] = useState('')
+    const [uploadedImages, setUploadedImages] = useState([])
+    const [uploadUrl, setUploadUrl] = useState('')
 
     const imageError = (event) => {
         event.target.src = "http://simpleicon.com/wp-content/uploads/user1.png";
@@ -14,9 +23,62 @@ function Posts(props) {
                 {post.images.map((el, ind) => {
                     // if (ind >= 1) return (<></>)
                     return (
-                        <img className='review-image' src={el.url} alt={el.title} key={el.id} id={`reviewPhoto-${el.id}`} onClick={props.openPhoto} />
+                        <img className='review-image' src={el.url} alt={el.title} key={el.id} id={`reviewPhoto-${el.id}`} onClick={openPhoto} />
                     )
                 })}
+            </div>
+        )
+    }
+
+    const flipUrlInput = () => {
+        const val = document.querySelector('#urlInput')
+        if (val.classList.contains('hidden')) {
+            val.classList.remove('hidden')
+        } else {
+            val.classList.add('hidden')
+        }
+    }
+
+    const submitUrl = (e) => {
+        const uploadCopy = [...uploadedImages]
+        uploadCopy.push(uploadUrl)
+        setUploadedImages(uploadCopy)
+        e.preventDefault()
+    }
+
+    const imageBox2 = () => {
+        if (uploadedImages.length === 0) return (
+            <>
+                <div id='image-controls'>
+                    <div className='review-page-link'>Upload Image</div>
+                    <div className='review-page-link' onClick={flipUrlInput}>Link Image</div>
+                </div>
+                <div className='hidden' id='urlInput'>
+                    <span>Url:</span>
+                    <input value={uploadUrl} onChange={(e) => setUploadUrl(e.target.value)}/>
+                    <button onClick={submitUrl}>Submit</button>
+                </div>
+            </>
+        )
+        return (
+            <div className='label-box'>
+                <div id='image-controls'>
+                    <div className='review-page-link'>Upload Image</div>
+                    <div className='review-page-link' onClick={flipUrlInput}>Link Image</div>
+                </div>
+                <div className='hidden' id='urlInput'>
+                    <span>Url:</span>
+                    <input value={uploadUrl} onChange={(e) => setUploadUrl(e.target.value)}/>
+                    <button onClick={submitUrl}>Submit</button>
+                </div>
+                <div className='review-image-container'>
+                    {uploadedImages.map((el, ind) => {
+                        // if (ind >= 1) return (<></>)
+                        return (
+                            <img className='review-image' src={el} alt='Uploaded Image' key={ind} id={`newReviewPhoto-${ind}`} />
+                        )
+                    })}
+                </div>
             </div>
         )
     }
@@ -97,13 +159,103 @@ function Posts(props) {
         )
     }
 
+    const starGenerateInteractive = () => {
+        const hoverStar = (event) => {
+            const id = event.target.id.split('-')[1]
+            setShowRating(Number(id))
+        }
+
+        const hoverStarReset = (event) => {
+            if (event.target.nodeName === 'DIV') setShowRating(rating)
+        }
+
+        const hoverStarSet = (event) => {
+            const id = event.target.id.split('-')[1]
+            setRating(Number(id))
+            setShowRating(Number(id))
+        }
+        const arr = []
+        const points = showRating;
+        for (let i = 0; i < 5; i++) {
+            if (i <= points - 1) {
+                arr.push('star-filled')
+            } else {
+                arr.push('')
+            }
+        }
+        return (
+            <div className='new-review-star-container' name='rating'>
+                <div className={`star-small-new-review ${arr[0]}`} id='star-1' onClick={hoverStarSet} onMouseEnter={hoverStar} onMouseLeave={hoverStarReset}>
+                    <i className="fas fa-star fa-xs" id='innerstar-1' style={{ color: 'white', paddingBottom: '1px', paddingRight: '1px', opacity: '1' }}></i>
+                </div>
+                <div className={`star-small-new-review ${arr[1]}`} id='star-2' onClick={hoverStarSet} onMouseEnter={hoverStar} onMouseLeave={hoverStarReset}>
+                    <i className="fas fa-star fa-xs" id='innerstar-2' style={{ color: 'white', paddingBottom: '1px', paddingRight: '1px', opacity: '1' }}></i>
+                </div>
+                <div className={`star-small-new-review ${arr[2]}`} id='star-3' onClick={hoverStarSet} onMouseEnter={hoverStar} onMouseLeave={hoverStarReset}>
+                    <i className="fas fa-star fa-xs" id='innerstar-3' style={{ color: 'white', paddingBottom: '1px', paddingRight: '1px', opacity: '1' }}></i>
+                </div>
+                <div className={`star-small-new-review ${arr[3]}`} id='star-4' onClick={hoverStarSet} onMouseEnter={hoverStar} onMouseLeave={hoverStarReset}>
+                    <i className="fas fa-star fa-xs" id='innerstar-4' style={{ color: 'white', paddingBottom: '1px', paddingRight: '1px', opacity: '1' }}></i>
+                </div>
+                <div className={`star-small-new-review ${arr[4]}`} id='star-5' onClick={hoverStarSet} onMouseEnter={hoverStar} onMouseLeave={hoverStarReset}>
+                    <i className="fas fa-star fa-xs" id='innerstar-5' style={{ color: 'white', paddingBottom: '1px', paddingRight: '1px', opacity: '1' }}></i>
+                </div>
+            </div>
+        )
+    }
+
+    const createReview = () => {
+        let text = 'Write a Review'
+
+        let clickEvent
+        if (userInfo) {
+            clickEvent = () => {
+                return (
+                    setShowReview(true)
+                )
+            }
+        } else {
+            clickEvent = () => {
+                setShowModal(true)
+            }
+        }
+
+        if (showReview) {
+            return (
+                <form id="new-review-form">
+                    <div className='label-box'>
+                        <label for='title'>Title</label>
+                        <input name='title' className='titlebox' placeholder='Write a snazzy title here...' value={title} onChange={(e) => setTitle(e.target.value.slice(0, 50))} />
+                    </div>
+                    <div className='label-box'>
+                        <label for='body'>Review</label>
+                        <textarea className='textbox' name='body' placeholder='Write your review here...' value={body} onChange={(e) => setBody(e.target.value.slice(0, 1000))}> </textarea>
+                    </div>
+
+                    {imageBox2()}
+
+                    <div id='body-counter'>{body.length}/1000</div>
+                    <div className='label-box-2'>
+                        {starGenerateInteractive()}
+                    </div>
+                    <div className='review-page-link submit-form'>Post</div>
+                </form>
+            )
+        } else {
+            return (
+                <div className='review-page-link' onClick={clickEvent}>{text}</div>
+            )
+        }
+    }
+
     if (posts) {
         const pagePosts = posts.slice((page - 1) * 10, page * 10)
         return (
             <>
 
                 <div id='review-wrapper'>
-                    <h1>Reviews for {props.name}</h1>
+                    <h1>Reviews for {name}</h1>
+                    {createReview()}
                     {pagePosts.map((post) => {
                         if (post.user.profileImage === null) post.user.profileImage = 'create-error'
                         return (

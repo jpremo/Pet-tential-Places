@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react'
 import { useSelector } from 'react-redux'
 import Posts from './posts'
 
-function Header() {
+function Header({ setShowModal, showModal }) {
     const tt = window.tt
     let { businessInfo, allImages } = useSelector(state => {
         return ({
@@ -10,7 +10,6 @@ function Header() {
             allImages: state.business.allImages
         })
     })
-
     //history is the history object that allows linking
     const makeMap = (center, useLinks = true, history = null, ...points) => {
         let map = tt.map({
@@ -109,7 +108,7 @@ function Header() {
                 leftArrow.classList.remove('hidden')
             }
 
-            if (selectedPhoto === allImages.length-1) {
+            if (selectedPhoto === allImages.length - 1) {
                 rightArrow.classList.add('hidden')
             } else {
                 rightArrow.classList.remove('hidden')
@@ -142,11 +141,11 @@ function Header() {
     }
 
     const incrementIndex = () => {
-        if(selectedPhoto < allImages.length-1) setSelectedPhoto(selectedPhoto+1)
+        if (selectedPhoto < allImages.length - 1) setSelectedPhoto(selectedPhoto + 1)
     }
 
     const decrementIndex = () => {
-        if(selectedPhoto>0) setSelectedPhoto(selectedPhoto-1)
+        if (selectedPhoto > 0) setSelectedPhoto(selectedPhoto - 1)
     }
 
     if (businessInfo) {
@@ -180,12 +179,12 @@ function Header() {
         const imageSelected = (allImages.length >= 1) ? allImages[selectedPhoto] : {}
         const topImages = []
         let iIndex = 0;
-        for(let i = 0; i<5; i++) {
+        for (let i = 0; i < 5; i++) {
 
-            if(!allImages || allImages.length === 0) {
+            if (!allImages || allImages.length === 0) {
                 topImages.push('https://images.dog.ceo/breeds/spaniel-welsh/n02102177_453.jpg')
             } else {
-                if(iIndex > allImages.length) iIndex = 0;
+                if (iIndex > allImages.length) iIndex = 0;
                 topImages.push(allImages[iIndex].url)
             }
             iIndex++
@@ -225,20 +224,20 @@ function Header() {
                 </div>
                 <div id='picture-popup-container' className='hidden'>
                     <div id='x-wrapper'>
-                        <i className="fas fa-times-circle fa-2x x-button" style={{ color: 'white', background: 'black', borderRadius:'200px' }} onClick={pictureClick}></i>
+                        <i className="fas fa-times-circle fa-2x x-button" style={{ color: 'white', background: 'black', borderRadius: '200px' }} onClick={pictureClick}></i>
                         <div id='picture-popup'>
                             <h1>Pictures from {businessInfo.name}</h1>
                             <div id='photo-list' >
                                 {allImages.map((el, ind) => {
                                     return (
                                         <div key={el.id} className='photo-list-container'>
-                                            <img src={el.url} alt={el.title}  className='photo-list-pic' id={`photo-${ind}`} onClick={selectPhoto} />
+                                            <img src={el.url} alt={el.title} className='photo-list-pic' id={`photo-${ind}`} onClick={selectPhoto} />
                                         </div>
                                     )
                                 })}
                             </div>
                             <div id="selected-photo-wrapper" className='hidden'>
-                                <i className="fas fa-times-circle fa-2x x-button-2" style={{ color: 'white', background: 'black', borderRadius:'200px' }} onClick={toggleSelectedPhoto}></i>
+                                <i className="fas fa-times-circle fa-2x x-button-2" style={{ color: 'white', background: 'black', borderRadius: '200px' }} onClick={toggleSelectedPhoto}></i>
                                 <div id='arrow-container'>
                                     <div className='arrow-div'>
                                         <i className="fas fa-arrow-left fa-4x left-arrow" id='left-arrow' style={{ color: 'white' }} onClick={decrementIndex}></i>
@@ -256,7 +255,7 @@ function Header() {
                         </div>
                     </div>
                 </div>
-                <Posts openPhoto={openPhoto} name={businessInfo.name}></Posts>
+                <Posts openPhoto={openPhoto} name={businessInfo.name} setShowModal={setShowModal} showModal={showModal}></Posts>
             </>
         )
     } else {

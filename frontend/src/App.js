@@ -9,20 +9,31 @@ import Navigation from "./components/Navigation";
 function App() {
   const dispatch = useDispatch();
   const [isLoaded, setIsLoaded] = useState(false);
+  const [showModal, setShowModal] = useState(false);
   useEffect(() => {
     dispatch(sessionActions.restoreUser()).then(() => setIsLoaded(true));
   }, [dispatch]);
 
+  useEffect(() => {
+    const control = document.querySelector('.mapboxgl-ctrl-top-right')
+    if (control) {
+      if (showModal) {
+        control.className = "mapboxgl-ctrl-top-right hidden"
+      } else {
+        control.className = "mapboxgl-ctrl-top-right"
+      }
+    }
+  }, [showModal])
   return (
     <>
-      <Navigation isLoaded={isLoaded} />
+      <Navigation isLoaded={isLoaded} setShowModal={setShowModal} showModal={showModal} />
       {isLoaded && (
         <Switch>
           <Route path="/signup">
             <SignupFormPage />
           </Route>
           <Route path="/business/:id">
-            <BusinessPage />
+            <BusinessPage setShowModal={setShowModal} />
           </Route>
         </Switch>
       )}
