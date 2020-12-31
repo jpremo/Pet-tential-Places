@@ -1,6 +1,6 @@
 import { useSelector } from 'react-redux'
 import { useEffect, useState } from 'react'
-import { set } from 'js-cookie'
+import ImageUpload from './imageUpload'
 function Posts({ setShowModal, showModal, name, openPhoto }) {
     const posts = useSelector(state => state.business.posts)
     const userInfo = useSelector(state => state.session.user)
@@ -61,7 +61,7 @@ function Posts({ setShowModal, showModal, name, openPhoto }) {
             </>
         )
         return (
-            <div className='label-box'>
+            <div id='image-control-box'>
                 <div id='image-controls'>
                     <div className='review-page-link'>Upload Image</div>
                     <div className='review-page-link' onClick={flipUrlInput}>Link Image</div>
@@ -232,8 +232,8 @@ function Posts({ setShowModal, showModal, name, openPhoto }) {
                         <textarea className='textbox' name='body' placeholder='Write your review here...' value={body} onChange={(e) => setBody(e.target.value.slice(0, 1000))}> </textarea>
                     </div>
 
-                    {imageBox2()}
-
+                    {/* {imageBox2()} */}
+                    <ImageUpload uploadedImages={uploadedImages} maxSize={5} setUploadedImages={setUploadedImages}/>
                     <div id='body-counter'>{body.length}/1000</div>
                     <div className='label-box-2'>
                         {starGenerateInteractive()}

@@ -438,6 +438,13 @@
   align-items: flex-start;
 }
 
+#image-control-box{
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  align-items: center;
+}
+
 .label-box-2{
   display: flex;
   flex-direction: column;

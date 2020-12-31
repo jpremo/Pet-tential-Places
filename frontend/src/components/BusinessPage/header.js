@@ -184,8 +184,12 @@ function Header({ setShowModal, showModal }) {
             if (!allImages || allImages.length === 0) {
                 topImages.push('https://images.dog.ceo/breeds/spaniel-welsh/n02102177_453.jpg')
             } else {
-                if (iIndex > allImages.length) iIndex = 0;
-                topImages.push(allImages[iIndex].url)
+                if (iIndex >= allImages.length) iIndex = 0;
+                if(allImages[iIndex]) {
+                    topImages.push(allImages[iIndex].url)
+                } else {
+                    topImages.push('https://images.dog.ceo/breeds/spaniel-welsh/n02102177_453.jpg')
+                }
             }
             iIndex++
         }
