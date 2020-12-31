@@ -4,6 +4,21 @@ const asyncHandler = require('express-async-handler');
 const { Location, Image, Post, User } = require('../../db/models');
 const { Op } = require('sequelize')
 const { formatDistance } = require('date-fns')
+const { requireAuth } = require('../../utils/auth.js');
+const { handleValidationErrors } = require("../../utils/validation");
+const { check } = require("express-validator");
+
+const validatePost = [
+    check("body")
+    //   .exists({ checkFalsy: true })
+      .notEmpty()
+      .withMessage("Please type a review."),
+    check("title")
+    //   .exists({ checkFalsy: true })
+      .notEmpty()
+      .withMessage("Please provide a title."),
+    handleValidationErrors,
+  ];
 
 router.get('/:id', asyncHandler(async (req, res) => {
     const id = Number(req.params.id)
@@ -31,11 +46,43 @@ router.get('/:id', asyncHandler(async (req, res) => {
         delete post.User
         businessInfo.posts[i] = post
     }
-
+    // console.log('req.session \n', req.session, req)
     delete businessInfo.businessInfo.Images
     delete businessInfo.businessInfo.Posts
     console.log(businessInfo)
     res.json(businessInfo)
 }))
+
+router.post('/posts', requireAuth, validatePost, asyncHandler(async (req, res) => {
+    const userInfo = {
+        userId: req.body.userId,
+        locationId: req.body.locationId,
+        title: req.body.title,
+        body: req.body.body,
+        rating: req.body.rating
+    }
+    let newPost = await Post.create(userInfo)
+    const imgArr = []
+    for(let i = 0; i < req.body.images.length; i++) {
+        const image = req.body.images[i];
+        // if(!image[1]) image[1] = ' '
+        const imageInfo = {
+            title: image[1],
+            url: image[0],
+            userId: req.body.userId,
+            locationId: req.body.locationId,
+        }
+        console.log('\n Image Info \n', imageInfo)
+        let newImage = await Image.create(imageInfo)
+        imgArr.push(newImage.toJSON())
+    }
+    newPost = newPost.toJSON()
+    newPost.images = imgArr;
+    newPost.user = await User.findByPk(req.body.userId)
+    newPost.user = newPost.user.toJSON()
+    // console.log('\n New Post \n', newPost)
+    res.json(newPost)
+}))
+
 
 module.exports = router

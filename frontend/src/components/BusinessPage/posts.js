@@ -1,8 +1,10 @@
-import { useSelector } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { useEffect, useState } from 'react'
+import { postReview } from '../../store/business'
 import ImageUpload from './imageUpload'
 function Posts({ setShowModal, showModal, name, openPhoto }) {
     const posts = useSelector(state => state.business.posts)
+    const businessInfo = useSelector(state => state.business)
     const userInfo = useSelector(state => state.session.user)
     const [page, setPage] = useState(1)
     const [showReview, setShowReview] = useState(false)
@@ -12,7 +14,8 @@ function Posts({ setShowModal, showModal, name, openPhoto }) {
     const [title, setTitle] = useState('')
     const [uploadedImages, setUploadedImages] = useState([])
     const [uploadUrl, setUploadUrl] = useState('')
-
+    const [errors, setErrors] = useState([])
+    const dispatch = useDispatch()
     const imageError = (event) => {
         event.target.src = "http://simpleicon.com/wp-content/uploads/user1.png";
     }
@@ -55,7 +58,7 @@ function Posts({ setShowModal, showModal, name, openPhoto }) {
                 </div>
                 <div className='hidden' id='urlInput'>
                     <span>Url:</span>
-                    <input value={uploadUrl} onChange={(e) => setUploadUrl(e.target.value)}/>
+                    <input value={uploadUrl} onChange={(e) => setUploadUrl(e.target.value)} />
                     <button onClick={submitUrl}>Submit</button>
                 </div>
             </>
@@ -68,7 +71,7 @@ function Posts({ setShowModal, showModal, name, openPhoto }) {
                 </div>
                 <div className='hidden' id='urlInput'>
                     <span>Url:</span>
-                    <input value={uploadUrl} onChange={(e) => setUploadUrl(e.target.value)}/>
+                    <input value={uploadUrl} onChange={(e) => setUploadUrl(e.target.value)} />
                     <button onClick={submitUrl}>Submit</button>
                 </div>
                 <div className='review-image-container'>
@@ -204,6 +207,29 @@ function Posts({ setShowModal, showModal, name, openPhoto }) {
         )
     }
 
+    const postForm = (e) => {
+        const data = {
+            title: title,
+            body: body,
+            images: uploadedImages,
+            rating: rating,
+            locationId: businessInfo.businessInfo.id,
+            userId: userInfo.id
+        }
+        dispatch(postReview(data)).then((e) => {
+            setShowReview(false)
+            setErrors([]);
+        }).catch(
+            (res) => {
+                if (res.data && res.data.errors) {
+                    console.log(res.data.errors)
+                    setErrors(res.data.errors);
+                }
+
+            }
+        );
+    }
+
     const createReview = () => {
         let text = 'Write a Review'
 
@@ -223,6 +249,13 @@ function Posts({ setShowModal, showModal, name, openPhoto }) {
         if (showReview) {
             return (
                 <form id="new-review-form">
+                    <ul id='error-list'>
+                        {errors.map((el, ind) => {
+                            return(
+                                <li key={ind}>{el}</li>
+                            )
+                        })}
+                    </ul>
                     <div className='label-box'>
                         <label for='title'>Title</label>
                         <input name='title' className='titlebox' placeholder='Write a snazzy title here...' value={title} onChange={(e) => setTitle(e.target.value.slice(0, 50))} />
@@ -234,11 +267,11 @@ function Posts({ setShowModal, showModal, name, openPhoto }) {
 
                     {/* {imageBox2()} */}
                     <div id='body-counter'>{body.length}/1000</div>
-                    <ImageUpload uploadedImages={uploadedImages} maxSize={5} setUploadedImages={setUploadedImages}/>
+                    <ImageUpload uploadedImages={uploadedImages} maxSize={5} setUploadedImages={setUploadedImages} />
                     <div className='label-box-2'>
                         {starGenerateInteractive()}
                     </div>
-                    <div className='review-page-link submit-form'>Post</div>
+                    <div className='review-page-link submit-form' onClick={postForm}>Post</div>
                 </form>
             )
         } else {

@@ -515,6 +515,14 @@
   right: 8px;
 }
 
+#error-list{
+  list-style: none;
+}
+
+#error-list li{
+  color: red;
+}
+
 /* #body-counter{
   align-self:flex-end;
 } */
