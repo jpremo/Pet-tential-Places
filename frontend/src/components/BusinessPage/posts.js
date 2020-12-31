@@ -15,6 +15,7 @@ function Posts({ setShowModal, showModal, name, openPhoto }) {
     const [uploadedImages, setUploadedImages] = useState([])
     const [uploadUrl, setUploadUrl] = useState('')
     const [errors, setErrors] = useState([])
+    const [reviewPosted, setReviewPosted] = useState(false)
     const dispatch = useDispatch()
     const imageError = (event) => {
         event.target.src = "http://simpleicon.com/wp-content/uploads/user1.png";
@@ -207,7 +208,7 @@ function Posts({ setShowModal, showModal, name, openPhoto }) {
         )
     }
 
-    const postForm = (e) => {
+    const postForm = (type='POST') => {
         const data = {
             title: title,
             body: body,
@@ -216,7 +217,11 @@ function Posts({ setShowModal, showModal, name, openPhoto }) {
             locationId: businessInfo.businessInfo.id,
             userId: userInfo.id
         }
-        dispatch(postReview(data)).then((e) => {
+        if(type = 'PUT') {
+            let targetPost = posts.find((el) => el.user.id === userInfo.id)
+            data.postId = targetPost.id;
+        }
+        dispatch(postReview(data, type)).then((e) => {
             setShowReview(false)
             setErrors([]);
         }).catch(
@@ -231,14 +236,26 @@ function Posts({ setShowModal, showModal, name, openPhoto }) {
     }
 
     const createReview = () => {
-        let text = 'Write a Review'
+        let reviewPosted = false;
+        if(userInfo) {
+            if(posts.find((el) => el.user.id === userInfo.id) || businessInfo.businessInfo.userId === userInfo.id) {
+                reviewPosted = true
+            }
+        }
+            let text = (reviewPosted) ? 'Edit Review' : 'Write a Review';
 
         let clickEvent
+        let submitForm = () => {}
         if (userInfo) {
             clickEvent = () => {
                 return (
                     setShowReview(true)
                 )
+            }
+            if(reviewPosted) {
+                 submitForm = () => {postForm('PUT')}
+            } else {
+                 submitForm = () => {postForm()}
             }
         } else {
             clickEvent = () => {
@@ -271,7 +288,7 @@ function Posts({ setShowModal, showModal, name, openPhoto }) {
                     <div className='label-box-2'>
                         {starGenerateInteractive()}
                     </div>
-                    <div className='review-page-link submit-form' onClick={postForm}>Post</div>
+                    <div className='review-page-link submit-form' onClick={submitForm}>Post</div>
                 </form>
             )
         } else {
@@ -282,6 +299,7 @@ function Posts({ setShowModal, showModal, name, openPhoto }) {
     }
 
     if (posts) {
+
         const pagePosts = posts.slice((page - 1) * 10, page * 10)
         return (
             <>
