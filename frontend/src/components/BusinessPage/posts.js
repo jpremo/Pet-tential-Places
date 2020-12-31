@@ -233,8 +233,8 @@ function Posts({ setShowModal, showModal, name, openPhoto }) {
                     </div>
 
                     {/* {imageBox2()} */}
-                    <ImageUpload uploadedImages={uploadedImages} maxSize={5} setUploadedImages={setUploadedImages}/>
                     <div id='body-counter'>{body.length}/1000</div>
+                    <ImageUpload uploadedImages={uploadedImages} maxSize={5} setUploadedImages={setUploadedImages}/>
                     <div className='label-box-2'>
                         {starGenerateInteractive()}
                     </div>

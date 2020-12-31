@@ -2,6 +2,7 @@ import { useState } from 'react'
 const ImageUpload = ({ uploadedImages, maxSize, setUploadedImages }) => {
 
     const [uploadUrl, setUploadUrl] = useState('')
+    const [uploadTitle, setUploadTitle] = useState('')
 
     const flipUrlInput = () => {
         const val = document.querySelector('#urlInput')
@@ -15,9 +16,11 @@ const ImageUpload = ({ uploadedImages, maxSize, setUploadedImages }) => {
     const submitUrl = (e) => {
         if (uploadedImages.length < maxSize) {
             const uploadCopy = [...uploadedImages]
-            uploadCopy.push(uploadUrl)
+            uploadCopy.push([uploadUrl, uploadTitle])
             setUploadedImages(uploadCopy)
             setUploadUrl('')
+            setUploadTitle('')
+            flipUrlInput()
         }
         e.preventDefault()
     }
@@ -29,41 +32,54 @@ const ImageUpload = ({ uploadedImages, maxSize, setUploadedImages }) => {
         setUploadedImages(uploadCopy)
     }
 
-    if (uploadedImages.length === 0) return (
-        <>
-            <div id='image-controls'>
-                <div className='review-page-link'>Upload Image</div>
-                <div className='review-page-link' onClick={flipUrlInput}>Link Image</div>
-            </div>
-            <div className='hidden' id='urlInput'>
-                <span>Url:</span>
-                <input value={uploadUrl} onChange={(e) => setUploadUrl(e.target.value)} />
-                <button onClick={submitUrl}>Submit</button>
-            </div>
-        </>
-    )
-    return (
-        <div id='image-control-box'>
-            <div id='image-controls'>
-                <div className='review-page-link'>Upload Image</div>
-                <div className='review-page-link' onClick={flipUrlInput}>Link Image</div>
-            </div>
-            <div className='hidden' id='urlInput'>
-                <span>Url:</span>
-                <input value={uploadUrl} onChange={(e) => setUploadUrl(e.target.value)} />
-                <button onClick={submitUrl}>Submit</button>
-            </div>
+    const imageBoxCheck = () => {
+        if (uploadedImages.length === 0) return
+        return (
             <div className='review-image-container'>
                 {uploadedImages.map((el, ind) => {
                     // if (ind >= 1) return (<></>)
                     return (
                         <div className='review-image-position'>
-                            <img className='review-image' src={el} alt='Uploaded Image' key={ind} id={`newReviewPhoto-${ind}`} />
+                            <img className='review-image' onError={imageError} src={el[0]} alt={el[1]} key={ind} id={`newReviewPhoto-${ind}`} />
                             <i className="fas fa-times-circle fa-1x x-button-3" id={`newReviewPhotoX-${ind}`} style={{ color: 'white', background: 'black', borderRadius: '200px' }} onClick={removePhoto}></i>
                         </div>
                     )
                 })}
             </div>
+        )
+    }
+
+    console.log('images arr', uploadedImages)
+
+    const imageError = (event) => {
+        event.target.src = "https://image.freepik.com/free-vector/404-error-web-template-with-mad-cat_23-2147763345.jpg";
+    }
+
+    const imageControls = () => {
+        if (uploadedImages.length >= maxSize) return
+        return (
+            <div id='image-controls'>
+                <div className='review-page-link'>Upload Image</div>
+                <div className='review-page-link' onClick={flipUrlInput}>Link Image</div>
+            </div>
+        )
+    }
+
+    return (
+        <div id='image-control-box'>
+            {imageControls()}
+            <div className='hidden' id='urlInput'>
+                <div>
+                    <div className='url-label'>Image Title</div>
+                    <input value={uploadTitle} onChange={(e) => setUploadTitle(e.target.value)} />
+                </div>
+                <div>
+                    <div className='url-label'>Url</div>
+                    <input value={uploadUrl} onChange={(e) => setUploadUrl(e.target.value)} />
+                </div>
+                <button onClick={submitUrl}>Submit</button>
+            </div>
+            {imageBoxCheck()}
         </div>
     )
 }
