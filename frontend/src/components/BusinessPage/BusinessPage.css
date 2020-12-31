@@ -365,6 +365,8 @@
   max-height: 200px;
   min-height: 100px;
   width:min-content;
+  align-items: center;
+  justify-content: center;
   height: 17%;
   background-color: rgba(128, 128, 128, 1);
   border: 1px solid black;
@@ -377,7 +379,7 @@
   min-width: 100px;
   width:auto;
   margin: 5px;
-  max-height:90%;
+  max-height:100%;
 
   border: 1px solid black;
   box-shadow: 2px 2px black;
@@ -465,9 +467,13 @@
 .textbox{
   width:500px;
   height:168px;
+  font-family: 'Times New Roman', Times, serif;
+  font-size: 20px;
 }
 .titlebox{
   width:500px;
+  font-family: 'Times New Roman', Times, serif;
+  font-size: 16px;
 }
 
 #image-controls{
@@ -486,6 +492,16 @@
 #urlInput input{
   width: 300px;
   margin: 0 5px;
+}
+
+.review-image-position{
+  position: relative;
+}
+
+.x-button-3 {
+  position: absolute;
+  top: 8px;
+  right: 8px;
 }
 
 /* #body-counter{
