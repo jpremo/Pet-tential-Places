@@ -53,6 +53,44 @@ router.get('/:id', asyncHandler(async (req, res) => {
     res.json(businessInfo)
 }))
 
+router.post('/', requireAuth, asyncHandler(async (req, res) => {
+    const businessInfo = {
+        userId: req.body.userId,
+        address: req.body.address,
+        name: req.body.name,
+        coordinates: req.body.position,
+        description: req.body.description,
+        businessCategory: null,
+        petCategory: null,
+        reviewNumber: 0,
+        averageRating: 0
+    }
+
+    let newBusiness = await Location.create(businessInfo)
+
+
+    // const imgArr = []
+    for(let i = 0; i < req.body.images.length; i++) {
+        const image = req.body.images[i];
+        // if(!image[1]) image[1] = ' '
+        const imageInfo = {
+            title: image[1],
+            url: image[0],
+            userId: businessInfo.userId,
+            locationId: newBusiness.id,
+        }
+        // console.log('\n Image Info \n', imageInfo)
+        let newImage = await Image.create(imageInfo)
+        // imgArr.push(newImage.toJSON())
+    }
+    // newPost = newPost.toJSON()
+    // newPost.images = imgArr;
+    // newPost.user = await User.findByPk(req.body.userId)
+    // newPost.user = newPost.user.toJSON()
+    // // console.log('\n New Post \n', newPost)
+    res.json(newBusiness)
+}))
+
 router.post('/posts', requireAuth, validatePost, asyncHandler(async (req, res) => {
     const userInfo = {
         userId: req.body.userId,

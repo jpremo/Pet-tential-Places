@@ -228,7 +228,7 @@ function Header({ setShowModal, showModal }) {
                     <h2 className='information-header'>About Us</h2>
                     <h2 className='information-header'>Where to Find Us</h2>
                     <p id='description'>{businessInfo.description}</p>
-                    <div id='map' className='map'>map</div>
+                    <div id='map' className='map'></div>
                 </div>
                 <div id='picture-popup-container' className='hidden'>
                     <div id='x-wrapper'>

@@ -5,7 +5,7 @@ import SignupFormPage from "./components/SignupFormPage";
 import BusinessPage from './components/BusinessPage'
 import * as sessionActions from "./store/session";
 import Navigation from "./components/Navigation";
-
+import ProfilePage from "./components/ProfilePage"
 function App() {
   const dispatch = useDispatch();
   const [isLoaded, setIsLoaded] = useState(false);
@@ -34,6 +34,9 @@ function App() {
           </Route>
           <Route path="/business/:id">
             <BusinessPage setShowModal={setShowModal} />
+          </Route>
+          <Route path="/profile">
+            <ProfilePage></ProfilePage>
           </Route>
         </Switch>
       )}
