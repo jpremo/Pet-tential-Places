@@ -4,6 +4,7 @@ const SET_BUSINESS = '/business/setBusiness'
 const ADD_POST = '/business/addPost'
 const EDIT_POST = '/business/editPost'
 const LIST_BUSINESSES = '/business/listBusinesses'
+const CLEAR_BUSINESS = '/business/clearBusiness'
 
 const setBusiness = (business) => ({
   type: SET_BUSINESS,
@@ -23,6 +24,10 @@ const addPost = (post) => ({
 const editPost = (post) => ({
   type: EDIT_POST,
   payload: post
+});
+
+export const clearBusinessInfo = () => ({
+  type: CLEAR_BUSINESS
 });
 
 export const getBusinessInfo = (id) => async (dispatch) => {
@@ -67,6 +72,10 @@ function reducer(state = initialState, action) {
       return newState;
     case LIST_BUSINESSES:
       newState = Object.assign({}, state, { ...action.payload });
+      return newState;
+      case CLEAR_BUSINESS:
+      newState = Object.assign({}, state);
+      newState.businessInfo = null;
       return newState;
     default:
       return state;

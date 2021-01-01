@@ -1,16 +1,16 @@
 import './HomePage.css'
-import {useDispatch, useSelector} from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { useEffect } from 'react';
-import {getTenBusinesses} from '../../store/business'
-import BusinessBox from './BusinessBox'
+import { getTenBusinesses } from '../../store/business'
+import BusinessList from './BusinessList'
 function HomePage() {
     const dispatch = useDispatch();
     useEffect(() => {
         dispatch(getTenBusinesses())
     }, [dispatch])
     const businessList = useSelector(state => state.business.businessList)
-
-    if(!businessList) return (
+    const popularBusinessList = useSelector(state => state.business.popularBusinessList)
+    if (!businessList || !popularBusinessList) return (
         <>
             <h1>Loading...</h1>
         </>
@@ -18,12 +18,10 @@ function HomePage() {
 
     return (
         <>
-            <h1>New and Trendy Businesses</h1>
-            {businessList.map((el, ind) => {
-                return(
-                    <BusinessBox business={el} key={ind}/>
-                )
-            })}
+            <div id='content-wrapper'>
+                <BusinessList businessList={businessList} name={'New and Trendy Businesses'}/>
+                <BusinessList businessList={popularBusinessList} name={'Most Popular Businesses'}/>
+            </div>
         </>
     )
 }

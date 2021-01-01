@@ -54,12 +54,17 @@ router.get('/:id(\\d+)/', asyncHandler(async (req, res) => {
 }))
 
 router.get('/recent', asyncHandler(async (req, res) => {
-    console.log('\n recent \n')
     let businesses = await Location.findAll({
         limit: 10,
         order: [['createdAt', 'DESC']]
     });
     businesses = businesses.map((el) => el.toJSON())
+
+    let popularBusinesses = await Location.findAll({
+        limit: 10,
+        order: [['reviewNumber', 'DESC']]
+    });
+    popularBusinesses = popularBusinesses.map((el) => el.toJSON())
     // const businessInfo = {
     //     businessInfo: { ...business.toJSON() },
     //     allImages: business.Images.map((el) => {
@@ -85,7 +90,7 @@ router.get('/recent', asyncHandler(async (req, res) => {
     // delete businessInfo.businessInfo.Images
     // delete businessInfo.businessInfo.Posts
     // console.log(businessInfo)
-    res.json({businessList: businesses})
+    res.json({businessList: businesses, popularBusinessList: popularBusinesses})
 }))
 
 router.post('/', requireAuth, asyncHandler(async (req, res) => {
