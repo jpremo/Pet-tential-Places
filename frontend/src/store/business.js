@@ -3,11 +3,16 @@ import { fetch } from './csrf.js';
 const SET_BUSINESS = '/business/setBusiness'
 const ADD_POST = '/business/addPost'
 const EDIT_POST = '/business/editPost'
-const ADD_ERRORS = '/business/addErrors'
+const LIST_BUSINESSES = '/business/listBusinesses'
 
 const setBusiness = (business) => ({
   type: SET_BUSINESS,
   payload: business
+});
+
+const listBusinesses = (businesses) => ({
+  type: LIST_BUSINESSES,
+  payload: businesses
 });
 
 const addPost = (post) => ({
@@ -23,6 +28,11 @@ const editPost = (post) => ({
 export const getBusinessInfo = (id) => async (dispatch) => {
   const res = await fetch(`/api/business/${id}`);
   dispatch(setBusiness(res.data))
+};
+
+export const getTenBusinesses = () => async (dispatch) => {
+  const res = await fetch(`/api/business/recent`);
+  dispatch(listBusinesses(res.data))
 };
 
 export const postReview = (input, type) => async (dispatch) => {
@@ -54,6 +64,9 @@ function reducer(state = initialState, action) {
       newState.posts[ind] = action.payload;
       newState.allImages = newState.allImages.filter((el) => el.userId !== action.payload.user.id)
       newState.allImages.push(...action.payload.images)
+      return newState;
+    case LIST_BUSINESSES:
+      newState = Object.assign({}, state, { ...action.payload });
       return newState;
     default:
       return state;

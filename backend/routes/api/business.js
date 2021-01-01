@@ -20,7 +20,7 @@ const validatePost = [
     handleValidationErrors,
   ];
 
-router.get('/:id', asyncHandler(async (req, res) => {
+router.get('/:id(\\d+)/', asyncHandler(async (req, res) => {
     const id = Number(req.params.id)
     const business = await Location.findByPk(id, {
         include: [{ model: Image, include: User }, { model: Post, include: { model: User} }]
@@ -51,6 +51,41 @@ router.get('/:id', asyncHandler(async (req, res) => {
     delete businessInfo.businessInfo.Posts
     console.log(businessInfo)
     res.json(businessInfo)
+}))
+
+router.get('/recent', asyncHandler(async (req, res) => {
+    console.log('\n recent \n')
+    let businesses = await Location.findAll({
+        limit: 10,
+        order: [['createdAt', 'DESC']]
+    });
+    businesses = businesses.map((el) => el.toJSON())
+    // const businessInfo = {
+    //     businessInfo: { ...business.toJSON() },
+    //     allImages: business.Images.map((el) => {
+    //         el = el.toJSON()
+    //         el.timeStamp = formatDistance(el.updatedAt, new Date()) + ' ago'
+    //         el.username = el.User.username
+    //         delete el.User
+    //         return el
+    //     }),
+    //     posts: business.toJSON().Posts
+    // }
+    // // console.log('business posts', business.Posts)
+    // for(let i = 0; i < businessInfo.posts.length; i++) {
+    //     let post = businessInfo.posts[i]
+    //     const images = await Image.findAll( { where: {userId: post.userId, locationId:id}})
+    //     post.images = images;
+    //     post.user = post.User
+    //     post.timeStamp = formatDistance(post.updatedAt, new Date()) + ' ago'
+    //     delete post.User
+    //     businessInfo.posts[i] = post
+    // }
+    // // console.log('req.session \n', req.session, req)
+    // delete businessInfo.businessInfo.Images
+    // delete businessInfo.businessInfo.Posts
+    // console.log(businessInfo)
+    res.json({businessList: businesses})
 }))
 
 router.post('/', requireAuth, asyncHandler(async (req, res) => {

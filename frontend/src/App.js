@@ -6,6 +6,8 @@ import BusinessPage from './components/BusinessPage'
 import * as sessionActions from "./store/session";
 import Navigation from "./components/Navigation";
 import ProfilePage from "./components/ProfilePage"
+import HomePage from './components/HomePage'
+
 function App() {
   const dispatch = useDispatch();
   const [isLoaded, setIsLoaded] = useState(false);
@@ -29,6 +31,9 @@ function App() {
       <Navigation isLoaded={isLoaded} setShowModal={setShowModal} showModal={showModal} />
       {isLoaded && (
         <Switch>
+          <Route path="/" exact>
+            <HomePage/>
+          </Route>
           <Route path="/signup">
             <SignupFormPage />
           </Route>
@@ -36,7 +41,10 @@ function App() {
             <BusinessPage setShowModal={setShowModal} />
           </Route>
           <Route path="/profile">
-            <ProfilePage></ProfilePage>
+            <ProfilePage/>
+          </Route>
+          <Route path="/">
+            <h1>Page Not Found</h1>
           </Route>
         </Switch>
       )}
