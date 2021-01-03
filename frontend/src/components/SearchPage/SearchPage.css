@@ -1,7 +1,9 @@
-#map{
+.map{
     width: 50%;
     height: 600px;
     margin: 20px;
+    border: 2px solid black;
+    border-radius: 25px;
 }
 
 .list-box{

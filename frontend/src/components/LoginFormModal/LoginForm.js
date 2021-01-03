@@ -19,35 +19,41 @@ function LoginForm() {
     );
   };
 
+  const hidden = (errors.length) ? '' : 'hidden'
+
   return (
     <>
+      <form className='login-form' onSubmit={handleSubmit}>
       <h1>Log In</h1>
-      <form onSubmit={handleSubmit}>
-        <ul>
+        <ul className={hidden}>
           {errors.map((error, idx) => (
             <li key={idx}>{error}</li>
           ))}
         </ul>
-        <label>
-          Username or Email
+        <div className='label-box'>
+          <label>
+            Username/Email
+        </label>
           <input
             type="text"
             value={credential}
             onChange={(e) => setCredential(e.target.value)}
             required
           />
-        </label>
+        </div>
+        <div className='label-box'>
         <label>
           Password
-          <input
-            type="password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            required
-          />
         </label>
-        <button type="submit">Log In</button>
-      </form>
+        <input
+          type="password"
+          value={password}
+          onChange={(e) => setPassword(e.target.value)}
+          required
+        />
+        </div>
+      <button className='login-button' id='login-modal-button' type="submit">Log In</button>
+    </form>
     </>
   );
 }

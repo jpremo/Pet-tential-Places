@@ -1,0 +1,11 @@
+.login-form{
+    display:flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+#login-modal-button{
+    margin: 5px;
+    margin-top: 10px
+}

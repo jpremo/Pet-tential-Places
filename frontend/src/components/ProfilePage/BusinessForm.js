@@ -1,6 +1,6 @@
 import { useSelector } from "react-redux"
 import { useState, useEffect } from 'react'
-import {useHistory} from 'react-router-dom'
+import { useHistory } from 'react-router-dom'
 import { fetch } from '../../store/csrf'
 import ImageUpload from '../BusinessPage/imageUpload'
 function BusinessForm({ userInfo }) {
@@ -14,6 +14,7 @@ function BusinessForm({ userInfo }) {
     const [uploadedImages, setUploadedImages] = useState([])
     const history = useHistory()
     const submitForm = async (e) => {
+        hidden = 'hidden'
         setFormPage(0)
         const data = {
             name,
@@ -27,8 +28,8 @@ function BusinessForm({ userInfo }) {
         const res = await fetch(`/api/business`, {
             method: 'POST',
             body: JSON.stringify(data)
-          });
-          history.push(`/business/${res.data.id}`)
+        });
+        history.push(`/business/${res.data.id}`)
         e.preventDefault()
     }
     const updateName = (e) => {
@@ -67,6 +68,7 @@ function BusinessForm({ userInfo }) {
     }
 
     const addressPosition = true;
+    let hidden = 'hidden'
     // let setCenter = () => {
     //     debugger
     //     if(marker.setCenter) {
@@ -89,7 +91,7 @@ function BusinessForm({ userInfo }) {
             setInterval(() => {
                 const pos = map.getCenter()
                 const zoom = map.getZoom()
-                setPosition({lng:pos.lng, lat: pos.lat, zoom: zoom})
+                setPosition({ lng: pos.lng, lat: pos.lat, zoom: zoom })
                 console.log('map bounds', map.getBounds())
             }, 100)
             setMapFilled(true)
@@ -100,57 +102,74 @@ function BusinessForm({ userInfo }) {
         setFormPage(2)
         e.preventDefault()
     }
-
+    const formDetermine2 = () => {
+        if (formPage === 2) {
+        return (
+            <form>
+                <button className='login-button' onClick={submitForm}>Submit</button>
+                <button className='login-button' onClick={(e) => { setFormPage(0); e.preventDefault() }}>Cancel</button>
+            </form>
+        )
+        }
+    }
     const formDetermine = () => {
 
 
         if (formPage === 2) {
+            hidden = ''
             return (
                 <>
-                    <form>
-                        <button onClick={submitForm}>Submit</button>
-                        <button onClick={(e) => { setFormPage(0); e.preventDefault() }}>Cancel</button>
-                    </form>
+                    <h2>Business Information</h2>
+                    <h4>Please center the map so that the point aligns with your business' exact location</h4>
+                    <h5>Additionally, please zoom in to the desired level</h5>
+
                 </>
             )
         } else if (formPage === 1) {
+            hidden = 'hidden'
             return (
                 <>
-                    <form>
-                        <div>
-                            <label htmlFor='name'>Name</label>
-                            <input name='name' value={name} onChange={updateName} />
-                        </div>
-                        <div>
-                            <label htmlFor='address'>Address</label>
-                            <textarea name='address' value={address} onChange={updateAddress}></textarea>
-                        </div>
-                        <div>
-                            <label htmlFor='description'>Description</label>
-                            <textarea name='description' value={description} onChange={updateDescription}></textarea>
-                            <div> {description.length}/2000</div>
-                        </div>
-                        <ImageUpload uploadedImages={uploadedImages} maxSize={5} setUploadedImages={setUploadedImages} ></ImageUpload>
-                        <button onClick={getPosition}>Next</button>
-                        <button onClick={(e) => { setFormPage(0); e.preventDefault() }}>Cancel</button>
-                    </form>
+                    <h2>Business Information</h2>
+                    <div className='label-box' >
+                        <label htmlFor='name'>Name</label>
+                        <input className='titlebox' name='name' value={name} onChange={updateName} />
+                    </div>
+                    <div className='label-box'>
+                        <label htmlFor='address'>Address</label>
+                        <textarea className='textbox' name='address' value={address} onChange={updateAddress}></textarea>
+                    </div>
+                    <div className='label-box'>
+                        <label htmlFor='description'>Description</label>
+                        <textarea className='textbox' name='description' value={description} onChange={updateDescription}></textarea>
+                    </div>
+                    <div> {description.length}/2000</div>
+                    <ImageUpload uploadedImages={uploadedImages} maxSize={5} setUploadedImages={setUploadedImages} ></ImageUpload>
+                    <div>
+                        <button className='login-button' onClick={getPosition}>Next</button>
+                        <button className='login-button' onClick={(e) => { setFormPage(0); e.preventDefault() }}>Cancel</button>
+                    </div>
                 </>
             )
         } else {
+            hidden = 'hidden'
             return (
                 <>
-                    <button onClick={() => setFormPage(1)}>Create a Business</button>
+                    <button className='login-button' onClick={() => setFormPage(1)}>Create a Business</button>
                 </>
             )
         }
     }
     return (
         <>
-            {formDetermine()}
-            <div id='map-container'>
-                <div id='map' className='map'>
+            <div id='form-container'>
+                {formDetermine()}
+
+                <div id='map-container' className={hidden}>
+                    <div id='map' className='map-form'>
+                    </div>
+                    <svg className='center-marker' width="30" height="36" fill="#000000" xmlns="http://www.w3.org/2000/svg" viewBox="0, 0, 30, 36" preserveAspectRatio="none"><ellipse cx="15" cy="34" rx="7.661" ry="2" fill="#000000" opacity=".2"></ellipse><path d="M25.6 4.4C22.9 1.7 19.1 0 15 0S7.1 1.7 4.4 4.4C1.7 7.1 0 10.9 0 15s1.7 7.9 4.4 10.6C7.1 28.3 15 34.5 15 34.5s7.9-6.2 10.6-8.9C28.3 22.9 30 19.1 30 15s-1.7-7.9-4.4-10.6z"></path><path d="M25.6 4.4C22.9 1.7 19.1 0 15 0S7.1 1.7 4.4 4.4C1.7 7.1 0 10.9 0 15s1.7 7.9 4.4 10.6C7.1 28.3 15 34.5 15 34.5s7.9-6.2 10.6-8.9C28.3 22.9 30 19.1 30 15s-1.7-7.9-4.4-10.6z"></path><circle class="innerCircle" cx="15" cy="15" r="12" fill="none"></circle></svg>
                 </div>
-                <svg className='center-marker' width="30" height="36" fill="#000000" xmlns="http://www.w3.org/2000/svg" viewBox="0, 0, 30, 36" preserveAspectRatio="none"><ellipse cx="15" cy="34" rx="7.661" ry="2" fill="#000000" opacity=".2"></ellipse><path d="M25.6 4.4C22.9 1.7 19.1 0 15 0S7.1 1.7 4.4 4.4C1.7 7.1 0 10.9 0 15s1.7 7.9 4.4 10.6C7.1 28.3 15 34.5 15 34.5s7.9-6.2 10.6-8.9C28.3 22.9 30 19.1 30 15s-1.7-7.9-4.4-10.6z"></path><path d="M25.6 4.4C22.9 1.7 19.1 0 15 0S7.1 1.7 4.4 4.4C1.7 7.1 0 10.9 0 15s1.7 7.9 4.4 10.6C7.1 28.3 15 34.5 15 34.5s7.9-6.2 10.6-8.9C28.3 22.9 30 19.1 30 15s-1.7-7.9-4.4-10.6z"></path><circle class="innerCircle" cx="15" cy="15" r="12" fill="none"></circle></svg>
+                {formDetermine2()}
             </div>
         </>
     )

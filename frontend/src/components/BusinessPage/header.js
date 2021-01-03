@@ -65,10 +65,12 @@ function Header({ setShowModal, showModal }) {
     const [selectedPhoto, setSelectedPhoto] = useState(0);
 
     useEffect(() => {
+        console.log('debugger passed')
         if (businessInfo && !mapFilled) {
             setMap()
             setMapFilled(true)
         }
+        if(!businessInfo) setMapFilled(false)
     }, [businessInfo, mapFilled])
 
     useEffect(() => {
@@ -228,7 +230,7 @@ function Header({ setShowModal, showModal }) {
                     <h2 className='information-header'>About Us</h2>
                     <h2 className='information-header'>Where to Find Us</h2>
                     <p id='description'>{businessInfo.description}</p>
-                    <div id='map' className='map'></div>
+                    <div id='map' className='map-business'></div>
                 </div>
                 <div id='picture-popup-container' className='hidden'>
                     <div id='x-wrapper'>

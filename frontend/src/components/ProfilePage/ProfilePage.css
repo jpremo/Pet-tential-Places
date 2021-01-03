@@ -7,3 +7,19 @@
 #map-container{
     position: relative;
 }
+
+.map-form {
+    width: 600px;
+    height: 400px;
+    border: 2px solid black;
+    border-radius: 25px;
+    margin-bottom: 25px;
+  }
+
+  #form-container{
+      display: flex;
+      width: 100%;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+  }

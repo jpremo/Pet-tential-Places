@@ -1,9 +1,19 @@
 import './ProfilePage.css';
 import BusinessForm from './BusinessForm'
 import { useSelector } from "react-redux"
+import {useHistory} from 'react-router-dom'
 
 function ProfilePage() {
-    const userInfo = useSelector(state => state.session.user)
+    const session = useSelector(state => state.session)
+    const history = useHistory()
+    if(!session.user) {
+        history.push('/')
+        return(
+            <div></div>
+        )
+    }
+    const userInfo = session.user
+
 
     return (
         <>

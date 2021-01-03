@@ -5,6 +5,7 @@ import { useSelector } from 'react-redux';
 import ProfileButton from './ProfileButton';
 import LoginFormModal from '../LoginFormModal';
 import './Navigation.css';
+import logo from '../../images/logo.png'
 
 function Navigation({ isLoaded, setShowModal, showModal }) {
   const sessionUser = useSelector(state => state.session.user);
@@ -28,23 +29,23 @@ function Navigation({ isLoaded, setShowModal, showModal }) {
     );
   } else {
     sessionLinks = (
-      <>
+      <div>
         <LoginFormModal setShowModal={setShowModal} showModal={showModal} />
-        <NavLink to="/signup">Sign Up</NavLink>
-      </>
+        <NavLink className='login-button' to="/signup">Sign Up</NavLink>
+      </div>
     );
   }
 
   return (
-    <ul className='no-bullet-list'>
-      <li>
-        <NavLink exact to="/">Home</NavLink>
-        <i className="fas fa-search" onClick={searchClick}></i>
-        <input value={searchBusiness} placeholder='Business' onChange={(e) => setSearchBusiness(e.target.value)} onKeyUp={search} />
-        <input value={searchLocation} placeholder='Location' onChange={(e) => setSearchLocation(e.target.value)} onKeyUp={search} />
-        {isLoaded && sessionLinks}
-      </li>
-    </ul>
+    <div id='navbar'>
+      <NavLink exact to="/"><img id='logo' src={logo}/></NavLink>
+      <div id='search-bars'>
+        <i id='search-icon' className="fas fa-search" onClick={searchClick}></i>
+        <input className='search-bar' value={searchBusiness} placeholder='Business' onChange={(e) => setSearchBusiness(e.target.value)} onKeyUp={search} />
+        <input className='search-bar' value={searchLocation} placeholder='Location' onChange={(e) => setSearchLocation(e.target.value)} onKeyUp={search} />
+      </div>
+      {isLoaded && sessionLinks}
+    </div>
   );
 }
 
