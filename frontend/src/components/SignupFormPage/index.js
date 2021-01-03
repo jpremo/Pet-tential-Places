@@ -26,51 +26,59 @@ function SignupFormPage() {
     }
     return setErrors(['Confirm Password field must be the same as the Password field']);
   };
-
+  const hidden = (errors.length) ? '' : 'hidden'
   return (
     <>
-      <h1>Sign Up</h1>
-      <form onSubmit={handleSubmit}>
-        <ul>
+      <form className='login-form' onSubmit={handleSubmit}>
+        <h1>Sign Up</h1>
+        <ul className={hidden+' no-label-list'}>
           {errors.map((error, idx) => <li key={idx}>{error}</li>)}
         </ul>
-        <label>
-          Email
+        <div className='label-box'>
+          <label>
+            Email
+        </label>
           <input
             type="text"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
             required
           />
+        </div>
+        <div className='label-box'>
+          <label>
+            Username
         </label>
-        <label>
-          Username
           <input
             type="text"
             value={username}
             onChange={(e) => setUsername(e.target.value)}
             required
           />
+        </div>
+        <div className='label-box'>
+          <label>
+            Password
         </label>
-        <label>
-          Password
           <input
             type="password"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
             required
           />
+        </div>
+        <div className='label-box'>
+          <label>
+            Confirm Password
         </label>
-        <label>
-          Confirm Password
           <input
             type="password"
             value={confirmPassword}
             onChange={(e) => setConfirmPassword(e.target.value)}
             required
           />
-        </label>
-        <button type="submit">Sign Up</button>
+        </div>
+        <button className='login-button' id='login-modal-button' type="submit">Sign Up</button>
       </form>
     </>
   );

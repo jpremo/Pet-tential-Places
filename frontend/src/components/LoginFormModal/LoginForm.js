@@ -19,13 +19,19 @@ function LoginForm() {
     );
   };
 
+  const demoLogin = (e) => {
+    e.preventDefault()
+    setCredential('demo_user')
+    setPassword('demoUserPass')
+  }
+
   const hidden = (errors.length) ? '' : 'hidden'
 
   return (
     <>
       <form className='login-form' onSubmit={handleSubmit}>
       <h1>Log In</h1>
-        <ul className={hidden}>
+        <ul className={hidden + ' no-label-list'}>
           {errors.map((error, idx) => (
             <li key={idx}>{error}</li>
           ))}
@@ -53,6 +59,7 @@ function LoginForm() {
         />
         </div>
       <button className='login-button' id='login-modal-button' type="submit">Log In</button>
+      <button className='login-button' id='login-modal-button' type="submit" onClick={demoLogin}>Demo Log In</button>
     </form>
     </>
   );

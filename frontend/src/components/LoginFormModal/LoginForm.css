@@ -9,3 +9,7 @@
     margin: 5px;
     margin-top: 10px
 }
+
+.no-label-list{
+    list-style-type:none;
+}
