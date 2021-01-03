@@ -19,7 +19,7 @@ module.exports = (sequelize, DataTypes) => {
     petCategory: {
       type: DataTypes.STRING(100)
     },
-    coordinates: DataTypes.JSON,
+    coordinates: DataTypes.JSONB,
     reviewNumber: {
       type: DataTypes.INTEGER,
       default: 0,

@@ -85,10 +85,12 @@ function BusinessForm({ userInfo }) {
             const mapObj = makeMap(point, false, null, null)
             const map = mapObj.map;
             const marker = mapObj.marker
+
             setInterval(() => {
                 const pos = map.getCenter()
                 const zoom = map.getZoom()
                 setPosition({lng:pos.lng, lat: pos.lat, zoom: zoom})
+                console.log('map bounds', map.getBounds())
             }, 100)
             setMapFilled(true)
         }

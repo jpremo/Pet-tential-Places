@@ -7,7 +7,7 @@ import * as sessionActions from "./store/session";
 import Navigation from "./components/Navigation";
 import ProfilePage from "./components/ProfilePage"
 import HomePage from './components/HomePage'
-
+import SearchPage from './components/SearchPage'
 function App() {
   const dispatch = useDispatch();
   const [isLoaded, setIsLoaded] = useState(false);
@@ -42,6 +42,9 @@ function App() {
           </Route>
           <Route path="/profile">
             <ProfilePage/>
+          </Route>
+          <Route path="/search">
+            <SearchPage/>
           </Route>
           <Route path="/">
             <h1>Page Not Found</h1>

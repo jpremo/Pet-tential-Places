@@ -28,7 +28,7 @@ module.exports = {
         type: Sequelize.STRING(100)
       },
       coordinates: {
-        type: Sequelize.JSON
+        type: Sequelize.JSONB
       },
       reviewNumber: {
         type: Sequelize.INTEGER,

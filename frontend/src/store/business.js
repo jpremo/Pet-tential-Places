@@ -5,6 +5,10 @@ const ADD_POST = '/business/addPost'
 const EDIT_POST = '/business/editPost'
 const LIST_BUSINESSES = '/business/listBusinesses'
 const CLEAR_BUSINESS = '/business/clearBusiness'
+const SEARCH = '/business/search'
+const CLEAR_SEARCH = '/business/clearSearch'
+
+const tt = window.tt
 
 const setBusiness = (business) => ({
   type: SET_BUSINESS,
@@ -26,13 +30,36 @@ const editPost = (post) => ({
   payload: post
 });
 
+const search = (businesses) => ({
+  type: SEARCH,
+  payload: businesses
+});
+
 export const clearBusinessInfo = () => ({
   type: CLEAR_BUSINESS
+});
+
+export const clearSearchInfo = () => ({
+  type: CLEAR_SEARCH
 });
 
 export const getBusinessInfo = (id) => async (dispatch) => {
   const res = await fetch(`/api/business/${id}`);
   dispatch(setBusiness(res.data))
+};
+
+export const searchBusinesses = (url, location) => async (dispatch) => {
+  let coordString = 'NoLocation'
+  if (location) {
+    let loc = await tt.services.fuzzySearch({
+      key: 'g0ZS3ih3olA15iG2cSglfY1YrEJO8DKR',
+      query: location
+    }).go()
+    coordString = `${loc.results[0].position.lng},${loc.results[0].position.lat}`
+  }
+
+  const res = await fetch(url + `&coord=${coordString}`);
+  dispatch(search(res.data))
 };
 
 export const getTenBusinesses = () => async (dispatch) => {
@@ -73,7 +100,19 @@ function reducer(state = initialState, action) {
     case LIST_BUSINESSES:
       newState = Object.assign({}, state, { ...action.payload });
       return newState;
-      case CLEAR_BUSINESS:
+    case CLEAR_BUSINESS:
+      newState = Object.assign({}, state);
+      newState.businessInfo = null;
+      return newState;
+    case CLEAR_SEARCH:
+      newState = Object.assign({}, state);
+      newState.searchResultBusinesses = null;
+      newState.searchCenter = null;
+      return newState;
+    case SEARCH:
+      newState = Object.assign({}, state, { ...action.payload });
+      return newState;
+    case CLEAR_BUSINESS:
       newState = Object.assign({}, state);
       newState.businessInfo = null;
       return newState;
