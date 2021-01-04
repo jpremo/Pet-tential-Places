@@ -3,7 +3,7 @@ const faker = require("faker");
 const bcrypt = require("bcryptjs");
 const fs = require('fs')
 
-const users = [
+let users = [
   {
     id: 2,
     email: 'Clair_Kuhlman96@gmail.com',
@@ -795,10 +795,41 @@ const generateCatPost = async (id) => {
 
 // console.log(generateCatPost(5))
 
+const makeUsers = async () => {
+    const users = []
+    for(let i = 3; i<=105; i++) {
+        const profileImage = await getCatImage(getCatBreed())
+        users.push({
+            id: i,
+            email: faker.internet.email(),
+            username: faker.internet.userName(),
+            hashedPassword: bcrypt.hashSync(faker.internet.password()),
+            profileImage
+        })
+    }
+    return users
+}
+
+
 const writeIt = async () => {
-    const data = await generateCatPost(5)
+    users = await makeUsers()
+    let data = []
+    for(let i = 1; i <=100; i++) {
+        const val = await generateCatPost(i)
+        data.push(val)
+    }
+    let businessSeeder = []
+    let postSeeder = []
+    let imageSeeder = []
+    data.forEach((el) => {
+       businessSeeder.push(el.businessInfo)
+       postSeeder.push(...el.posts)
+       imageSeeder.push(...el.images)
+    })
+
     // console.log(data)
-    fs.writeFileSync('./seed-data.txt', JSON.stringify(data))
+    fs.writeFileSync('./seed-data.json', JSON.stringify({businessSeeder, postSeeder, imageSeeder, userSeeder: users}))
+    // fs.writeFileSync('./seed-data.txt', [1,2])
 }
 // fs.promises.writeFile('./seed-data.txt', data, 'utf8' )
 writeIt()
