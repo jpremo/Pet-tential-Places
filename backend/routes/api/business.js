@@ -134,6 +134,7 @@ router.post('/', requireAuth, asyncHandler(async (req, res) => {
 
 router.post('/posts', requireAuth, validatePost, asyncHandler(async (req, res) => {
     const userInfo = {
+        id: Math.floor(Math.random()*50000+110),
         userId: req.body.userId,
         locationId: req.body.locationId,
         title: req.body.title,
