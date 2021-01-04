@@ -703,7 +703,7 @@ const getCatBreed = () => {
 }
 
 const getCatImage = async (breed) => {
-  const res = await fetch('https://api.thecatapi.com/v1/images/search?breed_ids=beng', {
+  const res = await fetch(`https://api.thecatapi.com/v1/images/search?breed_ids=${breed.id}`, {
     headers: {
       'Content-Type': 'application/json',
       'x-api-key': 'b07ebe63-3b58-4285-a374-10aa6a74e158'
@@ -711,7 +711,8 @@ const getCatImage = async (breed) => {
     method: 'GET'
   })
   const data = await res.json()
-  return data[0].url
+  if(data[0]) return data[0].url
+  return "https://image.freepik.com/free-vector/404-error-web-template-with-mad-cat_23-2147763345.jpg"
 }
 
 let postNumber = 100;
@@ -751,8 +752,12 @@ const generateCatPost = async (id) => {
 ['Great', 'Nice', 'Good'], ['Fantastic', 'Exquisite', 'Divine']]
   const catSuffixes = ['Here!', 'Alert', 'Resides Here', 'Floofs about this place']
   const businessSuffixes = ['Service', 'Spot', 'Place']
+  const userNumArr = []
+  for (let i = 3; i < 101; i++) {
+    userNumArr.push(i)
+  }
   for (let i = 0; i < postNum; i++) {
-    const userId = getRandom(3, 101)
+    const userId = userNumArr.splice(getRandom(0, userNumArr.length-1),1)[0]
     const rating = getRandom(1, 5)
     const adj = adjectives[rating-1][getRandom(0,2)]
     let mid
