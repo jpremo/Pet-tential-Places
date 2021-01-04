@@ -3,7 +3,7 @@ const faker = require("faker");
 const bcrypt = require("bcryptjs");
 
 const users = require('../../utils/seed-data.js').userSeeder
-console.log(users)
+
 module.exports = {
   up: async (queryInterface, Sequelize) => {
     return queryInterface.bulkInsert('Users', [

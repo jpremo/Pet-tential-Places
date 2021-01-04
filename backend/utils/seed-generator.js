@@ -786,7 +786,7 @@ const generateCatPost = async (id) => {
   }
 
   const averageReview = posts.reduce((acc,el) => acc+el.rating, 0)/posts.length
-  businessInfo.averageReview = averageReview;
+  businessInfo.averageRating = averageReview;
   businessInfo.reviewNumber = posts.length;
   const finalObj = { businessInfo, images, extraInfo, posts }
 //   console.log(finalObj)
