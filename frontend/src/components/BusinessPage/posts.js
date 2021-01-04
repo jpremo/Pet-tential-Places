@@ -220,7 +220,7 @@ function Posts({ setShowModal, showModal, name, openPhoto }) {
             locationId: businessInfo.businessInfo.id,
             userId: userInfo.id
         }
-        if (type = 'PUT') {
+        if (type === 'PUT') {
             let targetPost = posts.find((el) => el.user.id === userInfo.id)
             data.postId = targetPost.id;
         }
