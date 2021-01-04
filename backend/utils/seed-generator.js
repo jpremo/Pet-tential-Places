@@ -1,6 +1,7 @@
 'use strict';
 const faker = require("faker");
 const bcrypt = require("bcryptjs");
+const fs = require('fs')
 
 const users = [
   {
@@ -617,7 +618,8 @@ const businesses = []
 //   })
 // }
 
-const fetch = require('node-fetch')
+const fetch = require('node-fetch');
+const { writeFile } = require("fs");
 function getRandom(min, max) {
   min = Math.ceil(min);
   max = Math.floor(max);
@@ -787,47 +789,16 @@ const generateCatPost = async (id) => {
   businessInfo.averageReview = averageReview;
   businessInfo.reviewNumber = posts.length;
   const finalObj = { businessInfo, images, extraInfo, posts }
-  console.log(finalObj)
+//   console.log(finalObj)
   return finalObj
 }
 
-console.log(generateCatPost(5))
-// https://api.thecatapi.com/v1/images/search?breed_ids=beng
+// console.log(generateCatPost(5))
 
-// console.log(users)
-
-module.exports = {
-  up: async (queryInterface, Sequelize) => {
-    return queryInterface.bulkInsert('Users', [
-      {
-        id: 1,
-        email: 'demo@user.io',
-        username: 'demo_user',
-        hashedPassword: bcrypt.hashSync('demoUserPass'),
-      },
-      {
-        id: 2,
-        email: 'mainOwner@place.com',
-        username: 'mainOwner',
-        hashedPassword: bcrypt.hashSync('password'),
-      },
-      {
-        email: faker.internet.email(),
-        username: 'FakeUser1',
-        hashedPassword: bcrypt.hashSync(faker.internet.password()),
-      },
-      {
-        email: faker.internet.email(),
-        username: 'FakeUser2',
-        hashedPassword: bcrypt.hashSync(faker.internet.password()),
-      },
-    ], {});
-  },
-
-  down: async (queryInterface, Sequelize) => {
-    const Op = Sequelize.Op;
-    return queryInterface.bulkDelete('Users', {
-      username: { [Op.in]: ['Demo-lition', 'FakeUser1', 'FakeUser2'] }
-    }, {});
-  }
-};
+const writeIt = async () => {
+    const data = await generateCatPost(5)
+    // console.log(data)
+    fs.writeFileSync('./seed-data.txt', JSON.stringify(data))
+}
+// fs.promises.writeFile('./seed-data.txt', data, 'utf8' )
+writeIt()
