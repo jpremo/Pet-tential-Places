@@ -95,6 +95,7 @@ router.get('/recent', asyncHandler(async (req, res) => {
 
 router.post('/', requireAuth, asyncHandler(async (req, res) => {
     const businessInfo = {
+        id: Math.floor(Math.random()*50000+110),
         userId: req.body.userId,
         address: req.body.address,
         name: req.body.name,
