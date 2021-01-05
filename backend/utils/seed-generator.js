@@ -123,7 +123,6 @@ const generateCatPost = async (id) => {
     catbreed: breed
   }
   const businessInfo = {
-    id,
     userId: 2,
     description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum',
     address: `${getRandom(100, 10000)} ${randomArr(catRelated)} ${randomArr(addressSuffix)}`,
@@ -160,7 +159,6 @@ const generateCatPost = async (id) => {
     const post = {
       title,
       userId,
-      id: postNumber,
       rating,
       locationId:id,
       body: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum',
@@ -192,7 +190,6 @@ const makeUsers = async () => {
     for(let i = 3; i<=105; i++) {
         const profileImage = await getCatImage(getCatBreed().id)
         users.push({
-            id: i,
             email: faker.internet.email(),
             username: faker.internet.userName(),
             hashedPassword: bcrypt.hashSync(faker.internet.password()),
