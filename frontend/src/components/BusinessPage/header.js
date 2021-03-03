@@ -70,7 +70,7 @@ function Header({ setShowModal, showModal }) {
             setMap()
             setMapFilled(true)
         }
-        if(!businessInfo) setMapFilled(false)
+        if (!businessInfo) setMapFilled(false)
     }, [businessInfo, mapFilled])
 
     useEffect(() => {
@@ -191,7 +191,7 @@ function Header({ setShowModal, showModal }) {
                 topImages.push('https://images.dog.ceo/breeds/spaniel-welsh/n02102177_453.jpg')
             } else {
                 if (iIndex >= allImages.length) iIndex = 0;
-                if(allImages[iIndex]) {
+                if (allImages[iIndex]) {
                     topImages.push(allImages[iIndex].url)
                 } else {
                     topImages.push('https://images.dog.ceo/breeds/spaniel-welsh/n02102177_453.jpg')
@@ -236,32 +236,33 @@ function Header({ setShowModal, showModal }) {
                     <div id='x-wrapper'>
                         <i className="fas fa-times-circle fa-2x x-button" style={{ color: 'white', background: 'black', borderRadius: '200px' }} onClick={pictureClick}></i>
                         <div id='picture-popup'>
-                            <h1>Pictures from {businessInfo.name}</h1>
-                            <div id='photo-list' >
-                                {allImages.map((el, ind) => {
-                                    return (
-                                        <div key={el.id} className='photo-list-container'>
-                                            <img src={el.url} alt={el.title} className='photo-list-pic' onError={imageBoxError} id={`photo-${ind}`} onClick={selectPhoto} />
+                            {/* <div className='picture-popup-inner-content'> */}
+                                <h1 className='picture-popup-header'>Pictures from {businessInfo.name}</h1>
+                                <div id='photo-list' >
+                                    {allImages.map((el, ind) => {
+                                        return (
+                                            <div key={el.id} className='photo-list-container'>
+                                                <img src={el.url} alt={el.title} className='photo-list-pic' onError={imageBoxError} id={`photo-${ind}`} onClick={selectPhoto} />
+                                            </div>
+                                        )
+                                    })}
+                                </div>
+                                <div id="selected-photo-wrapper" className='hidden'>
+                                    <i className="fas fa-times-circle fa-2x x-button-2" style={{ color: 'white', background: 'black', borderRadius: '200px' }} onClick={toggleSelectedPhoto}></i>
+                                    <div id='arrow-container'>
+                                        <div className='arrow-div'>
+                                            <i className="fas fa-arrow-left fa-4x left-arrow" id='left-arrow' style={{ color: 'white' }} onClick={decrementIndex}></i>
                                         </div>
-                                    )
-                                })}
-                            </div>
-                            <div id="selected-photo-wrapper" className='hidden'>
-                                <i className="fas fa-times-circle fa-2x x-button-2" style={{ color: 'white', background: 'black', borderRadius: '200px' }} onClick={toggleSelectedPhoto}></i>
-                                <div id='arrow-container'>
-                                    <div className='arrow-div'>
-                                        <i className="fas fa-arrow-left fa-4x left-arrow" id='left-arrow' style={{ color: 'white' }} onClick={decrementIndex}></i>
-                                    </div>
-                                    <div id="selected-photo-container">
-                                        <img src={imageSelected.url} alt={imageSelected.title} id='selected-photo' onError={imageBoxError} />
-                                        <div id='selected-photo-title'>{imageSelected.title} </div>
-                                        <div id='selected-photo-username'>- Posted by {imageSelected.username} {imageSelected.timeStamp}</div>
-                                    </div>
-                                    <div className='arrow-div'>
-                                        <i className="fas fa-arrow-right fa-4x right-arrow" id='right-arrow' style={{ color: 'white' }} onClick={incrementIndex}></i>
+                                        <div id="selected-photo-container">
+                                            <img src={imageSelected.url} alt={imageSelected.title} id='selected-photo' onError={imageBoxError} />
+                                            <div id='selected-photo-title'>{imageSelected.title} </div>
+                                            <div id='selected-photo-username'>- Posted by {imageSelected.username} {imageSelected.timeStamp}</div>
+                                        </div>
+                                        <div className='arrow-div'>
+                                            <i className="fas fa-arrow-right fa-4x right-arrow" id='right-arrow' style={{ color: 'white' }} onClick={incrementIndex}></i>
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
                         </div>
                     </div>
                 </div>
