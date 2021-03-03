@@ -1,9 +1,9 @@
 import './ProfilePage.css';
-import {useEffect} from 'react'
+import { useEffect } from 'react'
 import BusinessForm from './BusinessForm'
 import { useSelector, useDispatch } from "react-redux"
 import { useHistory } from 'react-router-dom'
-import { getProfileBusinesses } from '../../store/business'
+import { clearProfileBusinesses, getProfileBusinesses } from '../../store/business'
 import BusinessList from '../HomePage/BusinessList'
 
 function ProfilePage() {
@@ -12,6 +12,7 @@ function ProfilePage() {
     const dispatch = useDispatch();
     const userInfo = session.user
     useEffect(() => {
+        dispatch(clearProfileBusinesses())
         if (!session.user) {
             history.push('/')
             return (
@@ -21,9 +22,9 @@ function ProfilePage() {
             dispatch(getProfileBusinesses(userInfo.id))
         }
     }, [dispatch])
-    const businessList = useSelector(state => state.business.businessList)
+    const reviewedBusinesses = useSelector(state => state.business.reviewedBusinesses)
     const ownedBusinesses = useSelector(state => state.business.ownedBusinesses)
-    if (!businessList || !ownedBusinesses) return (
+    if (!reviewedBusinesses || !ownedBusinesses) return (
         <>
             <h1>Loading...</h1>
         </>
@@ -34,7 +35,7 @@ function ProfilePage() {
             <h1>Hello {userInfo.username}!</h1>
             <BusinessForm userInfo={userInfo}></BusinessForm>
             <div id='content-wrapper'>
-                <BusinessList businessList={businessList} name={'Reviewed Businesses'} />
+                <BusinessList businessList={reviewedBusinesses} name={'Reviewed Businesses'} />
                 <BusinessList businessList={ownedBusinesses} name={'Owned Businesses'} />
             </div>
         </>

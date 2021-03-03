@@ -7,7 +7,8 @@ const LIST_BUSINESSES = '/business/listBusinesses'
 const CLEAR_BUSINESS = '/business/clearBusiness'
 const SEARCH = '/business/search'
 const CLEAR_SEARCH = '/business/clearSearch'
-
+const PROFILE_BUSINESSES = '/business/profileBusinesses'
+const CLEAR_PROFILE_BUSINESS = '/business/clearProfile'
 const tt = window.tt
 
 const setBusiness = (business) => ({
@@ -17,6 +18,11 @@ const setBusiness = (business) => ({
 
 const listBusinesses = (businesses) => ({
   type: LIST_BUSINESSES,
+  payload: businesses
+});
+
+const profileBusinesses = (businesses) => ({
+  type: PROFILE_BUSINESSES,
   payload: businesses
 });
 
@@ -37,6 +43,10 @@ const search = (businesses) => ({
 
 export const clearBusinessInfo = () => ({
   type: CLEAR_BUSINESS
+});
+
+export const clearProfileBusinesses = () => ({
+  type: CLEAR_PROFILE_BUSINESS
 });
 
 export const clearSearchInfo = () => ({
@@ -69,7 +79,7 @@ export const getTenBusinesses = () => async (dispatch) => {
 
 export const getProfileBusinesses = (id) => async (dispatch) => {
   const res = await fetch(`/api/business/user/${id}`);
-  dispatch(listBusinesses(res.data))
+  dispatch(profileBusinesses(res.data))
 };
 
 export const postReview = (input, type) => async (dispatch) => {
@@ -111,9 +121,17 @@ function reducer(state = initialState, action) {
     case LIST_BUSINESSES:
       newState = Object.assign({}, state, { ...action.payload });
       return newState;
+    case PROFILE_BUSINESSES:
+      newState = Object.assign({}, state, { ...action.payload });
+      return newState;
     case CLEAR_BUSINESS:
       newState = Object.assign({}, state);
       newState.businessInfo = null;
+      return newState;
+    case CLEAR_PROFILE_BUSINESS:
+      newState = Object.assign({}, state);
+      newState.ownedBusinesses = null;
+      newState.reviewedBusinesses = null;
       return newState;
     case CLEAR_SEARCH:
       newState = Object.assign({}, state);

@@ -60,36 +60,8 @@ router.get('/:id(\\d+)/', asyncHandler(async (req, res) => {
     res.json(businessInfo)
 }))
 
-router.get('/recent', asyncHandler(async (req, res) => {
-    let businesses = await Location.findAll({
-        limit: 10,
-        order: [['createdAt', 'DESC']],
-        include: {
-            model: Post
-        },
-    })
-    businesses = businesses.map((el) => {
-       let bus = el.toJSON()
-       let total = 0;
-       const Posts = bus.Posts
-       Posts.forEach((el) => {
-           total += el.rating
-        })
-        bus.reviewNumber = Posts.length;
-        bus.averageRating = total / Posts.length;
-        delete bus.Posts
-       return bus
-    }
-    )
-
-    let popularBusinesses = await Location.findAll({
-        limit: 10,
-        order: [['reviewNumber', 'DESC']],
-        include: {
-            model: Post
-        },
-    });
-    popularBusinesses = popularBusinesses.map((el) => {
+const countReviews = (businesses) => {
+    const val = businesses.map((el) => {
         let bus = el.toJSON()
         let total = 0;
         const Posts = bus.Posts
@@ -100,8 +72,61 @@ router.get('/recent', asyncHandler(async (req, res) => {
         bus.averageRating = total / Posts.length;
         delete bus.Posts
         return bus
+    })
+    return val
+}
+
+router.get('/recent', asyncHandler(async (req, res) => {
+    let businesses = await Location.findAll({
+        limit: 10,
+        order: [['createdAt', 'DESC']],
+        include: {
+            model: Post
+        },
+    })
+    businesses = countReviews(businesses)
+    let popularBusinesses = await Location.findAll({
+        limit: 10,
+        order: [['reviewNumber', 'DESC']],
+        include: {
+            model: Post
+        },
     });
+    popularBusinesses = countReviews(popularBusinesses)
     res.json({ businessList: businesses, popularBusinessList: popularBusinesses })
+}))
+
+router.get('/user/:id(\\d+)/', asyncHandler(async (req, res) => {
+    const id = Number(req.params.id)
+
+    let reviews = await Post.findAll({
+        where: { userId: id },
+    })
+
+    let reviewIds = reviews.map(el => el.locationId)
+
+    let reviewedBusinesses = await Location.findAll({
+        order: [['createdAt', 'DESC']],
+        where: {
+            id: {
+                [Op.or]: reviewIds
+            }
+        },
+        include: {
+            model: Post
+        },
+    })
+    reviewedBusinesses = countReviews(reviewedBusinesses)
+
+    let ownedBusinesses = await Location.findAll({
+        order: [['createdAt', 'DESC']],
+        where: { userId: id },
+        include: {
+            model: Post
+        },
+    })
+    ownedBusinesses = countReviews(ownedBusinesses)
+    res.json({ ownedBusinesses, reviewedBusinesses })
 }))
 
 router.post('/', requireAuth, asyncHandler(async (req, res) => {
