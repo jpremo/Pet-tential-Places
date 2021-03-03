@@ -119,6 +119,7 @@
   user-select: none;
   text-decoration: none;
   margin-right: 1px;
+  display: inline-block
 }
 
 .login-button:hover{

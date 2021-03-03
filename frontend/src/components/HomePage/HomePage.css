@@ -5,6 +5,11 @@
 
 .list-box{
     margin: 20px;
+    border: 2px solid black;
+    border-radius: 10px;
+    padding: 10px;
+    background-color: rgba(0, 0, 0, 0.055);
+    height: fit-content;
 }
 
 .business-link{
