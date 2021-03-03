@@ -110,7 +110,7 @@ function Posts({ setShowModal, showModal, name, openPhoto }) {
             if (currentPage !== 1) arr.push('First', 'Prev')
             let starter = currentPage
             if (currentPage + 2 > totalPages) starter = totalPages - 4;
-            if (currentPage - 2 < 1) starter = 1;
+            if (currentPage - 2 < 1 || starter < 1) starter = 1;
             for (let i = starter; i < starter + 5; i++) {
                 if (i <= totalPages) arr.push(`${i}`)
             }

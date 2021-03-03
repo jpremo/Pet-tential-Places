@@ -46,10 +46,8 @@ function Header({ setShowModal, showModal }) {
             } else {
                 popup = new tt.Popup({ offset: popupOffsets }).setHTML(`<b>${point.name}</b><br/>${point.address}`);
             }
-            // const el = document.getElementById(`point-${ind}`)
             popup._onMouseUp(() => console.log('test'))
             marker.setPopup(popup)
-            // marker.togglePopup()
         })
 
         return map
