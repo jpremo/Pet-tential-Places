@@ -67,6 +67,11 @@ export const getTenBusinesses = () => async (dispatch) => {
   dispatch(listBusinesses(res.data))
 };
 
+export const getProfileBusinesses = (id) => async (dispatch) => {
+  const res = await fetch(`/api/business/user/${id}`);
+  dispatch(listBusinesses(res.data))
+};
+
 export const postReview = (input, type) => async (dispatch) => {
   const res = await fetch(`/api/business/posts`, {
     method: type,
