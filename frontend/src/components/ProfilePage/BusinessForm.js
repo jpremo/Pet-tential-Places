@@ -3,7 +3,7 @@ import { useState, useEffect } from 'react'
 import { useHistory } from 'react-router-dom'
 import { fetch } from '../../store/csrf'
 import ImageUpload from '../BusinessPage/imageUpload'
-function BusinessForm({ userInfo }) {
+function BusinessForm({ userInfo, setFillingForm }) {
     const tt = window.tt
     const [formPage, setFormPage] = useState(0)
     const [name, setName] = useState('')
@@ -95,6 +95,11 @@ function BusinessForm({ userInfo }) {
                 // console.log('map bounds', map.getBounds())
             }, 100)
             setMapFilled(true)
+        }
+        if(formPage === 0) {
+            setFillingForm(false)
+        } else {
+            setFillingForm(true)
         }
     }, [formPage])
 
