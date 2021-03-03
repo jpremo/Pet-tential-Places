@@ -3,6 +3,7 @@ import { useSelector } from 'react-redux'
 import Posts from './posts'
 
 function Header({ setShowModal, showModal }) {
+    const [imageBoxWidth, setImageBoxWidth] = useState(200)
     const tt = window.tt
     let { businessInfo, allImages } = useSelector(state => {
         return ({
@@ -179,7 +180,6 @@ function Header({ setShowModal, showModal }) {
             }
             stars -= 2;
         }
-        console.log('info', businessInfo, allImages)
         const reviewTotal = (businessInfo.reviewNumber === 1) ? `1 Review` : `${businessInfo.reviewNumber} Reviews`
         const pictureTotal = (allImages.length === 1) ? `View 1 Picture` : `View ${allImages.length} Pictures`
         const imageSelected = (allImages.length >= 1) ? allImages[selectedPhoto] : {}
@@ -254,9 +254,9 @@ function Header({ setShowModal, showModal }) {
                                             <i className="fas fa-arrow-left fa-4x left-arrow" id='left-arrow' style={{ color: 'white' }} onClick={decrementIndex}></i>
                                         </div>
                                         <div id="selected-photo-container">
-                                            <img src={imageSelected.url} alt={imageSelected.title} id='selected-photo' onError={imageBoxError} />
+                                        <img src={imageSelected.url} alt={imageSelected.title} onLoad={(e) => setImageBoxWidth(e.target.width - 40)} id='selected-photo' onError={imageBoxError} />
                                             <div id='selected-photo-title'>{imageSelected.title} </div>
-                                            <div id='selected-photo-username'>- Posted by {imageSelected.username} {imageSelected.timeStamp}</div>
+                                            <div id='selected-photo-username' style={{width: `${imageBoxWidth}px`}}>- Posted by {imageSelected.username} {imageSelected.timeStamp}</div>
                                         </div>
                                         <div className='arrow-div'>
                                             <i className="fas fa-arrow-right fa-4x right-arrow" id='right-arrow' style={{ color: 'white' }} onClick={incrementIndex}></i>
