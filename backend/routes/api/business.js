@@ -23,7 +23,10 @@ const validatePost = [
 router.get('/:id(\\d+)/', asyncHandler(async (req, res) => {
     const id = Number(req.params.id)
     const business = await Location.findByPk(id, {
-        include: [{ model: Image, include: User }, { model: Post, include: { model: User} }]
+        include: [{ model: Image, include: User }, { model: Post, include: { model: User} }],
+        order: [
+            [Post, 'updatedAt', 'DESC']
+        ]
     });
     const businessInfo = {
         businessInfo: { ...business.toJSON() },
@@ -36,20 +39,23 @@ router.get('/:id(\\d+)/', asyncHandler(async (req, res) => {
         }),
         posts: business.toJSON().Posts
     }
-    // console.log('business posts', business.Posts)
+    let reviewCount = 0;
+    let reviewPoints = 0;
     for(let i = 0; i < businessInfo.posts.length; i++) {
         let post = businessInfo.posts[i]
         const images = await Image.findAll( { where: {userId: post.userId, locationId:id}})
         post.images = images;
         post.user = post.User
+        reviewCount++
+        reviewPoints+=post.rating
         post.timeStamp = formatDistance(post.updatedAt, new Date()) + ' ago'
         delete post.User
         businessInfo.posts[i] = post
     }
-    // console.log('req.session \n', req.session, req)
+    businessInfo.businessInfo.reviewNumber = reviewCount;
+    businessInfo.businessInfo.averageRating = reviewCount ? reviewPoints/reviewCount : 0;
     delete businessInfo.businessInfo.Images
     delete businessInfo.businessInfo.Posts
-    console.log(businessInfo)
     res.json(businessInfo)
 }))
 

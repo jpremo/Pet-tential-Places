@@ -89,11 +89,17 @@ function reducer(state = initialState, action) {
       newState = { ...state };
       newState.posts.unshift(action.payload)
       newState.allImages.push(...action.payload.images)
+      newState.businessInfo.averageRating = (newState.businessInfo.averageRating * newState.businessInfo.reviewNumber + action.payload.rating) / (newState.businessInfo.reviewNumber + 1)
+      newState.businessInfo.reviewNumber ++
       return newState;
     case EDIT_POST:
       newState = { ...state };
       const ind = newState.posts.findIndex((post) => post.id === action.payload.id)
+      debugger
       newState.posts[ind] = action.payload;
+      let total = 0;
+      newState.posts.forEach((el) => total += el.rating)
+      newState.businessInfo.averageRating = total / (newState.businessInfo.reviewNumber);
       newState.allImages = newState.allImages.filter((el) => el.userId !== action.payload.user.id)
       newState.allImages.push(...action.payload.images)
       return newState;

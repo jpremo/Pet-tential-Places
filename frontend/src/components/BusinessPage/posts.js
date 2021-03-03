@@ -230,7 +230,6 @@ function Posts({ setShowModal, showModal, name, openPhoto }) {
         }).catch(
             (res) => {
                 if (res.data && res.data.errors) {
-                    console.log(res.data.errors)
                     setErrors(res.data.errors);
                 }
 
@@ -241,7 +240,7 @@ function Posts({ setShowModal, showModal, name, openPhoto }) {
     const createReview = () => {
         let reviewPosted = false;
         if (userInfo) {
-            if(userInfo.id === businessInfo.businessInfo.userId) return
+            if (userInfo.id === businessInfo.businessInfo.userId) return
             const post = posts.find((el) => el.user.id === userInfo.id)
             if (post || businessInfo.businessInfo.userId === userInfo.id) {
                 reviewPosted = true
@@ -257,9 +256,15 @@ function Posts({ setShowModal, showModal, name, openPhoto }) {
                 )
             }
             if (reviewPosted) {
-                submitForm = () => { postForm('PUT') }
+                submitForm = () => {
+                    postForm('PUT')
+                    setShowReview(false)
+                }
             } else {
-                submitForm = () => { postForm() }
+                submitForm = () => {
+                    postForm()
+                    setShowReview(false)
+                }
             }
         } else {
             clickEvent = () => {
