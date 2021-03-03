@@ -7,23 +7,24 @@ const { formatDistance } = require('date-fns')
 const { requireAuth } = require('../../utils/auth.js');
 const { handleValidationErrors } = require("../../utils/validation");
 const { check } = require("express-validator");
+const Sequelize = require('sequelize');
 
 const validatePost = [
     check("body")
-    //   .exists({ checkFalsy: true })
-      .notEmpty()
-      .withMessage("Please type a review."),
+        //   .exists({ checkFalsy: true })
+        .notEmpty()
+        .withMessage("Please type a review."),
     check("title")
-    //   .exists({ checkFalsy: true })
-      .notEmpty()
-      .withMessage("Please provide a title."),
+        //   .exists({ checkFalsy: true })
+        .notEmpty()
+        .withMessage("Please provide a title."),
     handleValidationErrors,
-  ];
+];
 
 router.get('/:id(\\d+)/', asyncHandler(async (req, res) => {
     const id = Number(req.params.id)
     const business = await Location.findByPk(id, {
-        include: [{ model: Image, include: User }, { model: Post, include: { model: User} }],
+        include: [{ model: Image, include: User }, { model: Post, include: { model: User } }],
         order: [
             [Post, 'updatedAt', 'DESC']
         ]
@@ -41,19 +42,19 @@ router.get('/:id(\\d+)/', asyncHandler(async (req, res) => {
     }
     let reviewCount = 0;
     let reviewPoints = 0;
-    for(let i = 0; i < businessInfo.posts.length; i++) {
+    for (let i = 0; i < businessInfo.posts.length; i++) {
         let post = businessInfo.posts[i]
-        const images = await Image.findAll( { where: {userId: post.userId, locationId:id}})
+        const images = await Image.findAll({ where: { userId: post.userId, locationId: id } })
         post.images = images;
         post.user = post.User
         reviewCount++
-        reviewPoints+=post.rating
+        reviewPoints += post.rating
         post.timeStamp = formatDistance(post.updatedAt, new Date()) + ' ago'
         delete post.User
         businessInfo.posts[i] = post
     }
     businessInfo.businessInfo.reviewNumber = reviewCount;
-    businessInfo.businessInfo.averageRating = reviewCount ? reviewPoints/reviewCount : 0;
+    businessInfo.businessInfo.averageRating = reviewCount ? reviewPoints / reviewCount : 0;
     delete businessInfo.businessInfo.Images
     delete businessInfo.businessInfo.Posts
     res.json(businessInfo)
@@ -62,41 +63,45 @@ router.get('/:id(\\d+)/', asyncHandler(async (req, res) => {
 router.get('/recent', asyncHandler(async (req, res) => {
     let businesses = await Location.findAll({
         limit: 10,
-        order: [['createdAt', 'DESC']]
-    });
-    businesses = businesses.map((el) => el.toJSON())
+        order: [['createdAt', 'DESC']],
+        include: {
+            model: Post
+        },
+    })
+    businesses = businesses.map((el) => {
+       let bus = el.toJSON()
+       let total = 0;
+       const Posts = bus.Posts
+       Posts.forEach((el) => {
+           total += el.rating
+        })
+        bus.reviewNumber = Posts.length;
+        bus.averageRating = total / Posts.length;
+        delete bus.Posts
+       return bus
+    }
+    )
 
     let popularBusinesses = await Location.findAll({
         limit: 10,
-        order: [['reviewNumber', 'DESC']]
+        order: [['reviewNumber', 'DESC']],
+        include: {
+            model: Post
+        },
     });
-    popularBusinesses = popularBusinesses.map((el) => el.toJSON())
-    // const businessInfo = {
-    //     businessInfo: { ...business.toJSON() },
-    //     allImages: business.Images.map((el) => {
-    //         el = el.toJSON()
-    //         el.timeStamp = formatDistance(el.updatedAt, new Date()) + ' ago'
-    //         el.username = el.User.username
-    //         delete el.User
-    //         return el
-    //     }),
-    //     posts: business.toJSON().Posts
-    // }
-    // // console.log('business posts', business.Posts)
-    // for(let i = 0; i < businessInfo.posts.length; i++) {
-    //     let post = businessInfo.posts[i]
-    //     const images = await Image.findAll( { where: {userId: post.userId, locationId:id}})
-    //     post.images = images;
-    //     post.user = post.User
-    //     post.timeStamp = formatDistance(post.updatedAt, new Date()) + ' ago'
-    //     delete post.User
-    //     businessInfo.posts[i] = post
-    // }
-    // // console.log('req.session \n', req.session, req)
-    // delete businessInfo.businessInfo.Images
-    // delete businessInfo.businessInfo.Posts
-    // console.log(businessInfo)
-    res.json({businessList: businesses, popularBusinessList: popularBusinesses})
+    popularBusinesses = popularBusinesses.map((el) => {
+        let bus = el.toJSON()
+        let total = 0;
+        const Posts = bus.Posts
+        Posts.forEach((el) => {
+            total += el.rating
+        })
+        bus.reviewNumber = Posts.length;
+        bus.averageRating = total / Posts.length;
+        delete bus.Posts
+        return bus
+    });
+    res.json({ businessList: businesses, popularBusinessList: popularBusinesses })
 }))
 
 router.post('/', requireAuth, asyncHandler(async (req, res) => {
@@ -116,7 +121,7 @@ router.post('/', requireAuth, asyncHandler(async (req, res) => {
 
 
     // const imgArr = []
-    for(let i = 0; i < req.body.images.length; i++) {
+    for (let i = 0; i < req.body.images.length; i++) {
         const image = req.body.images[i];
         // if(!image[1]) image[1] = ' '
         const imageInfo = {
@@ -147,7 +152,7 @@ router.post('/posts', requireAuth, validatePost, asyncHandler(async (req, res) =
     }
     let newPost = await Post.create(userInfo)
     const imgArr = []
-    for(let i = 0; i < req.body.images.length; i++) {
+    for (let i = 0; i < req.body.images.length; i++) {
         const image = req.body.images[i];
         // if(!image[1]) image[1] = ' '
         const imageInfo = {
@@ -185,13 +190,13 @@ router.put('/posts', requireAuth, validatePost, asyncHandler(async (req, res) =>
     newPost.rating = req.body.rating;
     await newPost.save()
     console.log('user stuff \n', userInfo.userId, userInfo.locationId)
-    const oldImages = await Image.findAll({where: {userId:userInfo.userId, locationId: userInfo.locationId}})
+    const oldImages = await Image.findAll({ where: { userId: userInfo.userId, locationId: userInfo.locationId } })
     console.log('oldImages \n', oldImages)
-    for(let i = 0; i < oldImages.length; i++) {
+    for (let i = 0; i < oldImages.length; i++) {
         await oldImages[i].destroy()
     }
     const imgArr = []
-    for(let i = 0; i < req.body.images.length; i++) {
+    for (let i = 0; i < req.body.images.length; i++) {
         const image = req.body.images[i];
         // if(!image[1]) image[1] = ' '
         const imageInfo = {
