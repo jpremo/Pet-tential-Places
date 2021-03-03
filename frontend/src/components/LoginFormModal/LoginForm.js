@@ -20,7 +20,6 @@ function LoginForm() {
   };
 
   const demoLogin = (e) => {
-    e.preventDefault()
     setCredential('demo_user')
     setPassword('demoUserPass')
   }
