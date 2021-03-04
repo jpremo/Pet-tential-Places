@@ -216,6 +216,7 @@ function Posts({ setShowModal, showModal, name, openPhoto }) {
             title: title,
             body: body,
             images: uploadedImages,
+            username: userInfo.username,
             rating: rating,
             locationId: businessInfo.businessInfo.id,
             userId: userInfo.id
@@ -224,6 +225,7 @@ function Posts({ setShowModal, showModal, name, openPhoto }) {
             let targetPost = posts.find((el) => el.user.id === userInfo.id)
             data.postId = targetPost.id;
         }
+        debugger
         dispatch(postReview(data, type)).then((e) => {
             setShowReview(false)
             setErrors([]);

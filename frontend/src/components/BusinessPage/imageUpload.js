@@ -42,7 +42,6 @@ const ImageUpload = ({ uploadedImages, maxSize, setUploadedImages }) => {
     const submitFile = (link) => {
         if (uploadedImages.length < maxSize) {
             const uploadCopy = [...uploadedImages]
-            debugger
             uploadCopy.push([link, uploadTitle])
             setUploadedImages(uploadCopy)
             setUploadUrl('')

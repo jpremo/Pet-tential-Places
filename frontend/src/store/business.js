@@ -110,12 +110,12 @@ function reducer(state = initialState, action) {
     case EDIT_POST:
       newState = { ...state };
       const ind = newState.posts.findIndex((post) => post.id === action.payload.id)
-      debugger
       newState.posts[ind] = action.payload;
       let total = 0;
       newState.posts.forEach((el) => total += el.rating)
       newState.businessInfo.averageRating = total / (newState.businessInfo.reviewNumber);
       newState.allImages = newState.allImages.filter((el) => el.userId !== action.payload.user.id)
+      debugger
       newState.allImages.push(...action.payload.images)
       return newState;
     case LIST_BUSINESSES:
