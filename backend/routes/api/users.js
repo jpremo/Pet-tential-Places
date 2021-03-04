@@ -1,7 +1,7 @@
 const express = require('express');
 const { check } = require('express-validator');
 const asyncHandler = require('express-async-handler');
-
+const formidable = require('express-formidable');
 const { handleValidationErrors } = require('../../utils/validation');
 const { setTokenCookie, requireAuth } = require('../../utils/auth');
 const { User } = require('../../db/models');
@@ -37,6 +37,21 @@ router.post(
 
     return res.json({
       user
+    });
+  })
+);
+
+//adding picture
+router.post(
+  '/photos',
+  formidable(),
+  asyncHandler(async (req, res) => {
+    const { photo } = req.files;
+    
+
+
+    return res.json({
+      link: 'asdfas'
     });
   })
 );

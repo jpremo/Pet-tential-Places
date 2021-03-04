@@ -14,7 +14,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "aws-sdk": "^2.819.0",
+    "aws-sdk": "^2.856.0",
     "bcryptjs": "^2.4.3",
     "body-parser": "^1.19.0",
     "cookie-parser": "^1.4.5",
@@ -24,6 +24,7 @@
     "dotenv": "^8.2.0",
     "express": "^4.17.1",
     "express-async-handler": "^1.1.4",
+    "express-formidable": "^1.2.0",
     "express-validator": "^6.6.1",
     "faker": "^5.1.0",
     "helmet": "^4.1.1",
@@ -34,7 +35,8 @@
     "per-env": "^1.0.2",
     "pg": "^8.4.2",
     "sequelize": "^5.22.3",
-    "sequelize-cli": "^5.5.1"
+    "sequelize-cli": "^5.5.1",
+    "uuid": "^8.3.2"
   },
   "devDependencies": {
     "dotenv-cli": "^4.0.0",

@@ -89,24 +89,8 @@ const ImageUpload = ({ uploadedImages, maxSize, setUploadedImages }) => {
         )
     }
 
-    // const upload = async (file) => {
-    //     let response = await fetch(`/api/users/photos`, {
-    //         method: "POST",
-    //         body: file
-    //     })
-
-    //     response = await response.json()
-    //     setter(response.link)
-    //     setCurrentImage(response.link)
-    // }
-
-    // const attachFile = (e) => {
-    //     let formData = new FormData();
-    //     formData.append("photo", e.target.files[0], e.target.files[0].name);
-    //     setFile(formData)
-    //     upload(formData)
-    // }
     const uploadAWS = async () => {
+        debugger
         if(!uploadFile){
             setUploadUrl("https://image.freepik.com/free-vector/404-error-web-template-with-mad-cat_23-2147763345.jpg")
         } else {
@@ -122,6 +106,7 @@ const ImageUpload = ({ uploadedImages, maxSize, setUploadedImages }) => {
 
     const changeUploadInfo = (e) => {
         let formData = new FormData();
+        debugger
         formData.append("photo", e.target.files[0], e.target.files[0].name);
 
         setImageFileTitle(e.target.files[0].name)
