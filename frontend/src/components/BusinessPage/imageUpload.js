@@ -39,10 +39,11 @@ const ImageUpload = ({ uploadedImages, maxSize, setUploadedImages }) => {
         }
     }
 
-    const submitFile = () => {
+    const submitFile = (link) => {
         if (uploadedImages.length < maxSize) {
             const uploadCopy = [...uploadedImages]
-            uploadCopy.push([uploadUrl, uploadTitle])
+            debugger
+            uploadCopy.push([link, uploadTitle])
             setUploadedImages(uploadCopy)
             setUploadUrl('')
             setUploadTitle('')
@@ -90,23 +91,25 @@ const ImageUpload = ({ uploadedImages, maxSize, setUploadedImages }) => {
     }
 
     const uploadAWS = async () => {
-        debugger
+        let url
         if(!uploadFile){
             setUploadUrl("https://image.freepik.com/free-vector/404-error-web-template-with-mad-cat_23-2147763345.jpg")
+            url = "https://image.freepik.com/free-vector/404-error-web-template-with-mad-cat_23-2147763345.jpg"
         } else {
             let response = await fetch(`/api/users/photos`, {
                 method: "POST",
                 body: uploadFile
             })
             response = await response.json()
+            // debugger
             setUploadUrl(response.link)
+            url = response.link
         }
-        submitFile()
+        submitFile(url)
     }
 
     const changeUploadInfo = (e) => {
         let formData = new FormData();
-        debugger
         formData.append("photo", e.target.files[0], e.target.files[0].name);
 
         setImageFileTitle(e.target.files[0].name)
