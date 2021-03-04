@@ -28,7 +28,7 @@ const ImageUpload = ({ uploadedImages, maxSize, setUploadedImages }) => {
         val2.classList.add('hidden')
     }
 
-    const submitUrl = (e) => {
+    const submitUrl = () => {
         if (uploadedImages.length < maxSize) {
             const uploadCopy = [...uploadedImages]
             uploadCopy.push([uploadUrl, uploadTitle])
@@ -37,7 +37,18 @@ const ImageUpload = ({ uploadedImages, maxSize, setUploadedImages }) => {
             setUploadTitle('')
             flipUrlInput()
         }
-        e.preventDefault()
+    }
+
+    const submitFile = () => {
+        if (uploadedImages.length < maxSize) {
+            const uploadCopy = [...uploadedImages]
+            uploadCopy.push([uploadUrl, uploadTitle])
+            setUploadedImages(uploadCopy)
+            setUploadUrl('')
+            setUploadTitle('')
+            setUploadFile(null)
+            flipUploadInput()
+        }
     }
 
     const removePhoto = (e) => {
@@ -97,7 +108,7 @@ const ImageUpload = ({ uploadedImages, maxSize, setUploadedImages }) => {
     // }
     const uploadAWS = async () => {
         if(!uploadFile){
-
+            setUploadUrl("https://image.freepik.com/free-vector/404-error-web-template-with-mad-cat_23-2147763345.jpg")
         } else {
             let response = await fetch(`/api/users/photos`, {
                 method: "POST",
@@ -106,6 +117,7 @@ const ImageUpload = ({ uploadedImages, maxSize, setUploadedImages }) => {
             response = await response.json()
             setUploadUrl(response.link)
         }
+        submitFile()
     }
 
     const changeUploadInfo = (e) => {
@@ -138,18 +150,18 @@ const ImageUpload = ({ uploadedImages, maxSize, setUploadedImages }) => {
                     <div className='url-label'>Url</div>
                     <input value={uploadUrl} onChange={(e) => setUploadUrl(e.target.value)} />
                 </div>
-                <button onClick={submitUrl}>Submit</button>
+                <div className='review-page-link' onClick={submitUrl}>Submit</div>
             </div>
             <div className='hidden' id='uploadInput'>
                 <div>
                     <div className='url-label'>Image Title</div>
                     <input value={uploadTitle} onChange={(e) => setUploadTitle(e.target.value)} />
                 </div>
-                <div>
-                    <div className='review-page-link' onClick={openUpload}>Attach</div>
-                </div>
                 <div>{imageFileTitle}</div>
-                <button onClick={uploadAWS}>Submit</button>
+                <div className='review-button-wrapper'>
+                    <div className='review-page-link' onClick={openUpload}>Attach</div>
+                    <div className='review-page-link' onClick={uploadAWS}>Submit</div>
+                </div>
             </div>
             {imageBoxCheck()}
         </div>

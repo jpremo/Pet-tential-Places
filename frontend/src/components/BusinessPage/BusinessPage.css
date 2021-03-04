@@ -556,6 +556,12 @@
   color: red;
 }
 
+.review-button-wrapper{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
 /* #body-counter{
   align-self:flex-end;
 } */
