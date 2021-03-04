@@ -76,7 +76,7 @@ const ImageUpload = ({ uploadedImages, maxSize, setUploadedImages }) => {
     }
 
     const imageError = (event) => {
-        event.target.src = "https://image.freepik.com/free-vector/404-error-web-template-with-mad-cat_23-2147763345.jpg";
+        // event.target.src = "https://image.freepik.com/free-vector/404-error-web-template-with-mad-cat_23-2147763345.jpg";
     }
 
     const imageControls = () => {
@@ -91,6 +91,7 @@ const ImageUpload = ({ uploadedImages, maxSize, setUploadedImages }) => {
 
     const uploadAWS = async () => {
         let url
+        debugger
         if(!uploadFile){
             setUploadUrl("https://image.freepik.com/free-vector/404-error-web-template-with-mad-cat_23-2147763345.jpg")
             url = "https://image.freepik.com/free-vector/404-error-web-template-with-mad-cat_23-2147763345.jpg"

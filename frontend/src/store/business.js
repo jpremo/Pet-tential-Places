@@ -88,6 +88,7 @@ export const postReview = (input, type) => async (dispatch) => {
     body: JSON.stringify(input)
   });
   const data = res.data;
+  debugger
   if (type === 'POST') dispatch(addPost(data))
   if (type === 'PUT') dispatch(editPost(data))
 };

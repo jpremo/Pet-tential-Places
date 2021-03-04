@@ -176,6 +176,9 @@ router.post('/posts', requireAuth, validatePost, asyncHandler(async (req, res) =
         rating: req.body.rating
     }
     let newPost = await Post.create(userInfo)
+    newPost = newPost.toJSON()
+    newPost.user = await User.findByPk(req.body.userId)
+    newPost.user = newPost.user.toJSON()
     const imgArr = []
     for (let i = 0; i < req.body.images.length; i++) {
         const image = req.body.images[i];
@@ -186,14 +189,12 @@ router.post('/posts', requireAuth, validatePost, asyncHandler(async (req, res) =
             userId: req.body.userId,
             locationId: req.body.locationId,
         }
-        console.log('\n Image Info \n', imageInfo)
         let newImage = await Image.create(imageInfo)
-        imgArr.push(newImage.toJSON())
+        const img = newImage.toJSON()
+        img.username = newPost.user.username
+        imgArr.push(img)
     }
-    newPost = newPost.toJSON()
     newPost.images = imgArr;
-    newPost.user = await User.findByPk(req.body.userId)
-    newPost.user = newPost.user.toJSON()
     // console.log('\n New Post \n', newPost)
     res.json(newPost)
 }))
@@ -218,6 +219,7 @@ router.put('/posts', requireAuth, validatePost, asyncHandler(async (req, res) =>
     for (let i = 0; i < oldImages.length; i++) {
         await oldImages[i].destroy()
     }
+    newPost = newPost.toJSON()
     newPost.user = await User.findByPk(req.body.userId)
     newPost.user = newPost.user.toJSON()
     const imgArr = []
@@ -235,9 +237,8 @@ router.put('/posts', requireAuth, validatePost, asyncHandler(async (req, res) =>
         img.username = newPost.user.username
         imgArr.push(img)
     }
-    newPost = newPost.toJSON()
+
     newPost.images = imgArr;
-    // console.log('\n New Post \n', newPost)
     res.json(newPost)
 }))
 
