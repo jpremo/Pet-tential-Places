@@ -1,4 +1,4 @@
-/* TODO Add site wide styles */
+
 body {
     margin: 0px;
     padding: 0px;
@@ -8,4 +8,9 @@ body {
 
 body.load {
     pointer-events: none;
+  }
+
+  a.tomtomAttribution{
+      z-index: -1000;
+      display: none;
   }
