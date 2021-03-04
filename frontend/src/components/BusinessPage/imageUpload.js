@@ -3,17 +3,30 @@ const ImageUpload = ({ uploadedImages, maxSize, setUploadedImages }) => {
 
     const [uploadUrl, setUploadUrl] = useState('')
     const [uploadTitle, setUploadTitle] = useState('')
+    const [imageFileTitle, setImageFileTitle] = useState('')
+    const [uploadFile, setUploadFile] = useState(null)
 
     const flipUrlInput = () => {
         const val = document.querySelector('#urlInput')
+        const val2 = document.querySelector('#uploadInput')
         if (val.classList.contains('hidden')) {
             val.classList.remove('hidden')
         } else {
             val.classList.add('hidden')
         }
+        val2.classList.add('hidden')
     }
 
-    console.log('image upload', uploadedImages)
+    const flipUploadInput = () => {
+        const val = document.querySelector('#uploadInput')
+        const val2 = document.querySelector('#urlInput')
+        if (val.classList.contains('hidden')) {
+            val.classList.remove('hidden')
+        } else {
+            val.classList.add('hidden')
+        }
+        val2.classList.add('hidden')
+    }
 
     const submitUrl = (e) => {
         if (uploadedImages.length < maxSize) {
@@ -59,11 +72,59 @@ const ImageUpload = ({ uploadedImages, maxSize, setUploadedImages }) => {
         if (uploadedImages.length >= maxSize) return
         return (
             <div id='image-controls'>
-                <div className='review-page-link'>Upload Image</div>
+                <div className='review-page-link' onClick={flipUploadInput}>Upload Image</div>
                 <div className='review-page-link' onClick={flipUrlInput}>Link Image</div>
             </div>
         )
     }
+
+    // const upload = async (file) => {
+    //     let response = await fetch(`/api/users/photos`, {
+    //         method: "POST",
+    //         body: file
+    //     })
+
+    //     response = await response.json()
+    //     setter(response.link)
+    //     setCurrentImage(response.link)
+    // }
+
+    // const attachFile = (e) => {
+    //     let formData = new FormData();
+    //     formData.append("photo", e.target.files[0], e.target.files[0].name);
+    //     setFile(formData)
+    //     upload(formData)
+    // }
+    const uploadAWS = async () => {
+        if(!uploadFile){
+
+        } else {
+            let response = await fetch(`/api/users/photos`, {
+                method: "POST",
+                body: uploadFile
+            })
+            response = await response.json()
+            setUploadUrl(response.link)
+        }
+    }
+
+    const changeUploadInfo = (e) => {
+        let formData = new FormData();
+        formData.append("photo", e.target.files[0], e.target.files[0].name);
+
+        setImageFileTitle(e.target.files[0].name)
+        setUploadFile(formData)
+    }
+
+    const openUpload = (e) => {
+        e.preventDefault()
+        const uploader = document.createElement('input');
+        uploader.type = 'file';
+        uploader.onchange = changeUploadInfo;
+        uploader.click()
+    }
+
+
 
     return (
         <div id='image-control-box'>
@@ -78,6 +139,17 @@ const ImageUpload = ({ uploadedImages, maxSize, setUploadedImages }) => {
                     <input value={uploadUrl} onChange={(e) => setUploadUrl(e.target.value)} />
                 </div>
                 <button onClick={submitUrl}>Submit</button>
+            </div>
+            <div className='hidden' id='uploadInput'>
+                <div>
+                    <div className='url-label'>Image Title</div>
+                    <input value={uploadTitle} onChange={(e) => setUploadTitle(e.target.value)} />
+                </div>
+                <div>
+                    <div className='review-page-link' onClick={openUpload}>Attach</div>
+                </div>
+                <div>{imageFileTitle}</div>
+                <button onClick={uploadAWS}>Submit</button>
             </div>
             {imageBoxCheck()}
         </div>
