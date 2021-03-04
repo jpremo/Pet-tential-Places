@@ -5,6 +5,17 @@ const formidable = require('express-formidable');
 const { handleValidationErrors } = require('../../utils/validation');
 const { setTokenCookie, requireAuth } = require('../../utils/auth');
 const { User } = require('../../db/models');
+const AWS = require('aws-sdk');
+const { v4: uuidv4 } = require('uuid');
+const fs = require("fs");
+const { AWS_KEY_ID, AWS_SECRET_KEY, BUCKET_NAME } = process.env;
+AWS.config.update({
+  accessKeyId: AWS_KEY_ID,
+  secretAccessKey: AWS_SECRET_KEY,
+  region: 'us-east-1'
+})
+
+const s3Bucket = new AWS.S3({ params: { Bucket: BUCKET_NAME } })
 
 const router = express.Router();
 
@@ -47,9 +58,24 @@ router.post(
   formidable(),
   asyncHandler(async (req, res) => {
     const { photo } = req.files;
-    
+    const uid = uuidv4()
+    const file = fs.readFileSync(photo.path)
+    console.log(file)
+    const info = {
+      Bucket: BUCKET_NAME,
+      Key: `app-data/${uid}.gif`, // File name you want to save as in S3
+      Body: file
+    };
+    let loc
 
-
+    s3Bucket.upload(info, function (err, data) {
+      if (err) {
+        throw err;
+      }
+      console.log(`File uploaded successfully. ${data.Location}`);
+      loc = data.Location
+    });
+    console.log(loc)
     return res.json({
       link: 'asdfas'
     });
