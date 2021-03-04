@@ -60,24 +60,21 @@ router.post(
     const { photo } = req.files;
     const uid = uuidv4()
     const file = fs.readFileSync(photo.path)
-    console.log(file)
+    const ext = photo.name.split('.')[1]
+    console.log(photo)
     const info = {
       Bucket: BUCKET_NAME,
-      Key: `app-data/${uid}.gif`, // File name you want to save as in S3
+      Key: `app-data/${uid}.${ext}`, // File name you want to save as in S3
       Body: file
     };
     let loc
-
     s3Bucket.upload(info, function (err, data) {
       if (err) {
         throw err;
       }
-      console.log(`File uploaded successfully. ${data.Location}`);
-      loc = data.Location
     });
-    console.log(loc)
     return res.json({
-      link: 'asdfas'
+      link: `https://${BUCKET_NAME}.s3.amazonaws.com/app-data/${uid}.${ext}`
     });
   })
 );
