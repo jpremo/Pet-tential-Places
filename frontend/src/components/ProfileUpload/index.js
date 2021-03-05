@@ -68,10 +68,21 @@ const ProfileUpload = ({ setter, value, defaultValue, profilePage = false }) => 
         setLinkOpen(false)
     }
 
-    const cancelChanges = (e) => {
+    const cancelChanges = async (e) => {
         e.preventDefault()
         setter(defaultValue)
         setCurrentImage(defaultValue)
+        if (profilePage && user) {
+            let res = await fetch(`/api/users/profileImage`, {
+                method: "PUT",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify({ id: user.id, profileImage: defaultValue })
+            })
+            let data = await res.json()
+            dispatch(setUser(data))
+        }
     }
 
     return (
