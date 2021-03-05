@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Redirect } from "react-router-dom";
+import ProfileUpload from '../ProfileUpload'
 import * as sessionActions from "../../store/session";
 import './SignupForm.css';
 
@@ -10,6 +11,7 @@ function SignupFormPage() {
   const [email, setEmail] = useState("");
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
+  const [imgUrl, setImgUrl] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [errors, setErrors] = useState([]);
 
@@ -31,6 +33,7 @@ function SignupFormPage() {
     <>
       <form className='login-form' onSubmit={handleSubmit}>
         <h1>Sign Up</h1>
+        <ProfileUpload setter={setImgUrl} value={imgUrl} defaultValue='http://simpleicon.com/wp-content/uploads/user1.png'/>
         <ul className={hidden+' no-label-list'}>
           {errors.map((error, idx) => <li key={idx}>{error}</li>)}
         </ul>
