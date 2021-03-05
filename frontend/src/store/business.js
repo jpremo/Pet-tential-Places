@@ -1,5 +1,5 @@
 import { fetch } from './csrf.js';
-
+import { formatDistance } from 'date-fns'
 const SET_BUSINESS = '/business/setBusiness'
 const ADD_POST = '/business/addPost'
 const EDIT_POST = '/business/editPost'
@@ -88,7 +88,6 @@ export const postReview = (input, type) => async (dispatch) => {
     body: JSON.stringify(input)
   });
   const data = res.data;
-  debugger
   if (type === 'POST') dispatch(addPost(data))
   if (type === 'PUT') dispatch(editPost(data))
 };
@@ -104,20 +103,33 @@ function reducer(state = initialState, action) {
     case ADD_POST:
       newState = { ...state };
       newState.posts.unshift(action.payload)
-      newState.allImages.push(...action.payload.images)
+      const pastDater = new Date(newState.posts[0].updatedAt)
+      const currentTimer = new Date()
+      const timeOverall = formatDistance(pastDater, currentTimer) + ' ago'
+      newState.posts[ind].timeStamp = timeOverall
+      newState.allImages.push(...action.payload.images.map(el => {
+        el.timeStamp = timeOverall
+        return el
+      }))
       newState.businessInfo.averageRating = (newState.businessInfo.averageRating * newState.businessInfo.reviewNumber + action.payload.rating) / (newState.businessInfo.reviewNumber + 1)
-      newState.businessInfo.reviewNumber ++
+      newState.businessInfo.reviewNumber++
       return newState;
     case EDIT_POST:
       newState = { ...state };
       const ind = newState.posts.findIndex((post) => post.id === action.payload.id)
       newState.posts[ind] = action.payload;
+      const pastDate = new Date(newState.posts[0].updatedAt)
+      const currentTime = new Date()
+      const timeOveraller = formatDistance(pastDate, currentTime) + ' ago'
+      newState.posts[ind].timeStamp = timeOveraller
       let total = 0;
       newState.posts.forEach((el) => total += el.rating)
       newState.businessInfo.averageRating = total / (newState.businessInfo.reviewNumber);
       newState.allImages = newState.allImages.filter((el) => el.userId !== action.payload.user.id)
-      debugger
-      newState.allImages.push(...action.payload.images)
+      newState.allImages.push(...action.payload.images.map(el => {
+        el.timeStamp = timeOveraller
+        return el
+      }))
       return newState;
     case LIST_BUSINESSES:
       newState = Object.assign({}, state, { ...action.payload });

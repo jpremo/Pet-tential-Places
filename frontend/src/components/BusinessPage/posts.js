@@ -225,7 +225,6 @@ function Posts({ setShowModal, showModal, name, openPhoto }) {
             let targetPost = posts.find((el) => el.user.id === userInfo.id)
             data.postId = targetPost.id;
         }
-        debugger
         dispatch(postReview(data, type)).then((e) => {
             setShowReview(false)
             setErrors([]);

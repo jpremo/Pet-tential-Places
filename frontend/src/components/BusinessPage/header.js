@@ -64,7 +64,6 @@ function Header({ setShowModal, showModal }) {
     const [selectedPhoto, setSelectedPhoto] = useState(0);
 
     useEffect(() => {
-        console.log('debugger passed')
         if (businessInfo && !mapFilled) {
             setMap()
             setMapFilled(true)
