@@ -7,6 +7,7 @@ function Posts({ setShowModal, showModal, name, openPhoto }) {
     const businessInfo = useSelector(state => state.business)
     const userInfo = useSelector(state => state.session.user)
     const [page, setPage] = useState(1)
+    const [imagesLoaded, setImagesLoaded] = useState(false)
     const [showReview, setShowReview] = useState(false)
     const [rating, setRating] = useState(1)
     const [showRating, setShowRating] = useState(1)
@@ -284,10 +285,10 @@ function Posts({ setShowModal, showModal, name, openPhoto }) {
                         setRating(post.rating)
                         setShowRating(post.rating)
                     }
-                    if (uploadedImages.length === 0 && !showReview) {
+                    if (uploadedImages.length === 0 && !imagesLoaded) {
                         const newImgs = post.images.map((img) => [img.url, img.title])
-                        console.log(newImgs)
                         setUploadedImages(newImgs)
+                        setImagesLoaded(true)
                     }
                 }
             }

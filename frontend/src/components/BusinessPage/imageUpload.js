@@ -76,7 +76,7 @@ const ImageUpload = ({ uploadedImages, maxSize, setUploadedImages }) => {
     }
 
     const imageError = (event) => {
-        // event.target.src = "https://image.freepik.com/free-vector/404-error-web-template-with-mad-cat_23-2147763345.jpg";
+        event.target.src = "https://image.freepik.com/free-vector/404-error-web-template-with-mad-cat_23-2147763345.jpg";
     }
 
     const imageControls = () => {
@@ -100,7 +100,6 @@ const ImageUpload = ({ uploadedImages, maxSize, setUploadedImages }) => {
                 body: uploadFile
             })
             response = await response.json()
-            // debugger
             setUploadUrl(response.link)
             const img = document.createElement('img')
             img.src = response.link
