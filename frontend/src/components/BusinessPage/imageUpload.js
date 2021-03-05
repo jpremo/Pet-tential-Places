@@ -122,6 +122,7 @@ const ImageUpload = ({ uploadedImages, maxSize, setUploadedImages }) => {
         e.preventDefault()
         const uploader = document.createElement('input');
         uploader.type = 'file';
+        uploader.accept = '.png, .jpeg, .jpg, .gif'
         uploader.onchange = changeUploadInfo;
         uploader.click()
     }
