@@ -11,7 +11,7 @@ function SignupFormPage() {
   const [email, setEmail] = useState("");
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
-  const [imgUrl, setImgUrl] = useState("");
+  const [profileImage, setProfileImage] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [errors, setErrors] = useState([]);
 
@@ -21,7 +21,7 @@ function SignupFormPage() {
     e.preventDefault();
     if (password === confirmPassword) {
       setErrors([]);
-      return dispatch(sessionActions.signup({ email, username, password }))
+      return dispatch(sessionActions.signup({ email, username, password, profileImage}))
         .catch(res => {
           if (res.data && res.data.errors) setErrors(res.data.errors);
         });
@@ -33,7 +33,7 @@ function SignupFormPage() {
     <>
       <form className='login-form' onSubmit={handleSubmit}>
         <h1>Sign Up</h1>
-        <ProfileUpload setter={setImgUrl} value={imgUrl} defaultValue='http://simpleicon.com/wp-content/uploads/user1.png'/>
+        <ProfileUpload setter={setProfileImage} value={profileImage} defaultValue='http://simpleicon.com/wp-content/uploads/user1.png'/>
         <ul className={hidden+' no-label-list'}>
           {errors.map((error, idx) => <li key={idx}>{error}</li>)}
         </ul>
