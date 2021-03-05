@@ -6,14 +6,16 @@ import BusinessList from '../HomePage/BusinessList'
 import './SearchPage.css'
 function SearchPage() {
     const location = useLocation()
-    console.log('location \n', location)
     const dispatch = useDispatch()
     const [mapFilled, setMapFilled] = useState(false);
     const loc = location.search.slice(location.search.indexOf('location=') + 9)
     useEffect(() => {
-        dispatch(clearSearchInfo())
-        setMapFilled(false)
-        dispatch(searchBusinesses(`/api/search/${location.search}`, loc))
+        const search = async () => {
+            dispatch(clearSearchInfo())
+            setMapFilled(false)
+            await dispatch(searchBusinesses(`/api/search/${location.search}`, loc))
+        }
+        search()
     }, [dispatch, location])
 
     const tt = window.tt;
@@ -81,7 +83,7 @@ function SearchPage() {
         <>
             {/* <h1>Search Results</h1> */}
             <div id='content-wrapper'>
-                <BusinessList businessList={businesses} name={'Search Results'} />
+                <BusinessList businessList={businesses} name={'Search Results'} search={true}/>
                 <div id='map' className='map'></div>
             </div>
         </>
