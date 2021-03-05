@@ -13,4 +13,50 @@
   height: 80px;
   position: absolute;
   bottom: 0px;
+
+  background-color: rgb(135, 227, 255);
+  margin: 0px;
+  padding: 0px 0px;
+  display: flex;
+  width: 100%;
+  justify-content: space-around;
+  border-top: 1px solid black;
+  border-bottom: 1px solid black;
+  align-items: center;
+  box-sizing: border-box;
+}
+
+.footer-link-image-wrapper{
+    width: 54px;
+    height: 54px;
+    background-color: rgb(180, 180, 180);;
+    border-radius: 54px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: black;
+    border: 1px solid black;
+    box-sizing: border-box;
+    /* box-shadow: 0px 0px black;
+    transition: box-shadow .5s; */
+    transition: color .5s;
+}
+
+.footer-link-image-wrapper:hover{
+    color: white;
+    /* box-shadow: 2px 2px black; */
+}
+
+.footer-link-image{
+    color: black;
+}
+
+.footer-link:hover{
+    color: black;
+    text-decoration: none;
+}
+
+.footer-link{
+    color: black;
+    text-decoration: none;
 }
