@@ -66,7 +66,7 @@ router.get('/search', asyncHandler(async (req, res) => {
         { lat: { [Op.between]: [lat-latRange/2, lat+latRange/2] } }
         ]
       },
-      [Op.or]:[{description:{[Op.substring]: business}},{name:{[Op.substring]: business}}]
+      [Op.or]:[{name:{[Op.iLike]: `%${business}%`}}]
     },
     limit: 10
   })
