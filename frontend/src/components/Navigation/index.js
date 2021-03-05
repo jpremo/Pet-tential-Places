@@ -37,6 +37,7 @@ function Navigation({ isLoaded, setShowModal, showModal }) {
   }
 
   return (
+    <>
     <div id='navbar'>
       <NavLink exact to="/"><img id='logo' src={logo}/></NavLink>
       <div id='search-bars'>
@@ -46,6 +47,8 @@ function Navigation({ isLoaded, setShowModal, showModal }) {
       </div>
       {isLoaded && sessionLinks}
     </div>
+    <div id='navbar-spacer'></div>
+    </>
   );
 }
 
