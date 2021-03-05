@@ -27,13 +27,15 @@ function Posts({ setShowModal, showModal, name, openPhoto }) {
     const imageBox = (post) => {
         if (post.images.length === 0) return
         return (
-            <div className='review-image-container'>
-                {post.images.map((el, ind) => {
-                    // if (ind >= 1) return (<></>)
-                    return (
-                        <img className='review-image' onError={imageBoxError} src={el.url} alt={el.title} key={el.id} id={`reviewPhoto-${el.id}`} onClick={openPhoto} />
-                    )
-                })}
+            <div className='review-image-container-wrapper'>
+                <div className='review-image-container'>
+                    {post.images.map((el, ind) => {
+                        // if (ind >= 1) return (<></>)
+                        return (
+                            <img className='review-image' onError={imageBoxError} src={el.url} alt={el.title} key={el.id} id={`reviewPhoto-${el.id}`} onClick={openPhoto} />
+                        )
+                    })}
+                </div>
             </div>
         )
     }
@@ -298,6 +300,7 @@ function Posts({ setShowModal, showModal, name, openPhoto }) {
 
 
             return (
+                <div className='new-review-wrapper'>
                 <form id="new-review-form">
                     <ul id='error-list'>
                         {errors.map((el, ind) => {
@@ -321,6 +324,7 @@ function Posts({ setShowModal, showModal, name, openPhoto }) {
                     </div>
                     <div className='review-page-link submit-form' onClick={submitForm}>Post</div>
                 </form>
+                </div>
             )
         } else {
             return (
@@ -334,28 +338,28 @@ function Posts({ setShowModal, showModal, name, openPhoto }) {
         const pagePosts = posts.slice((page - 1) * 10, page * 10)
         return (
             <>
-
                 <div id='review-wrapper'>
-                    <h1>Reviews for {name}</h1>
-                    {createReview()}
-                    {pagePosts.map((post) => {
-                        if (post.user.profileImage === null) post.user.profileImage = 'https://asdfasdfa/create-an-error--plasldfasdf'
-                        return (
-                            <div className='review-container' key={post.id}>
-                                <div className='review-header'>
-                                    <img className='user-icon' src={post.user.profileImage} onError={imageError} alt="User Icon" />
-                                    <h2 className='review-title'>{post.title}</h2>
-                                    <div className='review-timestamp'>-Posted by {post.user.username} {post.timeStamp}</div>
+                    <div id='review-content'>
+                        <h1>Reviews for {name}</h1>
+                        {createReview()}
+                        {pagePosts.map((post) => {
+                            if (post.user.profileImage === null) post.user.profileImage = 'https://asdfasdfa/create-an-error--plasldfasdf'
+                            return (
+                                <div className='review-container' key={post.id}>
+                                    <div className='review-header'>
+                                        <img className='user-icon' src={post.user.profileImage} onError={imageError} alt="User Icon" />
+                                        <h2 className='review-title'>{post.title}</h2>
+                                        <div className='review-timestamp'>-Posted by {post.user.username} {post.timeStamp}</div>
+                                    </div>
+                                    {starGenerate(post.rating)}
+                                    <p className='review-body'>{post.body}</p>
+                                    {imageBox(post)}
                                 </div>
-                                {starGenerate(post.rating)}
-                                <p className='review-body'>{post.body}</p>
-                                {imageBox(post)}
-                            </div>
-                        )
-                    })}
-                    {pageBar(posts.length, page)}
+                            )
+                        })}
+                        {pageBar(posts.length, page)}
+                    </div>
                 </div>
-
             </>
         )
     } else {
