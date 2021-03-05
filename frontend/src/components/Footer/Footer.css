@@ -1,7 +1,8 @@
 #footer-container {
-  position: relative;
   padding-bottom: 80px;
   margin-top: 10px;
+  /* min-height: 100vh; */
+  bottom: 0;
 }
 
 #footer {
