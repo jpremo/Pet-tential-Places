@@ -8,6 +8,7 @@ import Navigation from "./components/Navigation";
 import ProfilePage from "./components/ProfilePage"
 import HomePage from './components/HomePage'
 import SearchPage from './components/SearchPage'
+import Footer from './components/Footer'
 function App() {
   const dispatch = useDispatch();
   const [isLoaded, setIsLoaded] = useState(false);
@@ -28,29 +29,34 @@ function App() {
   }, [showModal])
   return (
     <>
-      <Navigation isLoaded={isLoaded} setShowModal={setShowModal} showModal={showModal} />
-      {isLoaded && (
-        <Switch>
-          <Route path="/" exact>
-            <HomePage/>
-          </Route>
-          <Route path="/signup">
-            <SignupFormPage />
-          </Route>
-          <Route path="/business/:id">
-            <BusinessPage setShowModal={setShowModal} />
-          </Route>
-          <Route path="/profile">
-            <ProfilePage/>
-          </Route>
-          <Route path="/search">
-            <SearchPage/>
-          </Route>
-          <Route path="/">
-            <h1>Page Not Found</h1>
-          </Route>
-        </Switch>
-      )}
+      <div className='page-wrapper'>
+        <Navigation isLoaded={isLoaded} setShowModal={setShowModal} showModal={showModal} />
+        {isLoaded && (
+          <>
+            <Switch>
+              <Route path="/" exact>
+                <HomePage />
+              </Route>
+              <Route path="/signup">
+                <SignupFormPage />
+              </Route>
+              <Route path="/business/:id">
+                <BusinessPage setShowModal={setShowModal} />
+              </Route>
+              <Route path="/profile">
+                <ProfilePage />
+              </Route>
+              <Route path="/search">
+                <SearchPage />
+              </Route>
+              <Route path="/">
+                <h1>Page Not Found</h1>
+              </Route>
+            </Switch>
+            <Footer />
+          </>
+        )}
+      </div>
     </>
   );
 }
