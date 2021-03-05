@@ -6,6 +6,7 @@ import { useHistory } from 'react-router-dom'
 import { clearProfileBusinesses, getProfileBusinesses } from '../../store/business'
 import BusinessList from '../HomePage/BusinessList'
 import ImageUpload from '../BusinessPage/imageUpload'
+import ProfileUpload from '../ProfileUpload';
 
 function ProfilePage() {
     const session = useSelector(state => state.session)
@@ -14,6 +15,7 @@ function ProfilePage() {
     const userInfo = session.user
     const [backgroundUrl, setBackgroundUrl] = useState(userInfo.profileImage)
     const [fillingForm, setFillingForm] = useState(false)
+    const [profileImage, setProfileImage] = useState('')
     const [uploadedImages, setUploadedImages] = useState([])
     useEffect(() => {
         dispatch(clearProfileBusinesses())
@@ -24,6 +26,7 @@ function ProfilePage() {
             )
         } else {
             dispatch(getProfileBusinesses(userInfo.id))
+            setProfileImage(userInfo.profileImage)
         }
     }, [dispatch])
     const reviewedBusinesses = useSelector(state => state.business.reviewedBusinesses)
@@ -55,8 +58,9 @@ function ProfilePage() {
         <div className='profile-wrapper'>
             <div className='profile-content-wrapper'>
                 {!fillingForm &&
-                    <div className='profile-user-image-div' style={{ backgroundImage: `url(${backgroundUrl})` }}>
-                    </div>
+                    <>
+                        <ProfileUpload setter={setUploadedImages} value={profileImage} defaultValue={`${profileImage}`} profilePage={true}/>
+                    </>
                 }
                 <div className='profile-wrapper'>
                     {!fillingForm &&

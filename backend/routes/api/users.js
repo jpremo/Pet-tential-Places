@@ -77,4 +77,19 @@ router.post(
   })
 );
 
+router.put(
+  '/profileImage',
+  asyncHandler(async (req, res) => {
+    let { profileImage, id } = req.body;
+    if(profileImage === null || profileImage === undefined) {
+      profileImage = ''
+    }
+    const user = await User.findByPk(Number(id))
+    user.profileImage = profileImage;
+    user.updatedAt = new Date()
+    await user.save()
+    return user.toJSON();
+  })
+);
+
 module.exports = router;

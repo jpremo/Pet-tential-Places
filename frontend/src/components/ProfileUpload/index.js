@@ -1,13 +1,15 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import './ProfileUpload.css'
+import {setUser} from '../../store/session'
 
-const ProfileUpload = ({ setter, value, defaultValue }) => {
+const ProfileUpload = ({ setter, value, defaultValue, profilePage = false }) => {
     const dispatch = useDispatch()
     const [currentImage, setCurrentImage] = useState(defaultValue)
     const [linkOpen, setLinkOpen] = useState(false)
     const [linkText, setLinkText] = useState('')
     const [file, setFile] = useState('')
+    const user = useSelector((state) => state.session.user)
 
     const upload = async (file) => {
         let response = await fetch(`/api/users/photos`, {
@@ -18,6 +20,18 @@ const ProfileUpload = ({ setter, value, defaultValue }) => {
         response = await response.json()
         setter(response.link)
         setCurrentImage(response.link)
+
+        if(profilePage && user) {
+            let res = await fetch(`/api/users/profileImage`, {
+                method: "PUT",
+                headers: {
+            "Content-Type": "application/json",
+        },
+                body: JSON.stringify({id: user.id, profileImage: response.link})
+            })
+            let data = await res.json()
+            dispatch(setUser(data))
+        }
     }
 
     const attachFile = (e) => {
