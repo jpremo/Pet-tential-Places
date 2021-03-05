@@ -47,6 +47,7 @@ const ImageUpload = ({ uploadedImages, maxSize, setUploadedImages }) => {
             setUploadUrl('')
             setUploadTitle('')
             setUploadFile(null)
+            setImageFileTitle('')
             flipUploadInput()
         }
     }
