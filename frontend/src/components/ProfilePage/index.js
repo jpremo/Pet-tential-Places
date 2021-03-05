@@ -58,15 +58,15 @@ function ProfilePage() {
         <div className='profile-wrapper'>
             <div className='profile-content-wrapper'>
                 {!fillingForm &&
+                    <h1>Hello {userInfo.username}!</h1>
+                }
+                {!fillingForm &&
                     <>
                         <ProfileUpload setter={setUploadedImages} value={profileImage} defaultValue={`${profileImage}`} profilePage={true}/>
                     </>
                 }
-                <div className='profile-wrapper'>
-                    {!fillingForm &&
-                        <h1>Hello {userInfo.username}!</h1>
-                    }
                     <BusinessForm userInfo={userInfo} setFillingForm={setFillingForm}></BusinessForm>
+                <div className='profile-wrapper'>
                     {/* <ImageUpload uploadedImages={uploadedImages} maxSize={1} setUploadedImages={setUploadedImages} ></ImageUpload> */}
                 </div>
             </div>

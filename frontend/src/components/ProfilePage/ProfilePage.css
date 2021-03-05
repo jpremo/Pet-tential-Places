@@ -50,4 +50,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
+  min-height: 250px;
+  min-width: 500px;
+  flex-direction: column;
 }
