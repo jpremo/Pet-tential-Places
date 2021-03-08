@@ -5,21 +5,6 @@ const { Location, Image, Post, User } = require('../../db/models');
 const { Op } = require('sequelize')
 const { formatDistance } = require('date-fns')
 const { requireAuth } = require('../../utils/auth.js');
-const { handleValidationErrors } = require("../../utils/validation");
-const { check } = require("express-validator");
-const Sequelize = require('sequelize');
-
-const validatePost = [
-    check("body")
-        //   .exists({ checkFalsy: true })
-        .notEmpty()
-        .withMessage("Please type a review."),
-    check("title")
-        //   .exists({ checkFalsy: true })
-        .notEmpty()
-        .withMessage("Please provide a title."),
-    handleValidationErrors,
-];
 
 router.get('/:id(\\d+)/', asyncHandler(async (req, res) => {
     const id = Number(req.params.id)
@@ -167,7 +152,7 @@ router.post('/', requireAuth, asyncHandler(async (req, res) => {
     res.json(newBusiness)
 }))
 
-router.post('/posts', requireAuth, validatePost, asyncHandler(async (req, res) => {
+router.post('/posts', requireAuth, asyncHandler(async (req, res) => {
     const userInfo = {
         userId: req.body.userId,
         locationId: req.body.locationId,
@@ -175,6 +160,8 @@ router.post('/posts', requireAuth, validatePost, asyncHandler(async (req, res) =
         body: req.body.body,
         rating: req.body.rating
     }
+    if(!userInfo.title) userInfo.title = 'Title'
+    if (!userInfo.body) userInfo.body = 'Body'
     let newPost = await Post.create(userInfo)
     newPost = newPost.toJSON()
     newPost.user = await User.findByPk(req.body.userId)
@@ -182,7 +169,8 @@ router.post('/posts', requireAuth, validatePost, asyncHandler(async (req, res) =
     const imgArr = []
     for (let i = 0; i < req.body.images.length; i++) {
         const image = req.body.images[i];
-        // if(!image[1]) image[1] = ' '
+        if(!image[1]) image[1] = ''
+        if (!image[0]) image[0] = ''
         const imageInfo = {
             title: image[1],
             url: image[0],
@@ -195,11 +183,10 @@ router.post('/posts', requireAuth, validatePost, asyncHandler(async (req, res) =
         imgArr.push(img)
     }
     newPost.images = imgArr;
-    // console.log('\n New Post \n', newPost)
     res.json(newPost)
 }))
 
-router.put('/posts', requireAuth, validatePost, asyncHandler(async (req, res) => {
+router.put('/posts', requireAuth, asyncHandler(async (req, res) => {
     const userInfo = {
         userId: req.body.userId,
         locationId: req.body.locationId,
@@ -207,6 +194,8 @@ router.put('/posts', requireAuth, validatePost, asyncHandler(async (req, res) =>
         body: req.body.body,
         rating: req.body.rating
     }
+    if (!userInfo.title) userInfo.title = 'Title'
+    if (!userInfo.body) userInfo.body = 'Body'
     let newPost = await Post.findByPk(req.body.postId)
     newPost.updatedAt = new Date();
     newPost.userId = req.body.userId;
@@ -225,7 +214,8 @@ router.put('/posts', requireAuth, validatePost, asyncHandler(async (req, res) =>
     const imgArr = []
     for (let i = 0; i < req.body.images.length; i++) {
         const image = req.body.images[i];
-        // if(!image[1]) image[1] = ' '
+        if (!image[1]) image[1] = ''
+        if (!image[0]) image[0] = ''
         const imageInfo = {
             title: image[1],
             url: image[0],

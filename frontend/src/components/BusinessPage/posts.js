@@ -214,7 +214,7 @@ function Posts({ setShowModal, showModal, name, openPhoto }) {
         )
     }
 
-    const postForm = (type = 'POST') => {
+    const postForm = async (type = 'POST') => {
         const data = {
             title: title,
             body: body,
@@ -228,7 +228,7 @@ function Posts({ setShowModal, showModal, name, openPhoto }) {
             let targetPost = posts.find((el) => el.user.id === userInfo.id)
             data.postId = targetPost.id;
         }
-        dispatch(postReview(data, type)).then((e) => {
+        await dispatch(postReview(data, type)).then((e) => {
             setShowReview(false)
             setErrors([]);
         }).catch(
@@ -260,13 +260,13 @@ function Posts({ setShowModal, showModal, name, openPhoto }) {
                 )
             }
             if (reviewPosted) {
-                submitForm = () => {
-                    postForm('PUT')
+                submitForm = async () => {
+                    await postForm('PUT')
                     setShowReview(false)
                 }
             } else {
-                submitForm = () => {
-                    postForm()
+                submitForm = async () => {
+                    await postForm()
                     setShowReview(false)
                 }
             }
