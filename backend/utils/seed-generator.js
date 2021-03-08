@@ -179,11 +179,8 @@ const generateCatPost = async (id) => {
   businessInfo.averageRating = averageReview;
   businessInfo.reviewNumber = posts.length;
   const finalObj = { businessInfo, images, extraInfo, posts }
-//   console.log(finalObj)
   return finalObj
 }
-
-// console.log(generateCatPost(5))
 
 const makeUsers = async () => {
     const users = []

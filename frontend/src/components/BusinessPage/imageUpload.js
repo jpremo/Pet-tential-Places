@@ -64,10 +64,9 @@ const ImageUpload = ({ uploadedImages, maxSize, setUploadedImages }) => {
         return (
             <div className='review-image-container'>
                 {uploadedImages.map((el, ind) => {
-                    // if (ind >= 1) return (<></>)
                     return (
-                        <div className='review-image-position'>
-                            <img className='review-image' onError={imageError} src={el[0]} alt={el[1]} key={ind} id={`newReviewPhoto-${ind}`} />
+                        <div className='review-image-position' key={ind}>
+                            <img className='review-image' onError={imageError} src={el[0]} alt={el[1]} id={`newReviewPhoto-${ind}`} />
                             <i className="fas fa-times-circle fa-1x x-button-3" id={`newReviewPhotoX-${ind}`} style={{ color: 'white', background: 'black', borderRadius: '200px' }} onClick={removePhoto}></i>
                         </div>
                     )
@@ -102,9 +101,6 @@ const ImageUpload = ({ uploadedImages, maxSize, setUploadedImages }) => {
             })
             response = await response.json()
             setUploadUrl(response.link)
-            const img = document.createElement('img')
-            img.src = response.link
-            document.body.append(img)
             url = response.link
         }
         submitFile(url)

@@ -118,7 +118,6 @@ function Posts({ setShowModal, showModal, name, openPhoto }) {
                 if (i <= totalPages) arr.push(`${i}`)
             }
             if (currentPage !== totalPages) arr.push('Next', 'Last')
-            console.log('arr', arr)
             return (
                 <>
                     <div id='review-page-bar'>
@@ -310,11 +309,11 @@ function Posts({ setShowModal, showModal, name, openPhoto }) {
                         })}
                     </ul>
                     <div className='label-box'>
-                        <label for='title'>Title</label>
+                        <label htmlFor='title'>Title</label>
                         <input name='title' className='titlebox' placeholder='Write a snazzy title here...' value={title} onChange={(e) => setTitle(e.target.value.slice(0, 50))} />
                     </div>
                     <div className='label-box'>
-                        <label for='body'>Review</label>
+                        <label htmlFor='body'>Review</label>
                         <textarea className='textbox' name='body' placeholder='Write your review here...' value={body} onChange={(e) => setBody(e.target.value.slice(0, 1000))}> </textarea>
                     </div>
                     <div id='body-counter'>{body.length}/1000</div>

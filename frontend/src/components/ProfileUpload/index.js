@@ -89,11 +89,11 @@ const ProfileUpload = ({ setter, value, defaultValue, profilePage = false }) => 
         <div className='photo-upload-wrapper'>
             <img className='profile-img-preview' src={currentImage} onError={imageErrorCheck} />
             <div className='photo-upload-buttons'>
-                <button className={linkOpen ? 'photo-upload-button selected' : 'photo-upload-button'} onClick={openLink}><i class="fas fa-paperclip"></i></button>
+                <button className={linkOpen ? 'photo-upload-button selected' : 'photo-upload-button'} onClick={openLink}><i className="fas fa-paperclip"></i></button>
                 <button className='photo-upload-button' onClick={openUpload}>
-                    <i class="fas fa-arrow-up"></i>
+                    <i className="fas fa-arrow-up"></i>
                 </button>
-                <button className={currentImage !== defaultValue ? 'photo-upload-button' : 'photo-upload-button disabled'} onClick={cancelChanges}><i class="fas fa-ban"></i></button>
+                <button className={currentImage !== defaultValue ? 'photo-upload-button' : 'photo-upload-button disabled'} onClick={cancelChanges}><i className="fas fa-ban"></i></button>
             </div>
             {linkOpen &&
                 <>

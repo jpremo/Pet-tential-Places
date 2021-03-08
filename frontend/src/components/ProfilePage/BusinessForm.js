@@ -92,7 +92,6 @@ function BusinessForm({ userInfo, setFillingForm }) {
                 const pos = map.getCenter()
                 const zoom = map.getZoom()
                 setPosition({ lng: pos.lng, lat: pos.lat, zoom: zoom })
-                // console.log('map bounds', map.getBounds())
             }, 100)
             setMapFilled(true)
         }
@@ -172,7 +171,7 @@ function BusinessForm({ userInfo, setFillingForm }) {
                 <div id='map-container' className={hidden}>
                     <div id='map' className='map-form'>
                     </div>
-                    <svg className='center-marker' width="30" height="36" fill="#000000" xmlns="http://www.w3.org/2000/svg" viewBox="0, 0, 30, 36" preserveAspectRatio="none"><ellipse cx="15" cy="34" rx="7.661" ry="2" fill="#000000" opacity=".2"></ellipse><path d="M25.6 4.4C22.9 1.7 19.1 0 15 0S7.1 1.7 4.4 4.4C1.7 7.1 0 10.9 0 15s1.7 7.9 4.4 10.6C7.1 28.3 15 34.5 15 34.5s7.9-6.2 10.6-8.9C28.3 22.9 30 19.1 30 15s-1.7-7.9-4.4-10.6z"></path><path d="M25.6 4.4C22.9 1.7 19.1 0 15 0S7.1 1.7 4.4 4.4C1.7 7.1 0 10.9 0 15s1.7 7.9 4.4 10.6C7.1 28.3 15 34.5 15 34.5s7.9-6.2 10.6-8.9C28.3 22.9 30 19.1 30 15s-1.7-7.9-4.4-10.6z"></path><circle class="innerCircle" cx="15" cy="15" r="12" fill="none"></circle></svg>
+                    <svg className='center-marker' width="30" height="36" fill="#000000" xmlns="http://www.w3.org/2000/svg" viewBox="0, 0, 30, 36" preserveAspectRatio="none"><ellipse cx="15" cy="34" rx="7.661" ry="2" fill="#000000" opacity=".2"></ellipse><path d="M25.6 4.4C22.9 1.7 19.1 0 15 0S7.1 1.7 4.4 4.4C1.7 7.1 0 10.9 0 15s1.7 7.9 4.4 10.6C7.1 28.3 15 34.5 15 34.5s7.9-6.2 10.6-8.9C28.3 22.9 30 19.1 30 15s-1.7-7.9-4.4-10.6z"></path><path d="M25.6 4.4C22.9 1.7 19.1 0 15 0S7.1 1.7 4.4 4.4C1.7 7.1 0 10.9 0 15s1.7 7.9 4.4 10.6C7.1 28.3 15 34.5 15 34.5s7.9-6.2 10.6-8.9C28.3 22.9 30 19.1 30 15s-1.7-7.9-4.4-10.6z"></path><circle className="innerCircle" cx="15" cy="15" r="12" fill="none"></circle></svg>
                 </div>
                 {formDetermine2()}
             </div>
