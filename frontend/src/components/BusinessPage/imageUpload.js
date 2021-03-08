@@ -119,12 +119,12 @@ const ImageUpload = ({ uploadedImages, maxSize, setUploadedImages }) => {
     }
 
     const openUpload = (e) => {
-        e.preventDefault()
+        e.preventDefault();
         const uploader = document.createElement('input');
         uploader.type = 'file';
-        uploader.accept = '.png, .jpeg, .jpg, .gif'
+        uploader.accept = '.png, .jpeg, .jpg, .gif';
         uploader.onchange = changeUploadInfo;
-        uploader.click()
+        uploader.click();
     }
 
 
