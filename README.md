@@ -6,6 +6,18 @@
 ## About ##
 Petential places is a full stack clone of Yelp that focuses on tracking reviews for businesses with pets. Key features of the site include the ability to search for businesses by name and/or location, write reviews, upload and explore pictures of a business, and create new businesses. Currently all seeder data is for Baltimore, MD so if you want to search up some funny pet-themed businesses, be sure to look here.
 
+## Installation ##
+1. Clone the GitHub repository.
+2. Run ***npm install*** in the base directory.
+3. cd into the backend directory.
+4. Create a database user with your desired password using PostgreSQL.
+5. Create an AWS IAM user and public Bucket with permissions granted to the IAM user.
+6. Create a .env file using the guidelines of the example.env file, adding in the information from the previous two steps.
+7. Run ***npx sequelize-cli db:create***.
+8. Run ***npx sequelize-cli db:migrate***.
+9. Run ***npx sequelize-cli db:seed:all***.
+10. To start the server run ***npm start*** in both the front end and backend folders.
+
 ## Technologies Used ##
 Petential places uses various technologies to create a dynamic and fun web application. The front end utilizes React and Redux while the backend relies on Express, Sequelize and PostgreSQL. Other key technologies include AWS for image uploading and the TomTom Maps API for displaying map information.
 
