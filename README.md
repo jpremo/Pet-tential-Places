@@ -1,4 +1,7 @@
 # Petential Places #
+[Documentation](./documentation)
+
+[Live Site](https://petential-places.herokuapp.com/)
 
 ## About ##
 Petential places is a full stack clone of Yelp that focuses on tracking reviews for businesses with pets. Key features of the site include the ability to search for businesses by name and/or location, write reviews, upload and explore pictures of a business, and create new businesses. Currently all seeder data is for Baltimore, MD so if you want to search up some funny pet-themed businesses, be sure to look here.
@@ -13,15 +16,24 @@ One of the most important features of a review site like Yelp and Petential plac
 
 ![Uploading GIF](./documentation/README_Images/UploadDemo.gif)
 
-A demonstration of the image uploading feature from the user's perspective.
+***A demonstration of the image uploading feature from the user's perspective.***
 
 ![Uploading Code Snippet](./documentation/README_Images/openUpload.png)
 
-A code snippet from Petential Places that opens up the local device image upload window.
+***A code snippet from Petential Places that opens up the local device image upload window.***
 
 ### Image Viewing ###
 Uploading images would not serve much of a purpose if they could not be viewed afterwards. As such, one of the most important features of Petential Places is the image viewing modal. This dynamic feature allows for users to browse through all of the images posted for a business or choose to focus on one at a time to see additional information. All of this is handled through fetching the image data from the backend, storing it in Redux, and changing what is displayed using React state.
 
 ![Image Modal GIF](./documentation/README_Images/ImageModalDemo.gif)
 
-A demonstration of the image browsing modal from the user's perspective.
+***A demonstration of the image browsing modal from the user's perspective.***
+
+![Image Modal Code Snippet](./documentation/README_Images/toggleImageModal.png)
+
+***A code snippet that toggles the image modal display mode.***
+
+## Challenges ##
+There were numerous challenges in the development of Petential Places that had to be addressed along the way. One of the most interesting issues was how to effectively display a business' location. The solution for this came in the form of the TomTom Maps API. This technology was selected for its dynamicism and the ease with which a product key could be obtained. One central issue with weaving this API into the application, came in ensuring that the maps would not load before receiving coordinate data from the server. This was accomplished via using React state to prevent display of the map until a response had been received from the server.
+
+Perhaps the most fun challenge in the project was creating a seeder data generator. This script involved selecting a random business name via a combination of a pet-related adjective and a business type. Following this, a randomized location, cat breed, and street name were all generated. A randomized number of reviews were then created for the business using a similar method. Each review also could contain up to five photos which were pulled from The Cat API based on the breed of cat associated with the business. All of this data was output into a JSON file which could then be integrated into the database.

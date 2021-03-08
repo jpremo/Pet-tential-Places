@@ -137,7 +137,7 @@ function Header({ setShowModal, showModal }) {
 
     function openPhoto(event) {
         const id = event.target.id.split('-')[1];
-        const im = allImages.find((el, ind) => el.id == id)
+        const im = allImages.find((el) => el.id == id)
         const ind = allImages.indexOf(im)
         setSelectedPhoto(Number(ind))
         setPhotoSelected(true)
