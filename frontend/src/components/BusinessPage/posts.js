@@ -342,7 +342,7 @@ function Posts({ setShowModal, showModal, name, openPhoto }) {
                         <h1>Reviews for {name}</h1>
                         {createReview()}
                         {pagePosts.map((post) => {
-                            if (post.user.profileImage === null) post.user.profileImage = 'https://asdfasdfa/create-an-error--plasldfasdf'
+                            if (post.user.profileImage === null) post.user.profileImage = "http://simpleicon.com/wp-content/uploads/user1.png"
                             return (
                                 <div className='review-container' key={post.id}>
                                     <div className='review-header'>
