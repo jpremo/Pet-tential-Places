@@ -13,9 +13,9 @@ Petential Places is a full stack clone of Yelp that focuses on tracking reviews 
 4. Create an AWS IAM user and public Bucket with permissions granted to the IAM user.
 5. cd into the backend directory.
 6. Create a .env file using the guidelines of the example.env file, adding in the information from the previous two steps.
-7. Run ***npx sequelize-cli db:create***.
-8. Run ***npx sequelize-cli db:migrate***.
-9. Run ***npx sequelize-cli db:seed:all***.
+7. Run ***npx dotenv sequelize-cli db:create***.
+8. Run ***npx dotenv sequelize-cli db:migrate***.
+9. Run ***npx dotenv sequelize-cli db:seed:all***.
 10. To start the server run ***npm start*** in both the frontend and backend folders.
 
 ## Technologies Used ##
