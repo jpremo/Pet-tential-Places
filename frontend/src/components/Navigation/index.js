@@ -42,8 +42,8 @@ function Navigation({ isLoaded, setShowModal, showModal }) {
       <NavLink exact to="/"><img id='logo' src={logo}/></NavLink>
       <div id='search-bars'>
         <i id='search-icon' className="fas fa-search" onClick={searchClick}></i>
-        <input className='search-bar' value={searchBusiness} placeholder='Business' onChange={(e) => setSearchBusiness(e.target.value)} onKeyUp={search} />
-        <input className='search-bar' value={searchLocation} placeholder='Location' onChange={(e) => setSearchLocation(e.target.value)} onKeyUp={search} />
+        <input className='search-bar' value={searchBusiness} placeholder='Business: Ex. Kitty Pizzeria' onChange={(e) => setSearchBusiness(e.target.value)} onKeyUp={search} />
+        <input className='search-bar' value={searchLocation} placeholder='Location: Ex. Baltimore' onChange={(e) => setSearchLocation(e.target.value)} onKeyUp={search} />
       </div>
       {isLoaded && sessionLinks}
     </div>
