@@ -88,7 +88,9 @@ router.put(
     user.profileImage = profileImage;
     user.updatedAt = new Date()
     await user.save()
-    return user.toJSON();
+    res.json({
+      user
+    });
   })
 );
 

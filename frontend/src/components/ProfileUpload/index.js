@@ -30,7 +30,7 @@ const ProfileUpload = ({ setter, value, defaultValue, profilePage = false }) => 
                 body: JSON.stringify({id: user.id, profileImage: response.link})
             })
             let data = await res.json()
-            dispatch(setUser(data))
+            dispatch(setUser(data.user))
         }
     }
 
@@ -73,7 +73,7 @@ const ProfileUpload = ({ setter, value, defaultValue, profilePage = false }) => 
                 body: JSON.stringify({ id: user.id, profileImage: linkText })
             })
             let data = await res.json()
-            dispatch(setUser(data))
+            dispatch(setUser(data.user))
         }
         setCurrentImage(linkText)
         setLinkOpen(false)
@@ -92,7 +92,7 @@ const ProfileUpload = ({ setter, value, defaultValue, profilePage = false }) => 
                 body: JSON.stringify({ id: user.id, profileImage: defaultValue })
             })
             let data = await res.json()
-            dispatch(setUser(data))
+            dispatch(setUser(data.user))
         }
     }
 

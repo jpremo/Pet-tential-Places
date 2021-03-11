@@ -48,8 +48,8 @@
 }
 
 .selected{
-    background-color: rgb(16, 86, 144);
-    border: 1px solid white;
+    background-color: rgb(126, 126, 126);
+    /* border: 1px solid white; */
     color: white;
 }
 
