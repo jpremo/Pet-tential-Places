@@ -1,7 +1,7 @@
 # Petential Places #
-[Documentation](./documentation)
+Creator: Jacob Premo
 
-[Live Site](https://petential-places.herokuapp.com/)
+[Documentation](./documentation) | [Live Site](https://petential-places.herokuapp.com/)
 
 ## About ##
 Petential Places is a full stack clone of Yelp that focuses on tracking reviews for businesses with pets. Key features of the site include the ability to search for businesses by name and/or location, write reviews, upload and explore pictures of a business, and create new businesses. Currently all seeder data is for Baltimore, MD so if you want to search up some funny pet-themed businesses, be sure to look here.
