@@ -61,9 +61,20 @@ const ProfileUpload = ({ setter, value, defaultValue, profilePage = false }) => 
         e.target.src = 'http://simpleicon.com/wp-content/uploads/user1.png'
     }
 
-    const updateImage = (e) => {
+    const updateImage = async (e) => {
         e.preventDefault()
         setter(linkText)
+        if (profilePage && user) {
+            let res = await fetch(`/api/users/profileImage`, {
+                method: "PUT",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify({ id: user.id, profileImage: linkText })
+            })
+            let data = await res.json()
+            dispatch(setUser(data))
+        }
         setCurrentImage(linkText)
         setLinkOpen(false)
     }
