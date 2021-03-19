@@ -9,3 +9,7 @@
 .list-box{
     width: 50%;
 }
+
+.mapboxgl-ctrl-top-right{
+    z-index: 0;
+}
