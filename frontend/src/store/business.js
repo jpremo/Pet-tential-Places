@@ -70,6 +70,7 @@ export const searchBusinesses = (url, location) => async (dispatch) => {
 
   const res = await fetch(url + `&coord=${coordString}`);
   dispatch(search(res.data))
+  return res.data
 };
 
 export const getTenBusinesses = () => async (dispatch) => {

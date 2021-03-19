@@ -1,6 +1,6 @@
 import { useLocation } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
-import { useEffect, useState } from 'react'
+import { useEffect, useState, useLayoutEffect } from 'react'
 import { searchBusinesses, clearSearchInfo } from '../../store/business'
 import BusinessList from '../HomePage/BusinessList'
 import './SearchPage.css'
@@ -9,6 +9,10 @@ function SearchPage() {
     const dispatch = useDispatch()
     const [mapFilled, setMapFilled] = useState(false);
     const loc = location.search.slice(location.search.indexOf('location=') + 9)
+
+    let businesses = useSelector(state => state.business.searchResultBusinesses)
+    const center = useSelector(state => state.business.searchCenter)
+
     useEffect(() => {
         const search = async () => {
             dispatch(clearSearchInfo())
@@ -19,8 +23,6 @@ function SearchPage() {
     }, [dispatch, location])
 
     const tt = window.tt;
-    const businesses = useSelector(state => state.business.searchResultBusinesses)
-    const center = useSelector(state => state.business.searchCenter)
 
     const makeMap = (center, useLinks = true, history = null, ...points) => {
         let map = tt.map({
@@ -66,7 +68,7 @@ function SearchPage() {
                 address: el.address
             }
         })
-        const mapCenter = {position: { lng: center.lng, lat: center.lat }, zoom: 10}
+        const mapCenter = { position: { lng: center.lng, lat: center.lat }, zoom: 10 }
         makeMap(mapCenter, false, null, ...points)
     }
 
@@ -81,9 +83,8 @@ function SearchPage() {
 
     return (
         <>
-            {/* <h1>Search Results</h1> */}
             <div id='content-wrapper'>
-                <BusinessList businessList={businesses} name={'Search Results'} search={true}/>
+                <BusinessList businessList={businesses} name={'Search Results'}/>
                 <div id='map' className='map'></div>
             </div>
         </>
